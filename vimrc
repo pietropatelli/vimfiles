@@ -1,4 +1,4 @@
-"Note: the .vimrc file in the home directory consists of a single line: 'source ~/vimfiles/vimrc
+"NOTE: the .vimrc file in the home directory consists of a single line: 'source ~/vimfiles/vimrc
 
 """Basic configuration:
 execute pathogen#infect()
@@ -7,7 +7,7 @@ set t_Co=256
 colorscheme cobalt2 "default is ron, good ones include meta5, iceberg and cobalt2
 set number
 
-set noeb vb t_vb= "Disable error bell
+set noeb vb t_vb= "Disable beeping 
 
 
 "Key mappings:
