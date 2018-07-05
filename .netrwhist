@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='C:\Users\Pietr\vimfiles'
+let g:netrw_dirhist_2='C:/Users/Pietr'
+let g:netrw_dirhist_3='C:/Users/Pietr/OneDrive'
+let g:netrw_dirhist_4='C:/Users/Pietr/OneDrive/Documents'
+let g:netrw_dirhist_5='C:/Users/Pietr/OneDrive/Documents/FUN'
