@@ -6,7 +6,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
 "Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
-
+"Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
