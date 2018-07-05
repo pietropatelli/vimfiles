@@ -7,6 +7,7 @@ Plug 'scrooloose/nerdtree'
 "Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 "Plug 'terryma/vim-multiple-cursors'
+"""" FIXME (for some reason Vim-Plug does not install it):""" Plug 'vim-ctrlspace/vim-ctrlspace'
 call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
@@ -20,7 +21,7 @@ set noeb vb t_vb= "Disable beeping
 set guifont=consolas:h10 "Font settings for gvim.
 set showmatch "bracket matching
 "Key mappings:
-map <C-1> :NERDTreeToggle<CR> 
+map <silent> <C-1> :NERDTreeToggle<CR> 
 imap <a-ù> ~
 cmap <a-ù> ~
 imap <a-ì> ï 
@@ -44,5 +45,4 @@ set showmode
 
 "code folding settings:
 set foldmethod=indent
-
 
