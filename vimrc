@@ -2,8 +2,10 @@
 """"""""""""""""""" VIM-PLUG:
 call plug#begin('~/vimfiles/plugged')
 Plug 'flazz/vim-colorschemes'
+Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-sensible'
+"Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 """""""""""""""""""""""""""""""""
