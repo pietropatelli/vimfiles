@@ -1,26 +1,11 @@
 "NOTE: the .vimrc file in the home directory consists of a single line: 'source ~/vimfiles/vimrc
-""""""""""""""""""" VUNDLE STUFF
-set nocompatible              " be iMproved, required
-filetype off                  " required
+""""""""""""""""""" VIM-PLUG:
+call plug#begin('~/vimfiles/plugged')
+Plug 'flazz/vim-colorschemes'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-sensible'
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/vimfiles/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-"" My Plugins
-Plugin 'flazz/vim-colorschemes'
-Plugin 'scrooloose/nerdtree'
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-"filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-
-
+call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
 "execute pathogen#infect()
