@@ -9,7 +9,7 @@ set number "Adds line numbers
 
 set noeb vb t_vb= "Disable beeping 
 set guifont=consolas:h10 "Font settings for gvim.
-
+set showmatch "bracket matching
 "Key mappings:
 map <C-1> :NERDTreeToggle<CR> 
 imap <a-ù> ~
