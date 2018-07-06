@@ -6,9 +6,10 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
 "Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
-"Plug 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-multiple-cursors'
 """" FIXME (for some reason Vim-Plug does not install it):""" Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'tomtom/tcomment_vim'
+Plug 'farmergreg/vim-lastplace'
 call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
@@ -55,9 +56,11 @@ nmap <c-l> 4l
 
 "NERDTree settings:
 let NERDTreeShowBookmarks=1
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 "Vim-Multiple-Cursor settings:
-"let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_use_default_mapping=0
 
 " Default mapping (TODO: change them)
 " let g:multi_cursor_start_word_key      = '<C-n>'
@@ -67,7 +70,7 @@ let NERDTreeShowBookmarks=1
 " let g:multi_cursor_next_key            = '<C-n>'
 " let g:multi_cursor_prev_key            = '<C-p>'
 " let g:multi_cursor_skip_key            = '<C-x>'
-" let g:multi_cursor_quit_key            = '<Esc>'
+let g:multi_cursor_quit_key            = '<Esc>'
 "
 "TComment settings:
 nmap <silent> <C-c> gcc
