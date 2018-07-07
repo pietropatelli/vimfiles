@@ -1,4 +1,4 @@
-" NOTE: the .vimrc file in the home directory consists of a single line: 'source ~/vimfiles/vimrc
+" NOTE: the .vimrc file in the home directory simply points here.
 " """""""""""""""""" VIM-PLUG:
 if has('win32') "Note: works for bot 32 and 64 bit systems.
     let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
@@ -21,7 +21,7 @@ call plug#end()
 """Basic configuration:
 syntax on " Enables syntax highlighting
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function properly
-colorscheme iceberg "default is ron, good ones include meta5, iceberg and cobalt2
+colorscheme iceberg "default is ron, good ones include meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn
 set number "Adds line numbers
 "
 set noeb vb t_vb= "Disable beeping
@@ -29,6 +29,7 @@ set guifont=consolas:h10 "Font settings for gvim.
 set showmatch "bracket matching
 set wrap
 set autoindent
+set tabstop=4
 " runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
 "UNICODE stuff:
 set encoding=utf-8
@@ -73,7 +74,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 let NERDTreeQuitOnOpen = 1 "Closes NERDTree when opening a file
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
-"
+let NERDTreeIgnore=['\c^ntuser\..*']
 "Vim-Multiple-Cursor settings:
 let g:multi_cursor_use_default_mapping=0
 "
@@ -90,3 +91,4 @@ let g:multi_cursor_quit_key            = '<Esc>'
 "TComment settings:
 nmap <silent> <C-c> gcc
 "FIXME: "nmap <silent> <Count><C-c> gc<Count>c
+
