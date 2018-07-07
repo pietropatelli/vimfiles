@@ -1,6 +1,11 @@
 " NOTE: the .vimrc file in the home directory consists of a single line: 'source ~/vimfiles/vimrc
 " """""""""""""""""" VIM-PLUG:
-call plug#begin('~/vimfiles/plugged')
+if has('win32') "Note: works for bot 32 and 64 bit systems.
+    let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
+else
+    let $MYPLUGDIRECTORY = "~/.vim/plugged"
+endif
+call plug#begin($MYPLUGDIRECTORY)
 Plug 'flazz/vim-colorschemes'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
