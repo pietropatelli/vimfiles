@@ -21,7 +21,7 @@ call plug#end()
 """Basic configuration:
 syntax on " Enables syntax highlighting
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function properly
-colorscheme iceberg "default is ron, good ones include meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn
+colorscheme iceberg "default is ron, good ones include DARK: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, 
 set number "Adds line numbers
 "
 set noeb vb t_vb= "Disable beeping
@@ -30,6 +30,10 @@ set showmatch "bracket matching
 set wrap
 set autoindent
 set tabstop=4
+set termwinsize="20*0"
+"Set default split direction:
+set splitbelow
+set splitright
 " runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
 "UNICODE stuff:
 set encoding=utf-8
