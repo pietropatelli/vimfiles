@@ -16,6 +16,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'tomtom/tcomment_vim'
 Plug 'farmergreg/vim-lastplace'
 Plug 'JuliaEditorSupport/julia-vim'
+Plug 'lervag/vimtex'
 call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
@@ -30,10 +31,12 @@ set showmatch "bracket matching
 set wrap
 set autoindent
 set tabstop=4
-set termwinsize="20*0"
+let termwinsize="10*0"
 "Set default split direction:
 set splitbelow
 set splitright
+" Disable comment continuation on <Enter>
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
 "UNICODE stuff:
 set encoding=utf-8
@@ -95,4 +98,14 @@ let g:multi_cursor_quit_key            = '<Esc>'
 "TComment settings:
 nmap <silent> <C-c> gcc
 "FIXME: "nmap <silent> <Count><C-c> gc<Count>c
+
+"Vimtex settings:
+let g:tex_flavor='latex'
+let g:vimtex_view_general_viewer = 'SumatraPDF' 
+let g:vimtex_view_general_options='-reuse-instance -forward-search @tex @line @pdf'
+let g:vimtex_view_general_options_latexmk='-reuse-instance'
+let g:vimtex_latexmk_background       = 1
+" let g:vimtex_latexmk_build_dir = 'livepreview'
+let g:vimtex_quickfix_mode=0
+
 
