@@ -1,6 +1,6 @@
 " NOTE: the .vimrc file in the home directory simply points here.
 " """""""""""""""""" VIM-PLUG:
-if has('win32') "Note: works for bot 32 and 64 bit systems.
+if has('win32') "Note: works for both 32 and 64 bit systems.
     let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
 else
     let $MYPLUGDIRECTORY = "~/.vim/plugged"
@@ -31,7 +31,6 @@ set showmatch "bracket matching
 set wrap
 set autoindent
 set tabstop=4
-let termwinsize="10*0"
 "Set default split direction:
 set splitbelow
 set splitright
@@ -108,4 +107,6 @@ let g:vimtex_latexmk_background       = 1
 " let g:vimtex_latexmk_build_dir = 'livepreview'
 let g:vimtex_quickfix_mode=0
 
-
+" Terminal settings:
+let termwinsize="10*0" "FIXME
+" TODO: Shortcut to send single line to terminal and to send the whole file.
