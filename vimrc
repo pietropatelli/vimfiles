@@ -17,6 +17,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'farmergreg/vim-lastplace'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
+Plug 'tmhedberg/SimpylFold'
 call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
@@ -28,6 +29,9 @@ set number "Adds line numbers
 set noeb vb t_vb= "Disable beeping
 set guifont=consolas:h10 "Font settings for gvim.
 set showmatch "bracket matching
+set textwidth=80
+"Apply automatically to markdown:
+au BufRead,BufNewFile *.md setlocal textwidth=80
 set wrap
 set autoindent
 set tabstop=4
@@ -41,6 +45,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf8,prc
+"""""""""""""""""""""""""
 "Key mappings:
 "Pasting system clipboard with Alt-v:
 nmap <silent> <a-v> "*p
@@ -55,6 +60,9 @@ imap <Up> <NOP>
 imap <Down> <NOP>
 imap <Left> <NOP>
 imap <Right> <NOP>
+" easier access to command mode:
+nnoremap <F1> :
+imap <F1> <Esc>-:
 "
 "store lots of :cmdline history
 set history=100
@@ -66,11 +74,13 @@ set showmode
 set foldmethod=indent
 "
 "faster scrolling when pressing Ctrl:
-nmap <c-j> 4j
-nmap <c-k> 4k
-nmap <c-h> 4h
-nmap <c-l> 4l
+nmap <c-j> 5j
+nmap <c-k> 5k
+nmap <c-h> 5h
+nmap <c-l> 5l
 "
+" Enable folding with the spacebar
+nnoremap <space> za
 "NERDTree settings:
 map <silent> <C-1> :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=1 "Shows bookmarks
@@ -100,7 +110,8 @@ nmap <silent> <C-c> gcc
 
 "Vimtex settings:
 let g:tex_flavor='latex'
-let g:vimtex_view_general_viewer = 'SumatraPDF' 
+let g:vimtex_view_general_viewer = 'sumatrapdf' 
+" let g:vimtex_view_method = 'SumatraPDF'
 let g:vimtex_view_general_options='-reuse-instance -forward-search @tex @line @pdf'
 let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
