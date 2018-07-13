@@ -1,2 +1,2 @@
 # vimfiles
-My vim configuration and plugins
+My vim configuration, plugins and some other useful stuff. 

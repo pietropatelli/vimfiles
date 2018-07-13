@@ -3,4 +3,5 @@ _viminfo
 vimrc.swp
 plugged/
 .netrwhist
+*.swp
 
