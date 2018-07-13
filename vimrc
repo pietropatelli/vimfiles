@@ -63,6 +63,7 @@ imap <Right> <NOP>
 " easier access to command mode:
 nnoremap <F1> :
 imap <F1> <Esc>-:
+vmap <F1> <Esc>-:
 "
 "store lots of :cmdline history
 set history=100
