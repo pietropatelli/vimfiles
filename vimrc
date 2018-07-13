@@ -9,10 +9,7 @@ call plug#begin($MYPLUGDIRECTORY)
 Plug 'flazz/vim-colorschemes'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
-"Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
-Plug 'terryma/vim-multiple-cursors'
-"""" FIXME (for some reason Vim-Plug does not install it):""" Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'tomtom/tcomment_vim'
 Plug 'farmergreg/vim-lastplace'
 Plug 'JuliaEditorSupport/julia-vim'
@@ -64,7 +61,10 @@ imap <Right> <NOP>
 nnoremap <F1> :
 imap <F1> <Esc>-:
 vmap <F1> <Esc>-:
-"
+"Easier quoting/unquoting:
+:nnoremap <Leader>q" ciw""<Esc>P
+:nnoremap <Leader>q' ciw''<Esc>P
+:nnoremap <Leader>q` ciw``<Esc>P
 "store lots of :cmdline history
 set history=100
 "
@@ -92,18 +92,6 @@ let NERDTreeQuitOnOpen = 1 "Closes NERDTree when opening a file
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
-"Vim-Multiple-Cursor settings:
-let g:multi_cursor_use_default_mapping=0
-"
-" Default mapping (TODO: change them)
-" let g:multi_cursor_start_word_key      = '<C-n>'
-" let g:multi_cursor_select_all_word_key = '<A-n>'
-" let g:multi_cursor_start_key           = 'g<C-n>'
-" let g:multi_cursor_select_all_key      = 'g<A-n>'
-" let g:multi_cursor_next_key            = '<C-n>'
-" let g:multi_cursor_prev_key            = '<C-p>'
-" let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
 "
 "TComment settings:
 nmap <silent> <C-c> gcc
