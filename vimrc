@@ -7,6 +7,7 @@ else
 endif
 call plug#begin($MYPLUGDIRECTORY)
 Plug 'flazz/vim-colorschemes'
+Plug 'rafi/awesome-vim-colorschemes'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
@@ -15,6 +16,7 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 Plug 'tmhedberg/SimpylFold'
+"Plug 'fholgado/minibufexpl.vim'
 call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
@@ -61,6 +63,8 @@ imap <Right> <NOP>
 nnoremap <F1> :
 imap <F1> <Esc>-:
 vmap <F1> <Esc>-:
+" easier switching buffers
+map <F2> :ls<CR>:b
 "Easier quoting/unquoting:
 :nnoremap <Leader>q" ciw""<Esc>P
 :nnoremap <Leader>q' ciw''<Esc>P
