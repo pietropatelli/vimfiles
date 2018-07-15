@@ -22,7 +22,7 @@ call plug#end()
 """Basic configuration:
 syntax on " Enables syntax highlighting
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function properly
-colorscheme iceberg "default is ron, good ones include DARK: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, 
+colorscheme apprentice "default is ron, good ones include DARK: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice
 set number "Adds line numbers
 "
 set noeb vb t_vb= "Disable beeping
