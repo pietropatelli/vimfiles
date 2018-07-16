@@ -22,13 +22,14 @@ call plug#end()
 """Basic configuration:
 syntax on " Enables syntax highlighting
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function properly
-colorscheme apprentice "default is ron, good ones include DARK: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice
+colorscheme vividchalk  "Good ones: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished
 set number "Adds line numbers
 "
 set noeb vb t_vb= "Disable beeping
 set guifont=consolas:h10 "Font settings for gvim.
 set showmatch "bracket matching
 set textwidth=80
+set autoread
 "Apply automatically to markdown:
 au BufRead,BufNewFile *.md setlocal textwidth=80
 set wrap
