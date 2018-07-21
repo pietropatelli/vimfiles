@@ -10,26 +10,31 @@ Plug 'flazz/vim-colorschemes'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'tomtom/tcomment_vim'
 Plug 'farmergreg/vim-lastplace'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 Plug 'tmhedberg/SimpylFold'
-"Plug 'fholgado/minibufexpl.vim'
+" Plug 'jpitblado/vim-stata'
+Plug 'fholgado/minibufexpl.vim'
+" Plug 'ryanoasis/vim-devicons'
 call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
 syntax on " Enables syntax highlighting
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function properly
-colorscheme vividchalk  "Good ones: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished
+colorscheme hemisu  "Good ones: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void
 set number "Adds line numbers
+set hidden
 "
 set noeb vb t_vb= "Disable beeping
 set guifont=consolas:h10 "Font settings for gvim.
 set showmatch "bracket matching
-set textwidth=80
+" set textwidth=80   "hard wrap lines
 set autoread
+set hlsearch
 "Apply automatically to markdown:
 au BufRead,BufNewFile *.md setlocal textwidth=80
 set wrap
@@ -99,7 +104,7 @@ let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 "
 "TComment settings:
-nmap <silent> <C-c> gcc
+nmap <silent> <C-c> gccj
 "FIXME: "nmap <silent> <Count><C-c> gc<Count>c
 
 "Vimtex settings:
