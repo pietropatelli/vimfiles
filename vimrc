@@ -18,7 +18,7 @@ Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 Plug 'tmhedberg/SimpylFold'
 " Plug 'jpitblado/vim-stata'
-Plug 'fholgado/minibufexpl.vim'
+" Plug 'fholgado/minibufexpl.vim'
 " Plug 'ryanoasis/vim-devicons'
 call plug#end()
 """""""""""""""""""""""""""""""""
@@ -51,6 +51,7 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf8,prc
 """""""""""""""""""""""""
+"""""""""""""""""""""""""
 "Key mappings:
 "Pasting system clipboard with Alt-v:
 nmap <silent> <a-v> "*p
@@ -72,9 +73,11 @@ vmap <F1> <Esc>-:
 " easier switching buffers
 map <F2> :ls<CR>:b
 "Easier quoting/unquoting:
-:nnoremap <Leader>q" ciw""<Esc>P
-:nnoremap <Leader>q' ciw''<Esc>P
-:nnoremap <Leader>q` ciw``<Esc>P
+nnoremap <Leader>q" ciw""<Esc>P
+nnoremap <Leader>q' ciw''<Esc>P
+nnoremap <Leader>q` ciw``<Esc>P
+" Alt-t to start terminal at 10 size
+nnoremap <silent> <a-t> :term ++rows=8 <CR>
 "store lots of :cmdline history
 set history=100
 "
