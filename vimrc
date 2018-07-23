@@ -11,15 +11,16 @@ Plug 'rafi/awesome-vim-colorschemes'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'tomtom/tcomment_vim'
-Plug 'farmergreg/vim-lastplace'
+" Plug 'farmergreg/vim-lastplace' "intelligently reopen files at last edit position
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 Plug 'tmhedberg/SimpylFold'
 " Plug 'jpitblado/vim-stata'
 " Plug 'fholgado/minibufexpl.vim'
 " Plug 'ryanoasis/vim-devicons'
+Plug 'gu-fan/simpleterm.vim'
 call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
@@ -73,13 +74,19 @@ vmap <F1> <Esc>-:
 " easier switching buffers
 map <F2> :ls<CR>:b
 "Easier quoting/unquoting:
-nnoremap <Leader>q" ciw""<Esc>P
-nnoremap <Leader>q' ciw''<Esc>P
-nnoremap <Leader>q` ciw``<Esc>P
+:nnoremap <Leader>q" ciw""<Esc>P
+:nnoremap <Leader>q' ciw''<Esc>P
+:nnoremap <Leader>q` ciw``<Esc>P
+"""""""""""""""""""""""""""
 " Alt-t to start terminal at 10 size
-nnoremap <silent> <a-t> :term ++rows=8 <CR>
+" nnoremap <silent> <a-t> :term ++rows=8 <CR>
+" Terminal settings using simpleterm:
+" let g:simpleterm.row = 8  
+nnor <silent> <a-t> :Stoggle<CR>
+nnor <silent> <a-e> :Sline<CR>
+vnor <silent> <a-e> :Sline<CR>
 "store lots of :cmdline history
-set history=100
+set history=1000
 "
 "Show current mode at bottom:
 set showmode
@@ -108,7 +115,7 @@ let NERDTreeIgnore=['\c^ntuser\..*']
 "
 "TComment settings:
 nmap <silent> <C-c> gccj
-"FIXME: "nmap <silent> <Count><C-c> gc<Count>c
+" FIXME: nmap <silent> <Count><C-c> +,<Count> norm gcc 
 
 "Vimtex settings:
 let g:tex_flavor='latex'
@@ -120,6 +127,3 @@ let g:vimtex_latexmk_background       = 1
 " let g:vimtex_latexmk_build_dir = 'livepreview'
 let g:vimtex_quickfix_mode=0
 
-" Terminal settings:
-let termwinsize="10*0" "FIXME
-" TODO: Shortcut to send single line to terminal and to send the whole file.
