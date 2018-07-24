@@ -36,6 +36,7 @@ command! PacClean  call minpac#clean()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
 syntax on " Enables syntax highlighting
+set background=dark
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function properly
 colorscheme hemisu  "Good ones: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void
 set number "Adds line numbers
@@ -63,7 +64,7 @@ set scrolloff=3
 set sidescrolloff=5
 " Disable comment continuation on <Enter>
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-" runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
+runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
 "UNICODE stuff:
 set encoding=utf-8
 set fileencoding=utf-8
@@ -101,7 +102,7 @@ map <F2> :ls<CR>:b
 " Alt-t to start terminal at 10 size
 " nnoremap <silent> <a-t> :term ++rows=8 <CR>
 " Terminal settings using simpleterm:
-" let g:simpleterm.row=8 " FIXME: For some reason this line breaks the vimrc file 
+let g:simpleterm.row=8
 nnor <silent> <a-t> :Stoggle<CR>
 nnor <silent> <a-e> :Sline<CR>
 vnor <silent> <a-e> :Sline<CR>
@@ -115,10 +116,10 @@ set history=1000
 set foldmethod=indent
 "
 "faster scrolling when pressing Ctrl:
-nmap <c-j> 5j
-nmap <c-k> 5k
-nmap <c-h> 5h
-nmap <c-l> 5l
+" nmap <c-j> 5j
+" nmap <c-k> 5k
+" nmap <c-h> 5h
+" nmap <c-l> 5l
 "
 " Enable folding with the spacebar
 nnoremap <space> za
