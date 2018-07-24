@@ -1,27 +1,47 @@
 " NOTE: the .vimrc file in the home directory simply points here.
+""""""""""""""""" MINPAC:
+packadd minpac
+call minpac#init()
+" minpac must have {'type': 'opt'} so that it can be loaded with `packadd`.
+call minpac#add('k-takata/minpac', {'type': 'opt'})
+
+" Add other plugins here.
+call minpac#add('flazz/vim-colorschemes')
+call minpac#add('rafi/awesome-vim-colorschemes')
+" call minpac#add('altercation/vim-colors-solarized')
+call minpac#add('scrooloose/nerdtree')
+call minpac#add('tomtom/tcomment_vim')
+call minpac#add('farmergreg/vim-lastplace')
+call minpac#add('JuliaEditorSupport/julia-vim')
+call minpac#add('lervag/vimtex')
+call minpac#add('tmhedberg/SimpylFold')
+call minpac#add('gu-fan/simpleterm.vim')
+" Load the plugins right now. (optional)
+packloadall
 " """""""""""""""""" VIM-PLUG:
-if has('win32') "Note: works for both 32 and 64 bit systems.
-    let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
-else
-    let $MYPLUGDIRECTORY = "~/.vim/plugged"
-endif
-call plug#begin($MYPLUGDIRECTORY)
-Plug 'flazz/vim-colorschemes'
-Plug 'rafi/awesome-vim-colorschemes'
-Plug 'altercation/vim-colors-solarized'
-Plug 'scrooloose/nerdtree'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tpope/vim-fugitive'
-Plug 'tomtom/tcomment_vim'
-" Plug 'farmergreg/vim-lastplace' "intelligently reopen files at last edit position
-Plug 'JuliaEditorSupport/julia-vim'
-Plug 'lervag/vimtex'
-Plug 'tmhedberg/SimpylFold'
-" Plug 'jpitblado/vim-stata'
-" Plug 'fholgado/minibufexpl.vim'
-" Plug 'ryanoasis/vim-devicons'
-Plug 'gu-fan/simpleterm.vim'
-call plug#end()
+"" if has('win32') "Note: works for both 32 and 64 bit systems.
+""     let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
+"" else
+""     let $MYPLUGDIRECTORY = "~/.vim/plugged"
+"" endif
+"" call plug#begin($MYPLUGDIRECTORY)
+"" Plug 'flazz/vim-colorschemes'
+"" Plug 'rafi/awesome-vim-colorschemes'
+"" Plug 'altercation/vim-colors-solarized'
+"" Plug 'scrooloose/nerdtree'
+"" " Plug 'wellle/targets.vim'
+"" " Plug 'Xuyuanp/nerdtree-git-plugin'
+"" " Plug 'tpope/vim-fugitive'
+"" Plug 'tomtom/tcomment_vim'
+"" Plug 'farmergreg/vim-lastplace' "intelligently reopen files at last edit position
+"" Plug 'JuliaEditorSupport/julia-vim'
+"" Plug 'lervag/vimtex'
+"" Plug 'tmhedberg/SimpylFold'
+"" " Plug 'jpitblado/vim-stata'
+"" " Plug 'fholgado/minibufexpl.vim'
+"" " Plug 'ryanoasis/vim-devicons'
+"" Plug 'gu-fan/simpleterm.vim'
+"" call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
 syntax on " Enables syntax highlighting
@@ -44,6 +64,12 @@ set tabstop=4
 "Set default split direction:
 set splitbelow
 set splitright
+" Ignore case when searching unless query contains an uppercase letter:
+set ignorecase
+set smartcase
+" Number of lines to keep above-below-to the side of the cursor:
+set scrolloff=3
+set sidescrolloff=5
 " Disable comment continuation on <Enter>
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
@@ -81,7 +107,7 @@ map <F2> :ls<CR>:b
 " Alt-t to start terminal at 10 size
 " nnoremap <silent> <a-t> :term ++rows=8 <CR>
 " Terminal settings using simpleterm:
-" let g:simpleterm.row = 8  
+" let g:simpleterm.row=8 " FIXME: For some reason this line breaks the vimrc file 
 nnor <silent> <a-t> :Stoggle<CR>
 nnor <silent> <a-e> :Sline<CR>
 vnor <silent> <a-e> :Sline<CR>
