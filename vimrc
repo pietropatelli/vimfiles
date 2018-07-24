@@ -41,6 +41,17 @@ set laststatus=2
 set noshowmode
 " Lightline settings
 let g:lightline = { 'active': { 'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }, 'component_function': { 'gitbranch': 'fugitive#head' }, } " NOTE: This setting must be before the colorscheme
+" NERDtree git plugin:
+let g:NERDTreeShowGitStatus=1
+let g:NERDTreeUpdateOnWrite=1
+"""""""""""""""""""""""""""
+" Alt-t to start terminal at 10 size
+" nnoremap <silent> <a-t> :term ++rows=8 <CR>
+" Terminal settings using simpleterm:
+let g:simpleterm.row=8
+nnor <silent> <a-t> :Stoggle<CR>
+nnor <silent> <a-e> :Sline<CR>
+vnor <silent> <a-e> :Sline<CR>
 """Basic configuration:
 syntax on " Enables syntax highlighting
 set background=dark
@@ -106,14 +117,6 @@ map <F2> :ls<CR>:b
 :nnoremap <Leader>q" ciw""<Esc>P
 :nnoremap <Leader>q' ciw''<Esc>P
 :nnoremap <Leader>q` ciw``<Esc>P
-"""""""""""""""""""""""""""
-" Alt-t to start terminal at 10 size
-" nnoremap <silent> <a-t> :term ++rows=8 <CR>
-" Terminal settings using simpleterm:
-let g:simpleterm.row=8
-nnor <silent> <a-t> :Stoggle<CR>
-nnor <silent> <a-e> :Sline<CR>
-vnor <silent> <a-e> :Sline<CR>
 "store lots of :cmdline history
 set history=1000
 "
@@ -142,6 +145,12 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 "
+"""""""""""""""""""""""""""
+" Git gutter settings:
+let g:gitgutter_enabled = 0
+nmap <a-g> :GitGutterEnable<CR>
+nmap <a-G> :GitGutterDisable<CR>
+"""""""""""""""""""""""""""
 "Vimtex settings:
 let g:tex_flavor='latex'
 let g:vimtex_view_general_viewer = 'sumatrapdf' 
