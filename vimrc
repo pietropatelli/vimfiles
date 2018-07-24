@@ -41,9 +41,6 @@ set laststatus=2
 set noshowmode
 " Lightline settings
 let g:lightline = { 'active': { 'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }, 'component_function': { 'gitbranch': 'fugitive#head' }, } " NOTE: This setting must be before the colorscheme
-" NERDtree git plugin:
-let g:NERDTreeShowGitStatus=1
-let g:NERDTreeUpdateOnWrite=1
 """""""""""""""""""""""""""
 " Alt-t to start terminal at 10 size
 " nnoremap <silent> <a-t> :term ++rows=8 <CR>
@@ -144,12 +141,17 @@ let NERDTreeQuitOnOpen = 1 "Closes NERDTree when opening a file
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
+" NERDtree git plugin:
+let g:NERDTreeShowGitStatus=1
+let g:NERDTreeUpdateOnWrite=1
 "
 """""""""""""""""""""""""""
 " Git gutter settings:
+let g:gitgutter_sign_column_always = 1 "FIXME: for some reason, not working
 let g:gitgutter_enabled = 0
-nmap <a-g> :GitGutterEnable<CR>
-nmap <a-G> :GitGutterDisable<CR>
+nmap <a-g> :GitGutterToggle<CR>
+" nmap <a-g> :GitGutterEnable<CR>
+" nmap <a-G> :GitGutterDisable<CR>
 """""""""""""""""""""""""""
 "Vimtex settings:
 let g:tex_flavor='latex'
