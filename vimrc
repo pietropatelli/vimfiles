@@ -72,6 +72,8 @@ set fileencodings=ucs-bom,utf8,prc
 " Enable Airline 
 set laststatus=2
 set noshowmode
+" Highlight cursor line:
+set cursorline
 """""""""""""""""""""""""
 """""""""""""""""""""""""
 "Key mappings:
@@ -116,10 +118,10 @@ set history=1000
 set foldmethod=indent
 "
 "faster scrolling when pressing Ctrl:
-" nmap <c-j> 5j
-" nmap <c-k> 5k
-" nmap <c-h> 5h
-" nmap <c-l> 5l
+nmap <c-j> 5j
+nmap <c-k> 5k
+nmap <c-h> 5h
+nmap <c-l> 5l
 "
 " Enable folding with the spacebar
 nnoremap <space> za
@@ -134,10 +136,6 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 "
-"TComment settings:
-nmap <silent> <C-c> gccj
-" FIXME: nmap <silent> <Count><C-c> +,<Count> norm gcc 
-
 "Vimtex settings:
 let g:tex_flavor='latex'
 let g:vimtex_view_general_viewer = 'sumatrapdf' 
