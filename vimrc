@@ -16,11 +16,12 @@ call minpac#add('lervag/vimtex')
 call minpac#add('tmhedberg/SimpylFold')
 call minpac#add('gu-fan/simpleterm.vim')
 call minpac#add('itchyny/lightline.vim')
+call minpac#add('tpope/vim-fugitive')
+call minpac#add('bling/vim-bufferline')
 """"""""""""""
 " Interesting packages:
 " call minpac#add('altercation/vim-colors-solarized')
 " call minpac#add('Xuyuanp/nerdtree-git-plugin')
-" call minpac#add('tpope/vim-fugitive')
 " call minpac#add('jpitblado/vim-stata')
 " call minpac#add('fholgado/minibufexpl.vim')
 " call minpac#add('ryanoasis/vim-devicons')
@@ -69,7 +70,7 @@ runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf8,prc
-" Enable Airline 
+" Compatibility with Lightline, airline etc. 
 set laststatus=2
 set noshowmode
 " Highlight cursor line:
@@ -77,10 +78,12 @@ set cursorline
 """""""""""""""""""""""""
 """""""""""""""""""""""""
 "Key mappings:
-"Pasting system clipboard with Alt-v:
+"Pasting system clipboard with Alt-v and copying with Alt-c: 
 nmap <silent> <a-v> "*p
 imap <silent> <a-v> <C-r>*
 cmap <a-v> <C-r>*
+nmap <silent> <a-c> "*y
+vmap <silent> <a-c> "*y
 " Habit breaking:
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -124,7 +127,7 @@ nmap <c-h> 5h
 nmap <c-l> 5l
 "
 " Enable folding with the spacebar
-nnoremap <space> za
+nnoremap <space> zA
 "NERDTree settings:
 map <silent> <C-1> :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=1 "Shows bookmarks
@@ -145,5 +148,4 @@ let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 " let g:vimtex_latexmk_build_dir = 'livepreview'
 let g:vimtex_quickfix_mode=0
-
 
