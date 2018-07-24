@@ -18,6 +18,9 @@ call minpac#add('tmhedberg/SimpylFold')
 call minpac#add('gu-fan/simpleterm.vim')
 " Load the plugins right now. (optional)
 packloadall
+" Commands for easier package management
+command! PacUpdate call minpac#update()
+command! PacClean  call minpac#clean()
 " """""""""""""""""" VIM-PLUG:
 "" if has('win32') "Note: works for both 32 and 64 bit systems.
 ""     let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
