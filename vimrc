@@ -8,7 +8,6 @@ call minpac#add('k-takata/minpac', {'type': 'opt'})
 " Add other plugins here.
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
-" call minpac#add('altercation/vim-colors-solarized')
 call minpac#add('scrooloose/nerdtree')
 call minpac#add('tomtom/tcomment_vim')
 call minpac#add('farmergreg/vim-lastplace')
@@ -19,6 +18,7 @@ call minpac#add('gu-fan/simpleterm.vim')
 call minpac#add('itchyny/lightline.vim')
 """"""""""""""
 " Interesting packages:
+" call minpac#add('altercation/vim-colors-solarized')
 " call minpac#add('Xuyuanp/nerdtree-git-plugin')
 " call minpac#add('tpope/vim-fugitive')
 " call minpac#add('jpitblado/vim-stata')
