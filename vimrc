@@ -16,6 +16,18 @@ call minpac#add('JuliaEditorSupport/julia-vim')
 call minpac#add('lervag/vimtex')
 call minpac#add('tmhedberg/SimpylFold')
 call minpac#add('gu-fan/simpleterm.vim')
+call minpac#add('itchyny/lightline.vim')
+""""""""""""""
+" Interesting packages:
+" call minpac#add('Xuyuanp/nerdtree-git-plugin')
+" call minpac#add('tpope/vim-fugitive')
+" call minpac#add('jpitblado/vim-stata')
+" call minpac#add('fholgado/minibufexpl.vim')
+" call minpac#add('ryanoasis/vim-devicons')
+" call minpac#add('wellle/targets.vim')
+" call minpac#add('vim-airline/vim-airline')
+" call minpac#add('powerline/powerline')
+" call minpac#add('')
 " Load the plugins right now. (optional)
 packloadall
 " Commands for easier package management
@@ -56,6 +68,9 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf8,prc
+" Enable Airline 
+set laststatus=2
+set noshowmode
 """""""""""""""""""""""""
 """""""""""""""""""""""""
 "Key mappings:
@@ -94,7 +109,7 @@ vnor <silent> <a-e> :Sline<CR>
 set history=1000
 "
 "Show current mode at bottom:
-set showmode
+" set showmode " NOTE: Disabled because of other status bar
 "
 "code folding settings:
 set foldmethod=indent
@@ -131,4 +146,5 @@ let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 " let g:vimtex_latexmk_build_dir = 'livepreview'
 let g:vimtex_quickfix_mode=0
+
 
