@@ -9,6 +9,7 @@ call minpac#add('k-takata/minpac', {'type': 'opt'})
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
 call minpac#add('scrooloose/nerdtree')
+call minpac#add('Xuyuanp/nerdtree-git-plugin')
 call minpac#add('tomtom/tcomment_vim')
 call minpac#add('farmergreg/vim-lastplace')
 call minpac#add('JuliaEditorSupport/julia-vim')
@@ -17,13 +18,13 @@ call minpac#add('tmhedberg/SimpylFold')
 call minpac#add('gu-fan/simpleterm.vim')
 call minpac#add('itchyny/lightline.vim')
 call minpac#add('tpope/vim-fugitive')
-call minpac#add('bling/vim-bufferline')
+call minpac#add('airblade/vim-gitgutter')
 """"""""""""""
 " Interesting packages:
 " call minpac#add('altercation/vim-colors-solarized')
-" call minpac#add('Xuyuanp/nerdtree-git-plugin')
 " call minpac#add('jpitblado/vim-stata')
 " call minpac#add('fholgado/minibufexpl.vim')
+" call minpac#add('bling/vim-bufferline')
 " call minpac#add('ryanoasis/vim-devicons')
 " call minpac#add('wellle/targets.vim')
 " call minpac#add('vim-airline/vim-airline')
@@ -32,9 +33,14 @@ call minpac#add('bling/vim-bufferline')
 " Load the plugins right now. (optional)
 packloadall
 " Commands for easier package management
-command! PacUpdate call minpac#update()
-command! PacClean  call minpac#clean()
+command! PUpdate source $MYVIMRC | call minpac#update()
+command! PClean  source $MYVIMRC | call minpac#clean()
 """""""""""""""""""""""""""""""""
+" Compatibility with Lightline, airline etc. 
+set laststatus=2
+set noshowmode
+" Lightline settings
+let g:lightline = { 'active': { 'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }, 'component_function': { 'gitbranch': 'fugitive#head' }, } " NOTE: This setting must be before the colorscheme
 """Basic configuration:
 syntax on " Enables syntax highlighting
 set background=dark
@@ -70,9 +76,6 @@ runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf8,prc
-" Compatibility with Lightline, airline etc. 
-set laststatus=2
-set noshowmode
 " Highlight cursor line:
 set cursorline
 """""""""""""""""""""""""
@@ -148,4 +151,12 @@ let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 " let g:vimtex_latexmk_build_dir = 'livepreview'
 let g:vimtex_quickfix_mode=0
+
+"""""""""""""""""""""""
+
+
+
+
+
+
 
