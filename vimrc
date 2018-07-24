@@ -9,7 +9,6 @@ call minpac#add('k-takata/minpac', {'type': 'opt'})
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
 call minpac#add('scrooloose/nerdtree')
-call minpac#add('Xuyuanp/nerdtree-git-plugin')
 call minpac#add('tomtom/tcomment_vim')
 call minpac#add('farmergreg/vim-lastplace')
 call minpac#add('JuliaEditorSupport/julia-vim')
@@ -21,6 +20,7 @@ call minpac#add('tpope/vim-fugitive')
 call minpac#add('airblade/vim-gitgutter')
 """"""""""""""
 " Interesting packages:
+" call minpac#add('Xuyuanp/nerdtree-git-plugin')
 " call minpac#add('altercation/vim-colors-solarized')
 " call minpac#add('jpitblado/vim-stata')
 " call minpac#add('fholgado/minibufexpl.vim')
@@ -88,13 +88,13 @@ set fileencodings=ucs-bom,utf8,prc
 set cursorline
 """""""""""""""""""""""""
 """""""""""""""""""""""""
+" yank to system clipboard
+set clipboard=unnamed " Always use system clipboard
 "Key mappings:
-"Pasting system clipboard with Alt-v and copying with Alt-c: 
-nmap <silent> <a-v> "*p
-imap <silent> <a-v> <C-r>*
-cmap <a-v> <C-r>*
-nmap <silent> <a-c> "*y
-vmap <silent> <a-c> "*y
+"Pasting in command and insert mode with Ctrl-v
+cmap <C-v> <C-r>*
+imap <C-v> <C-r>*
+"""""""""""""""""""""""""
 " Habit breaking:
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -141,17 +141,17 @@ let NERDTreeQuitOnOpen = 1 "Closes NERDTree when opening a file
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
-" NERDtree git plugin:
-let g:NERDTreeShowGitStatus=1
 let g:NERDTreeUpdateOnWrite=1
+" NERDtree git plugin settings:
+" let g:NERDTreeUseSimpleIndicator = 1
+" let g:NERDTreeShowGitStatus=1
 "
 """""""""""""""""""""""""""
 " Git gutter settings:
-let g:gitgutter_sign_column_always = 1 "FIXME: for some reason, not working
 let g:gitgutter_enabled = 0
-nmap <a-g> :GitGutterToggle<CR>
-" nmap <a-g> :GitGutterEnable<CR>
-" nmap <a-G> :GitGutterDisable<CR>
+" nmap <a-g> :GitGutterToggle<CR>
+nmap <a-g> :GitGutterEnable<CR>
+nmap <a-G> :GitGutterDisable<CR>
 """""""""""""""""""""""""""
 "Vimtex settings:
 let g:tex_flavor='latex'
