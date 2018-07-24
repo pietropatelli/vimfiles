@@ -21,30 +21,6 @@ packloadall
 " Commands for easier package management
 command! PacUpdate call minpac#update()
 command! PacClean  call minpac#clean()
-" """""""""""""""""" VIM-PLUG:
-"" if has('win32') "Note: works for both 32 and 64 bit systems.
-""     let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
-"" else
-""     let $MYPLUGDIRECTORY = "~/.vim/plugged"
-"" endif
-"" call plug#begin($MYPLUGDIRECTORY)
-"" Plug 'flazz/vim-colorschemes'
-"" Plug 'rafi/awesome-vim-colorschemes'
-"" Plug 'altercation/vim-colors-solarized'
-"" Plug 'scrooloose/nerdtree'
-"" " Plug 'wellle/targets.vim'
-"" " Plug 'Xuyuanp/nerdtree-git-plugin'
-"" " Plug 'tpope/vim-fugitive'
-"" Plug 'tomtom/tcomment_vim'
-"" Plug 'farmergreg/vim-lastplace' "intelligently reopen files at last edit position
-"" Plug 'JuliaEditorSupport/julia-vim'
-"" Plug 'lervag/vimtex'
-"" Plug 'tmhedberg/SimpylFold'
-"" " Plug 'jpitblado/vim-stata'
-"" " Plug 'fholgado/minibufexpl.vim'
-"" " Plug 'ryanoasis/vim-devicons'
-"" Plug 'gu-fan/simpleterm.vim'
-"" call plug#end()
 """""""""""""""""""""""""""""""""
 """Basic configuration:
 syntax on " Enables syntax highlighting
