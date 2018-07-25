@@ -20,6 +20,8 @@ call minpac#add('tpope/vim-fugitive')
 call minpac#add('airblade/vim-gitgutter')
 """"""""""""""
 " Interesting packages:
+" call minpac#add('scrooloose/nerdcommenter')
+" call minpac#add('vim-syntastic/syntastic')
 " call minpac#add('Xuyuanp/nerdtree-git-plugin')
 " call minpac#add('altercation/vim-colors-solarized')
 " call minpac#add('jpitblado/vim-stata')
@@ -29,6 +31,7 @@ call minpac#add('airblade/vim-gitgutter')
 " call minpac#add('wellle/targets.vim')
 " call minpac#add('vim-airline/vim-airline')
 " call minpac#add('powerline/powerline')
+" call minpac#add('')
 " call minpac#add('')
 " Load the plugins right now. (optional)
 packloadall
@@ -88,6 +91,9 @@ set fileencodings=ucs-bom,utf8,prc
 " Highlight cursor line:
 set cursorline
 """""""""""""""""""""""""
+" Remember folding state:
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
 """""""""""""""""""""""""
 " yank to system clipboard
 set clipboard=unnamed " Always use system clipboard
