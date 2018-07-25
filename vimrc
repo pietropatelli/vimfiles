@@ -1,4 +1,5 @@
 " NOTE: the .vimrc file in the home directory simply points here.
+
 """"""""""""""""" MINPAC:
 packadd minpac
 call minpac#init()
@@ -44,14 +45,6 @@ set laststatus=2
 set noshowmode
 " Lightline settings
 let g:lightline = { 'colorscheme': 'powerline','active': { 'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }, 'component_function': { 'gitbranch': 'fugitive#head' }, } " NOTE: This setting must be before the colorscheme
-"""""""""""""""""""""""""""
-" Alt-t to start terminal at 10 size
-nnoremap <silent> <a-t> :term ++rows=8 <CR>
-" Terminal settings using simpleterm:
-" let g:simpleterm.row=8
-" nmap <silent> <a-t> :Stoggle<CR>
-" nmap <silent> <a-e> :Sline<CR>
-" vmap <silent> <a-e> :Sline<CR>
 """""""""""""""""""""""""""	
 """Basic configuration:
 syntax on " Enables syntax highlighting
@@ -91,9 +84,6 @@ set fileencodings=ucs-bom,utf8,prc
 " Highlight cursor line:
 set cursorline
 """""""""""""""""""""""""
-" Remember folding state:
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview
 """""""""""""""""""""""""
 " yank to system clipboard
 set clipboard=unnamed " Always use system clipboard
@@ -116,16 +106,13 @@ nnoremap <F1> :
 imap <F1> <Esc>-:
 vmap <F1> <Esc>-:
 " easier switching buffers
-map <F2> :ls<CR>:b
+noremap <F2> :ls<CR>:b
 "Easier quoting/unquoting:
 :nnoremap <Leader>q" ciw""<Esc>P
 :nnoremap <Leader>q' ciw''<Esc>P
 :nnoremap <Leader>q` ciw``<Esc>P
 "store lots of :cmdline history
 set history=1000
-"
-"Show current mode at bottom:
-" set showmode " NOTE: Disabled because of other status bar
 "
 "code folding settings:
 set foldmethod=indent
@@ -138,7 +125,16 @@ nmap <c-l> 5l
 "
 " Enable folding with the spacebar
 nnoremap <space> zA
+"""""""""""""""""""""""""""
+" Alt-t to start terminal at 10 size
+nnoremap <silent> <a-t> :term ++rows=8 <CR>
+" Terminal settings using simpleterm:
+" let g:simpleterm.row=8
+" nmap <silent> <a-t> :Stoggle<CR>
+" nmap <silent> <a-e> :Sline<CR>
+" vmap <silent> <a-e> :Sline<CR>
 "NERDTree settings:
+""""""""""""""""""""""""""""
 map <silent> <C-1> :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=1 "Shows bookmarks
 "open if vim is started without a file selcted:
@@ -169,7 +165,6 @@ let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 " let g:vimtex_latexmk_build_dir = 'livepreview'
 let g:vimtex_quickfix_mode=0
-
 """""""""""""""""""""""
 
 
