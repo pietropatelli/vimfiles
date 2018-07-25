@@ -40,15 +40,16 @@ command! PClean  source $MYVIMRC | call minpac#clean()
 set laststatus=2
 set noshowmode
 " Lightline settings
-let g:lightline = { 'active': { 'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }, 'component_function': { 'gitbranch': 'fugitive#head' }, } " NOTE: This setting must be before the colorscheme
+let g:lightline = { 'colorscheme': 'powerline','active': { 'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }, 'component_function': { 'gitbranch': 'fugitive#head' }, } " NOTE: This setting must be before the colorscheme
 """""""""""""""""""""""""""
 " Alt-t to start terminal at 10 size
 " nnoremap <silent> <a-t> :term ++rows=8 <CR>
 " Terminal settings using simpleterm:
 let g:simpleterm.row=8
-nnor <silent> <a-t> :Stoggle<CR>
-nnor <silent> <a-e> :Sline<CR>
-vnor <silent> <a-e> :Sline<CR>
+nmap <silent> <a-t> :Stoggle<CR>
+nmap <silent> <a-e> :Sline<CR>
+vmap <silent> <a-e> :Sline<CR>
+"""""""""""""""""""""""""""	
 """Basic configuration:
 syntax on " Enables syntax highlighting
 set background=dark
@@ -142,7 +143,7 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
-" NERDtree git plugin settings:
+" NERDtree git plugin settings: " FIXME: NERDTree-git-plugin doesn't work
 " let g:NERDTreeUseSimpleIndicator = 1
 " let g:NERDTreeShowGitStatus=1
 "
