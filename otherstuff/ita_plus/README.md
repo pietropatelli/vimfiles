@@ -13,4 +13,4 @@ This keyboard configuration modifies the standard Windows Italian keyboard in or
 	- σ (AltGr+s)
 	- Σ (AltGr+S)
 
-Note that the Euro symbol € works only with AltGr+4.
+Note that the Euro symbol € works only with AltGr+5.
