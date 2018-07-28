@@ -19,6 +19,7 @@ call minpac#add('gu-fan/simpleterm.vim')
 call minpac#add('itchyny/lightline.vim')
 call minpac#add('tpope/vim-fugitive')
 call minpac#add('airblade/vim-gitgutter')
+call minpac#add('guns/vim-sexp')
 """"""""""""""
 " Interesting packages:
 " call minpac#add('scrooloose/nerdcommenter')
@@ -32,7 +33,7 @@ call minpac#add('airblade/vim-gitgutter')
 " call minpac#add('wellle/targets.vim')
 " call minpac#add('vim-airline/vim-airline')
 " call minpac#add('powerline/powerline')
-" call minpac#add('')
+" call minpac#add('godlygeek/tabular')
 " call minpac#add('')
 " Load the plugins right now. (optional)
 packloadall
@@ -92,6 +93,8 @@ set clipboard=unnamed " Always use system clipboard
 cmap <C-v> <C-r>*
 imap <C-v> <C-r>*
 """""""""""""""""""""""""
+" Making Y work like C or D:
+map Y y$
 " Habit breaking:
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -101,10 +104,12 @@ imap <Up> <NOP>
 imap <Down> <NOP>
 imap <Left> <NOP>
 imap <Right> <NOP>
-" easier access to command mode:
-nnoremap <F1> :
-imap <F1> <Esc>-:
-vmap <F1> <Esc>-:
+" Make . behave like : in normal mode:
+nnoremap . :
+" Make ò behave like : in normal mode:
+nnoremap ò :
+" Make ; behave like . (:p), equivalent to what ; does on US keyboards:
+nnoremap ; .
 " easier switching buffers
 noremap <F2> :ls<CR>:b
 "Easier quoting/unquoting:
@@ -125,6 +130,9 @@ nmap <c-l> 5l
 "
 " Enable folding with the spacebar
 nnoremap <space> zA
+" Allow j and k to move in autocomplete list
+inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
+inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 """""""""""""""""""""""""""
 " Alt-t to start terminal at 10 size
 nnoremap <silent> <a-t> :term ++rows=8 <CR>
