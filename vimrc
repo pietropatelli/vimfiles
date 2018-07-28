@@ -4,7 +4,8 @@
 packadd minpac
 call minpac#init()
 " minpac must have {'type': 'opt'} so that it can be loaded with `packadd`.
-call minpac#add('k-takata/minpac', {'type': 'opt'})
+" NOTE: I have added minpac as a submodule in my vimfiles repository.
+" call minpac#add('k-takata/minpac', {'type': 'opt'})
 
 " Add other plugins here.
 call minpac#add('flazz/vim-colorschemes')
@@ -104,12 +105,6 @@ imap <Up> <NOP>
 imap <Down> <NOP>
 imap <Left> <NOP>
 imap <Right> <NOP>
-" Make . behave like : in normal mode:
-nnoremap . :
-" Make ò behave like : in normal mode:
-nnoremap ò :
-" Make ; behave like . (:p), equivalent to what ; does on US keyboards:
-nnoremap ; .
 " easier switching buffers
 noremap <F2> :ls<CR>:b
 "Easier quoting/unquoting:
