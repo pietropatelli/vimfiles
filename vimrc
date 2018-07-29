@@ -138,6 +138,7 @@ nnoremap <silent> <a-t> :term ++rows=8 <CR>
 "NERDTree settings:
 """"""""""""""""""""""""""""
 map <silent> <F1> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1 "Shows bookmarks
 "open if vim is started without a file selcted:
 autocmd StdinReadPre * let s:std_in=1
