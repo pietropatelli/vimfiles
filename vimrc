@@ -87,10 +87,9 @@ set fileencodings=ucs-bom,utf8,prc
 set cursorline
 """""""""""""""""""""""""
 """""""""""""""""""""""""
-" yank to system clipboard
-set clipboard=unnamed " Always use system clipboard
+" set clipboard=unnamed " Always use system clipboard
 "Key mappings:
-"Pasting in command and insert mode with Ctrl-v
+"Pasting from system clipboard in command and insert mode with Ctrl-v
 cmap <C-v> <C-r>*
 imap <C-v> <C-r>*
 """""""""""""""""""""""""
