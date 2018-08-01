@@ -106,6 +106,8 @@ imap <Left> <NOP>
 imap <Right> <NOP>
 " easier switching buffers
 noremap <F2> :ls<CR>:b
+imap <F2> <Esc>:ls<CR>:b
+cmap <F2> <Esc><CR>
 "Easier quoting/unquoting:
 :nnoremap <Leader>q" ciw""<Esc>P
 :nnoremap <Leader>q' ciw''<Esc>P
@@ -138,6 +140,7 @@ nnoremap <silent> <a-t> :term ++rows=8 <CR>
 "NERDTree settings:
 """"""""""""""""""""""""""""
 map <silent> <F1> :NERDTreeToggle<CR>
+imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1 "Shows bookmarks
 "open if vim is started without a file selcted:
