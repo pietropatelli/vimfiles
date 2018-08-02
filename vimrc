@@ -169,7 +169,7 @@ let g:tex_flavor='latex'
 let g:vimtex_view_general_viewer = 'sumatrapdf' 
 " let g:vimtex_view_general_options='-reuse-instance -forward-search @tex @line @pdf'
 let g:vimtex_view_general_options
-    \ = ' -forward-search @tex @line @pdf'
+    \ = ' -reuse-instance -forward-search @tex @line @pdf'
     \ . ' -inverse-search "gvim --servername ' . v:servername
     \ . ' --remote-send \"^<C-\^>^<C-n^>'
     \ . ':drop \%f^<CR^>:\%l^<CR^>:normal\! zzzv^<CR^>'
