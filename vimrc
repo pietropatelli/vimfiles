@@ -1,5 +1,7 @@
 " NOTE: the .vimrc file in the home directory simply points here.
-
+let mapleader = "\\"
+let maplocalleader = "\\"
+filetype plugin on
 """"""""""""""""" MINPAC:
 packadd minpac
 call minpac#init()
@@ -8,13 +10,13 @@ call minpac#init()
 " call minpac#add('k-takata/minpac', {'type': 'opt'})
 
 " Add other plugins here.
+call minpac#add('lervag/vimtex')
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
 call minpac#add('scrooloose/nerdtree')
 call minpac#add('tomtom/tcomment_vim')
 call minpac#add('farmergreg/vim-lastplace')
 call minpac#add('JuliaEditorSupport/julia-vim')
-call minpac#add('lervag/vimtex')
 call minpac#add('tmhedberg/SimpylFold')
 call minpac#add('gu-fan/simpleterm.vim')
 call minpac#add('itchyny/lightline.vim')
@@ -39,8 +41,8 @@ call minpac#add('guns/vim-sexp')
 " Load the plugins right now. (optional)
 packloadall
 " Commands for easier package management
-command! PUpdate source $MYVIMRC | call minpac#update()
-command! PClean  source $MYVIMRC | call minpac#clean()
+command! PUpdate call minpac#update()
+command! PClean  call minpac#clean()
 """""""""""""""""""""""""""""""""
 " Compatibility with Lightline, airline etc. 
 set laststatus=2
@@ -77,7 +79,7 @@ set smartcase
 set scrolloff=3
 set sidescrolloff=5
 " Disable comment continuation on <Enter>
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
 "UNICODE stuff:
 set encoding=utf-8
@@ -119,10 +121,10 @@ set history=1000
 set foldmethod=indent
 "
 "faster scrolling when pressing Ctrl:
-nmap <c-j> 5j
-nmap <c-k> 5k
-nmap <c-h> 5h
-nmap <c-l> 5l
+" nmap <c-j> 5j
+" nmap <c-k> 5k
+" nmap <c-h> 5h
+" nmap <c-l> 5l
 "
 " Enable folding with the spacebar
 nnoremap <space> zA
@@ -165,11 +167,9 @@ nmap <a-G> :GitGutterDisable<CR>
 "Vimtex settings:
 let g:tex_flavor='latex'
 let g:vimtex_view_general_viewer = 'sumatrapdf' 
-" let g:vimtex_view_method = 'SumatraPDF'
 let g:vimtex_view_general_options='-reuse-instance -forward-search @tex @line @pdf'
 let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
-" let g:vimtex_latexmk_build_dir = 'livepreview'
 let g:vimtex_quickfix_mode=0
 """""""""""""""""""""""
 
