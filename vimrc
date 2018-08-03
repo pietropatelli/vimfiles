@@ -37,6 +37,7 @@ call minpac#add('guns/vim-sexp')
 " call minpac#add('vim-airline/vim-airline')
 " call minpac#add('powerline/powerline')
 " call minpac#add('godlygeek/tabular')
+" call minpac#add('fadein/vim-FIGlet')
 " call minpac#add('')
 " Load the plugins right now. (optional)
 packloadall
@@ -110,6 +111,12 @@ imap <Right> <NOP>
 noremap <F2> :ls<CR>:b
 imap <F2> <Esc>:ls<CR>:b
 cmap <F2> <Esc><CR>
+" Easy toggle paste mode:
+set pastetoggle=Ά "This is <F12> on my laptop
+" Alternative shortcut to paste correctly from system clipboard
+map <Leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
+" Easy search for current word in current directory
+map ΅ :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 "Easier quoting/unquoting:
 :nnoremap <Leader>q" ciw""<Esc>P
 :nnoremap <Leader>q' ciw''<Esc>P
