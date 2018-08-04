@@ -21,6 +21,8 @@ call minpac#add('tmhedberg/SimpylFold')
 call minpac#add('gu-fan/simpleterm.vim')
 call minpac#add('itchyny/lightline.vim')
 call minpac#add('tpope/vim-fugitive')
+call minpac#add('tpope/vim-surround')
+call minpac#add('tpope/vim-dispatch')
 call minpac#add('airblade/vim-gitgutter')
 call minpac#add('guns/vim-sexp')
 """"""""""""""
@@ -30,7 +32,6 @@ call minpac#add('guns/vim-sexp')
 " call minpac#add('Xuyuanp/nerdtree-git-plugin')
 " call minpac#add('altercation/vim-colors-solarized')
 " call minpac#add('jpitblado/vim-stata')
-" call minpac#add('fholgado/minibufexpl.vim')
 " call minpac#add('bling/vim-bufferline')
 " call minpac#add('ryanoasis/vim-devicons')
 " call minpac#add('wellle/targets.vim')
@@ -38,6 +39,7 @@ call minpac#add('guns/vim-sexp')
 " call minpac#add('powerline/powerline')
 " call minpac#add('godlygeek/tabular')
 " call minpac#add('fadein/vim-FIGlet')
+" call minpac#add('vim-pandoc/vim-pandoc') "NOTE: Requires python3 for commands to be useful
 " call minpac#add('')
 " Load the plugins right now. (optional)
 packloadall
@@ -187,10 +189,3 @@ let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 let g:vimtex_quickfix_mode=0
 """""""""""""""""""""""
-
-
-
-
-
-
-
