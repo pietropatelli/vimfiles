@@ -28,6 +28,7 @@ call minpac#add('guns/vim-sexp')
 call minpac#add('skywind3000/asyncrun.vim')
 """"""""""""""
 " Interesting packages:
+" call minpac#add('milkypostman/vim-togglelist')
 " call minpac#add('Valloric/YouCompleteMe')
 " call minpac#add('scrooloose/nerdcommenter')
 " call minpac#add('vim-syntastic/syntastic')
@@ -154,6 +155,7 @@ nnoremap <silent> <a-t> :term ++rows=8 <CR>
 """"""""""""""""""""""""""""
 map <silent> <F1> :NERDTreeToggle<CR>
 imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
+cmap <F1> <Esc><Esc>:NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1 "Shows bookmarks
 "open if vim is started without a file selcted:
@@ -195,9 +197,33 @@ let g:vimtex_quickfix_mode=0
 let g:asyncrun_open = 8 "opens quickfix by default
 let g:asyncrun_last = 1
 nnoremap <leader>as :AsyncStop<CR>
+" Filetype specific mappings:
+autocmd FileType python nnoremap <buffer> <leader>aa :AsyncRun python %  <CR>
+autocmd FileType julia nnoremap <buffer> <leader>aa :AsyncRun julia %  <CR>
+autocmd FileType markdown nnoremap <buffer> <leader>aa :! pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css % -o %:r.pdf <CR>
+autocmd FileType matlab nnoremap <buffer> <leader>aa :AsyncRun matlab '-nodesktop', '-nosplash', '-r', "try run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]  <CR>
+autocmd FileType r nnoremap <buffer> <leader>aa :AsyncRun Rscript %  <CR>
+autocmd FileType stata nnoremap <buffer> <leader>aa :AsyncRun stata do %  <CR>
+autocmd FileType tex nnoremap <buffer> <leader>aa :VimtexCompile <CR>
+
 " See python realtime output
 let $PYTHONUNBUFFERED=1
-
-
-
-
+" Open and close quickfix:
+nnoremap <silent> <leader>cc :ccl<CR>
+nnoremap <silent> <leader>co :copen<CR>
+"
+" Toggle quickfix function (from Learn Vimscript the Hard Way):
+" nnoremap <leader>at :call QuickfixToggle()<cr>
+" let g:quickfix_is_open = 0
+" function! QuickfixToggle()
+" 	if g:quickfix_is_open
+" 		cclose
+" 		let g:quickfix_is_open = 0
+" 		execute g:quickfix_return_to_window . "wincmd w"
+" 	else
+" 		let g:quickfix_return_to_window = winnr()
+" 		copen
+" 		let g:quickfix_is_open = 1
+" 	endif
+" endfunction
+"

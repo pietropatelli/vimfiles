@@ -1,1 +1,1 @@
-map <F3> :AsyncRun Rscript %  <CR>
+map <buffer> <F3> :AsyncRun Rscript %  <CR>

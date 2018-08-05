@@ -1,2 +1,2 @@
-map <F3> :AsyncRun julia %  <CR>
+map <buffer> <F3> :AsyncRun julia %  <CR>
 

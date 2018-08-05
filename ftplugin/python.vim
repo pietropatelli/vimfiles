@@ -1,1 +1,1 @@
-map <F3> :AsyncRun python %  <CR>
+map <buffer> <F3> :AsyncRun python %  <CR>

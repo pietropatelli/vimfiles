@@ -1,1 +1,1 @@
-map <F3> :VimtexCompile <CR>
+map <buffer> <F3> :VimtexCompile <CR>
