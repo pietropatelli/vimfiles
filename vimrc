@@ -119,8 +119,10 @@ imap <F2> <Esc>:ls<CR>:b
 cmap <F2> <Esc><CR>
 " Easy toggle paste mode:
 set pastetoggle=Ά "This is <F12> on my laptop
-" Alternative shortcut to paste correctly from system clipboard
-map <Leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
+" Alternative shortcut to paste correctly from system clipboard in normal mode
+" map <Leader>p :set paste<CR>o<esc>"*p:set nopaste<cr>
+noremap <Leader>p o<C-r>*<esc>
+noremap <Leader>P O<C-r>*<esc>
 " Easy search for current word in current directory
 map ΅ :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 "Easier quoting/unquoting:
