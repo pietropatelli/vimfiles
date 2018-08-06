@@ -208,12 +208,23 @@ autocmd FileType matlab   nnoremap <buffer> <leader>aa :AsyncRun matlab '-nodesk
 autocmd FileType r        nnoremap <buffer> <leader>aa :AsyncRun Rscript %  <CR>
 autocmd FileType stata    nnoremap <buffer> <leader>aa :AsyncRun stata do %  <CR>
 autocmd FileType tex      nnoremap <buffer> <leader>aa :VimtexCompile <CR>
-
+" Filetype insert section line
+autocmd FileType python   nnoremap <buffer> <leader>hh o<C-o>80i#<Esc>
+autocmd FileType julia    nnoremap <buffer> <leader>hh o<C-o>80i#<Esc>
+autocmd FileType markdown nnoremap <buffer> <leader>hh o<!<C-o>76a-<Esc>a><Esc>
+autocmd FileType matlab   nnoremap <buffer> <leader>hh o<C-o>80i%<Esc>
+autocmd FileType r        nnoremap <buffer> <leader>hh o<C-o>80i#<Esc>
+autocmd FileType stata    nnoremap <buffer> <leader>hh o<C-o>80i*<Esc>
+autocmd FileType tex      nnoremap <buffer> <leader>hh o<C-o>80i%<Esc>
 " See python realtime output
 let $PYTHONUNBUFFERED=1
-" Open and close quickfix:
+" QUICKFIX Shortcuts
 nnoremap <silent> <leader>cc :ccl<CR>
 nnoremap <silent> <leader>co :copen<CR>
+nnoremap <silent> <leader>cn :cn<CR>
+nnoremap <silent> <leader>cp :cp<CR>
+nnoremap <silent> <leader>noh :noh<CR>
+
 "
 " Toggle quickfix function (from Learn Vimscript the Hard Way):
 " nnoremap <leader>at :call QuickfixToggle()<cr>
