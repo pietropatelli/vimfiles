@@ -74,6 +74,7 @@ set hlsearch
 au BufRead,BufNewFile *.md setlocal textwidth=80
 set wrap
 set autoindent
+set breakindent
 set tabstop=4
 "Set default split direction:
 set splitbelow
@@ -198,13 +199,13 @@ let g:asyncrun_open = 8 "opens quickfix by default
 let g:asyncrun_last = 1
 nnoremap <leader>as :AsyncStop<CR>
 " Filetype specific mappings:
-autocmd FileType python nnoremap <buffer> <leader>aa :AsyncRun python %  <CR>
-autocmd FileType julia nnoremap <buffer> <leader>aa :AsyncRun julia %  <CR>
-autocmd FileType markdown nnoremap <buffer> <leader>aa :! pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css % -o %:r.pdf <CR>
-autocmd FileType matlab nnoremap <buffer> <leader>aa :AsyncRun matlab '-nodesktop', '-nosplash', '-r', "try run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]  <CR>
-autocmd FileType r nnoremap <buffer> <leader>aa :AsyncRun Rscript %  <CR>
-autocmd FileType stata nnoremap <buffer> <leader>aa :AsyncRun stata do %  <CR>
-autocmd FileType tex nnoremap <buffer> <leader>aa :VimtexCompile <CR>
+autocmd FileType python   nnoremap <buffer> <leader>aa :AsyncRun python %  <CR>
+autocmd FileType julia    nnoremap <buffer> <leader>aa :AsyncRun julia %  <CR>
+autocmd FileType markdown nnoremap <buffer> <leader>aa :! pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css %:p -o %:p:r.pdf <CR> 
+autocmd FileType matlab   nnoremap <buffer> <leader>aa :AsyncRun matlab '-nodesktop', '-nosplash', '-r', "try run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]  <CR>
+autocmd FileType r        nnoremap <buffer> <leader>aa :AsyncRun Rscript %  <CR>
+autocmd FileType stata    nnoremap <buffer> <leader>aa :AsyncRun stata do %  <CR>
+autocmd FileType tex      nnoremap <buffer> <leader>aa :VimtexCompile <CR>
 
 " See python realtime output
 let $PYTHONUNBUFFERED=1
