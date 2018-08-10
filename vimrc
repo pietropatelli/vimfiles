@@ -18,13 +18,13 @@ call minpac#add('tomtom/tcomment_vim')
 call minpac#add('farmergreg/vim-lastplace')
 call minpac#add('JuliaEditorSupport/julia-vim')
 call minpac#add('tmhedberg/SimpylFold')
-call minpac#add('gu-fan/simpleterm.vim')
 call minpac#add('itchyny/lightline.vim')
 call minpac#add('tpope/vim-fugitive')
 call minpac#add('tpope/vim-surround')
 call minpac#add('tpope/vim-dispatch')
 call minpac#add('airblade/vim-gitgutter')
 call minpac#add('guns/vim-sexp')
+call minpac#add('gu-fan/simpleterm.vim') "NOTE: change degault shortcuts
 call minpac#add('skywind3000/asyncrun.vim')
 call minpac#add('zizhongyan/stata-vim-syntax')
 """"""""""""""
@@ -55,7 +55,7 @@ command! PClean  call minpac#clean()
 set laststatus=2
 set noshowmode
 " Lightline settings
-let g:lightline = { 'colorscheme': 'powerline','active': { 'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }, 'component_function': { 'gitbranch': 'fugitive#head' }, } " NOTE: This setting must be before the colorscheme
+let g:lightline = { 'colorscheme': 'powerline','acsive': { 'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }, 'component_function': { 'gitbranch': 'fugitive#head' }, } " NOTE: This setting must be before the colorscheme
 "............................ Basic configuration: ............................
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
@@ -66,7 +66,8 @@ set background=dark
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function
 colorscheme hemisu  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist,
 					"badwolf, zenburn, apprentice, hemisu, vividchalk,
-					"distinguished, calmar256-dark, dracula, void, lucius
+					"distinguished, calmar256-dark, dracula, void, lucius,
+                    "greenvision
 set number "Adds line numbers
 set cursorline " Highlight cursor line:
 set hidden "Allows hidden edited bufferd
@@ -76,6 +77,8 @@ set scrolloff=3 "keep at least 3 lines above-below cursor
 set sidescrolloff=5 "keep at least 5 columns to left-right of cursor
 set splitbelow "default horizontal split
 set splitright "default vertical split
+:nnoremap <leader>i :split \| :NERDTreeToggle<CR>
+:nnoremap <leader>v :vsplit \| :NERDTreeToggle<CR>
 set guifont=consolas:h10 "Font settings for gvim.
 set showmatch "bracket matching
 set autoread "listen for external changes to file
@@ -84,6 +87,7 @@ set history=1000 "store long :cmdline history
 set ignorecase "Ignore case if search is all smallcase
 set smartcase "Use case if search contains any uppercase letter
 set hlsearch "highlight search results
+nnoremap <silent> <leader>noh :noh<CR>
 " Indentation settings:
 set autoindent "apply current indent to next line
 set smartindent "smart indenting, use in addition to `autoindent`
@@ -146,10 +150,10 @@ nnoremap <space> zA
 " Alt-t to start terminal at 10 size
 nnoremap <silent> <a-t> :term ++rows=8 <CR>
 " Terminal settings using simpleterm:
-" let g:simpleterm.row=8
+let g:simpleterm.row=8
 " nmap <silent> <a-t> :Stoggle<CR>
-" nmap <silent> <a-e> :Sline<CR>
-" vmap <silent> <a-e> :Sline<CR>
+nmap <silent> <a-e> :Sline<CR>
+vmap <silent> <a-e> :Sline<CR>
 "............................. NERDTree settings: .............................
 " shortcuts to toggle NERDTree:
 map <silent> <F1> :NERDTreeToggle<CR>
@@ -202,14 +206,15 @@ autocmd FileType stata    nnoremap <buffer> <leader>aa :AsyncRun stata do % <CR>
 autocmd FileType tex      nnoremap <buffer> <leader>aa :VimtexCompile <CR>
 "........................... Section line shortcuts ...........................
 " Section line
-autocmd FileType python   nnoremap <buffer> <leader>hh o<C-o>79i#<Esc>
-autocmd FileType julia    nnoremap <buffer> <leader>hh o<C-o>79i#<Esc>
+autocmd FileType python   nnoremap <buffer> <leader>hh o<esc>79i#<Esc>
+autocmd FileType julia    nnoremap <buffer> <leader>hh o<esc>79i#<Esc>
 autocmd FileType markdown nnoremap <buffer> <leader>hh o<!--<esc>72a.<esc>a--><Esc>
-autocmd FileType matlab   nnoremap <buffer> <leader>hh o<C-o>79i%<Esc>
-autocmd FileType r        nnoremap <buffer> <leader>hh o<C-o>79i#<Esc>
-autocmd FileType stata    nnoremap <buffer> <leader>hh o<C-o>79i*<Esc>
-autocmd FileType tex      nnoremap <buffer> <leader>hh o<C-o>79i%<Esc>
-autocmd FileType vim      nnoremap <buffer> <leader>hh o<C-o>79i.<Esc>0r"
+autocmd FileType matlab   nnoremap <buffer> <leader>hh o<esc>79i%<Esc>
+autocmd FileType r        nnoremap <buffer> <leader>hh o<esc>79i#<Esc>
+autocmd FileType stata    nnoremap <buffer> <leader>hh o<esc>79i*<Esc>
+autocmd FileType tex      nnoremap <buffer> <leader>hh o<esc>79i%<Esc>
+autocmd FileType vim      nnoremap <buffer> <leader>hh o"<esc>78i.<Esc>
+"..............................................................................
 " Transform line to section title line
 autocmd FileType python   nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>d79\|
 autocmd FileType julia    nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>d79\|
@@ -224,4 +229,3 @@ nnoremap <silent> <leader>cc :ccl<CR>
 nnoremap <silent> <leader>co :copen<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
-nnoremap <silent> <leader>noh :noh<CR>
