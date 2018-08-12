@@ -214,16 +214,15 @@ autocmd FileType r        nnoremap <buffer> <leader>hh o<esc>79i#<Esc>
 autocmd FileType stata    nnoremap <buffer> <leader>hh o<esc>79i*<Esc>
 autocmd FileType tex      nnoremap <buffer> <leader>hh o<esc>79i%<Esc>
 autocmd FileType vim      nnoremap <buffer> <leader>hh o"<esc>78i.<Esc>
-"..............................................................................
 " Transform line to section title line
-autocmd FileType python   nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>d79\|
-autocmd FileType julia    nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>d79\|
-autocmd FileType markdown nnoremap <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>d79\|0R<!--<esc>$hhR--><esc>
-autocmd FileType matlab   nnoremap <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>d79\|
-autocmd FileType r        nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>d79\|
-autocmd FileType stata    nnoremap <buffer> <leader>hj :center 80<cr>hhv0r*A<space><esc>40A*<esc>d79\|
-autocmd FileType tex      nnoremap <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>d79\|
-autocmd FileType vim      nnoremap <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>d79\|0r"
+autocmd FileType python   nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType julia    nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType markdown nnoremap <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
+autocmd FileType matlab   nnoremap <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
+autocmd FileType r        nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType stata    nnoremap <buffer> <leader>hj :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d79\|
+autocmd FileType tex      nnoremap <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
+autocmd FileType vim      nnoremap <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
 "............................. Quickfix shortcuts  ............................
 nnoremap <silent> <leader>cc :ccl<CR>
 nnoremap <silent> <leader>co :copen<CR>
