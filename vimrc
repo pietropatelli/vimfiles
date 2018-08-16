@@ -197,32 +197,33 @@ nnoremap <leader>as :AsyncStop<CR>
 " See python realtime output
 let $PYTHONUNBUFFERED=1
 " Filetype specific mappings:
-autocmd FileType python   nnoremap <buffer> <leader>aa :AsyncRun python %  <CR>
-autocmd FileType julia    nnoremap <buffer> <leader>aa :AsyncRun julia %  <CR>
-autocmd FileType markdown nnoremap <buffer> <leader>aa :! pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css %:p -o %:p:r.pdf <CR> 
-autocmd FileType matlab   nnoremap <buffer> <leader>aa :AsyncRun matlab '-nodesktop', '-nosplash', '-r', "try run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]  <CR>
-autocmd FileType r        nnoremap <buffer> <leader>aa :AsyncRun Rscript % <CR>
-autocmd FileType stata    nnoremap <buffer> <leader>aa :AsyncRun stata do % <CR>
-autocmd FileType tex      nnoremap <buffer> <leader>aa :VimtexCompile <CR>
+autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python %  <CR>
+autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :AsyncRun julia %  <CR>
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :AsyncRun pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css %:p -o %:p:r.pdf <CR> :ccl <CR>
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :AsyncRun pandoc %:p -o %:p:r.pdf <CR> :ccl <CR>
+autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :AsyncRun matlab '-nodesktop', '-nosplash', '-r', "try run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]  <CR>
+autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :AsyncRun Rscript % <CR>
+autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :AsyncRun stata do % <CR>
+autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :VimtexCompile <CR>
 "........................... Section line shortcuts ...........................
 " Section line
-autocmd FileType python   nnoremap <buffer> <leader>hh o<esc>79i#<Esc>
-autocmd FileType julia    nnoremap <buffer> <leader>hh o<esc>79i#<Esc>
-autocmd FileType markdown nnoremap <buffer> <leader>hh o<!--<esc>72a.<esc>a--><Esc>
-autocmd FileType matlab   nnoremap <buffer> <leader>hh o<esc>79i%<Esc>
-autocmd FileType r        nnoremap <buffer> <leader>hh o<esc>79i#<Esc>
-autocmd FileType stata    nnoremap <buffer> <leader>hh o<esc>79i*<Esc>
-autocmd FileType tex      nnoremap <buffer> <leader>hh o<esc>79i%<Esc>
-autocmd FileType vim      nnoremap <buffer> <leader>hh o"<esc>78i.<Esc>
-" Transform line to section title line
-autocmd FileType python   nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-autocmd FileType julia    nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-autocmd FileType markdown nnoremap <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
-autocmd FileType matlab   nnoremap <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
-autocmd FileType r        nnoremap <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-autocmd FileType stata    nnoremap <buffer> <leader>hj :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d79\|
-autocmd FileType tex      nnoremap <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
-autocmd FileType vim      nnoremap <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
+autocmd FileType python   nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
+autocmd FileType julia    nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>hh o<!--<esc>72a.<esc>a--><Esc>
+autocmd FileType matlab   nnoremap <silent> <buffer> <leader>hh o<esc>79i%<Esc>
+autocmd FileType r        nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
+autocmd FileType stata    nnoremap <silent> <buffer> <leader>hh o<esc>79i*<Esc>
+autocmd FileType tex      nnoremap <silent> <buffer> <leader>hh o<esc>79i%<Esc>
+autocmd FileType vim      nnoremap <silent> <buffer> <leader>hh o"<esc>78i.<Esc>
+" Transform line to section title l<silent> ine
+autocmd FileType python   nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType julia    nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
+autocmd FileType matlab   nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
+autocmd FileType r        nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType stata    nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d79\|
+autocmd FileType tex      nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
+autocmd FileType vim      nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
 "............................. Quickfix shortcuts  ............................
 nnoremap <silent> <leader>cc :ccl<CR>
 nnoremap <silent> <leader>co :copen<CR>
