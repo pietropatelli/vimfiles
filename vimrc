@@ -118,9 +118,6 @@ noremap <Leader>p o<C-r>*<esc>
 noremap <Leader>P O<C-r>*<esc>
 ".................................. Mappings ..................................
 " Easier switching buffers
-noremap <C-2> :ls<CR>:b
-imap <C-2> <Esc>:ls<CR>:b
-cmap <C-2> <Esc><CR>
 noremap <F2> :ls<CR>:b
 imap <F2> <Esc>:ls<CR>:b
 cmap <F2> <Esc><CR>
@@ -159,9 +156,6 @@ nmap <silent> <a-e> :Sline<CR>
 vmap <silent> <a-e> :Sline<CR>
 "............................. NERDTree settings: .............................
 " shortcuts to toggle NERDTree:
-map <silent> <C-1> :NERDTreeToggle<CR>
-imap <silent> <C-1> <Esc>:NERDTreeToggle<CR>
-cmap <C-1> <Esc><Esc>:NERDTreeToggle<CR>
 map <silent> <F1> :NERDTreeToggle<CR>
 imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
 cmap <F1> <Esc><Esc>:NERDTreeToggle<CR>
