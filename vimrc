@@ -176,6 +176,8 @@ let g:NERDTreeUpdateOnWrite=1
 let g:gitgutter_enabled = 0
 nmap <a-g> :GitGutterEnable<CR>
 nmap <a-G> :GitGutterDisable<CR>
+nmap <leader>g :GitGutterEnable<CR>
+nmap <leader>G :GitGutterDisable<CR>
 ".............................. Vimtex settings: ..............................
 let g:tex_flavor='latex'
 let g:vimtex_view_general_viewer = 'sumatrapdf' 
@@ -197,7 +199,11 @@ nnoremap <leader>as :AsyncStop<CR>
 " See python realtime output
 let $PYTHONUNBUFFERED=1
 " Filetype specific mappings:
-autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python %  <CR>
+if has('win32')
+    autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python %  <CR>
+else
+    autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python3 %  <CR>
+endif
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :AsyncRun julia %  <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :AsyncRun pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css %:p -o %:p:r.pdf <CR> :ccl <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :AsyncRun pandoc %:p -o %:p:r.pdf <CR> :ccl <CR>
