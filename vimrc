@@ -51,6 +51,20 @@ packloadall
 " Commands for easier package management
 command! PUpdate call minpac#update()
 command! PClean  call minpac#clean()
+"................................. Word Count .................................
+function! WordCount()
+   let s:old_status = v:statusmsg
+   let position = getpos(".")
+   exe ":silent normal g\<c-g>"
+   let stat = v:statusmsg
+   let s:word_count = 0
+   if stat != '--No lines in buffer--'
+     let s:word_count = str2nr(split(v:statusmsg)[11])
+     let v:statusmsg = s:old_status
+   end
+   call setpos('.', position)
+   return s:word_count 
+endfunction
 ".......................... Lightline, airline etc.  ..........................
 set laststatus=2
 set noshowmode
@@ -114,8 +128,8 @@ imap <C-v> <C-r>*
 " set pastetoggle=<F12> "This is <F12> on my laptop
 " Alternative shortcut to paste correctly from system clipboard in normal mode
 " map <Leader>p :set paste<CR>o<esc>"*p:set nopaste<cr>
-noremap <Leader>p o<C-r>*<esc>
-noremap <Leader>P O<C-r>*<esc>
+noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
+noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
 ".................................. Mappings ..................................
 " Easier switching buffers
 noremap <F2> :ls<CR>:b
@@ -169,6 +183,8 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
+" Close Vim if NERDTree is the only window open:
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " NERDtree git plugin settings: " FIXME: NERDTree-git-plugin doesn't work
 " let g:NERDTreeUseSimpleIndicator = 1
 " let g:NERDTreeShowGitStatus=1
@@ -176,6 +192,8 @@ let g:NERDTreeUpdateOnWrite=1
 let g:gitgutter_enabled = 0
 nmap <a-g> :GitGutterEnable<CR>
 nmap <a-G> :GitGutterDisable<CR>
+nmap <leader>g :GitGutterEnable<CR>
+nmap <leader>G :GitGutterDisable<CR>
 ".............................. Vimtex settings: ..............................
 let g:tex_flavor='latex'
 let g:vimtex_view_general_viewer = 'sumatrapdf' 
@@ -197,7 +215,11 @@ nnoremap <leader>as :AsyncStop<CR>
 " See python realtime output
 let $PYTHONUNBUFFERED=1
 " Filetype specific mappings:
-autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python %  <CR>
+if has('win32')
+    autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python %  <CR>
+else
+    autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python3 %  <CR>
+endif
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :AsyncRun julia %  <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :AsyncRun pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css %:p -o %:p:r.pdf <CR> :ccl <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :AsyncRun pandoc %:p -o %:p:r.pdf <CR> :ccl <CR>
@@ -208,15 +230,17 @@ autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :VimtexCompile <
 "........................... Section line shortcuts ...........................
 " Section line
 autocmd FileType python   nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
+autocmd FileType sh   nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>hh o<!--<esc>72a.<esc>a--><Esc>
 autocmd FileType matlab   nnoremap <silent> <buffer> <leader>hh o<esc>79i%<Esc>
 autocmd FileType r        nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
 autocmd FileType stata    nnoremap <silent> <buffer> <leader>hh o<esc>79i*<Esc>
 autocmd FileType tex      nnoremap <silent> <buffer> <leader>hh o<esc>79i%<Esc>
-autocmd FileType vim      nnoremap <silent> <buffer> <leader>hh o"<esc>78i.<Esc>
+autocmd FileType vim      nnoremap <silent> <buffer> <leader>hh o"<esc>78a.<Esc>
 " Transform line to section title l<silent> ine
 autocmd FileType python   nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType sh   nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
 autocmd FileType matlab   nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
