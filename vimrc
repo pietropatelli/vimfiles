@@ -241,7 +241,7 @@ let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 let g:vimtex_quickfix_mode=0
 "............................. AsyncRun Settings ..............................
-let g:asyncrun_open = 8 "opens quickfix by default
+" let g:asyncrun_open = 8 "opens quickfix by default
 let g:asyncrun_last = 1 "scroll only if cursor is on last line 
 nnoremap <leader>as :AsyncStop<CR>
 " See python realtime output
