@@ -184,11 +184,11 @@ map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 :nnoremap <Leader>q' ciw''<Esc>P
 :nnoremap <Leader>q` ciw``<Esc>P
 "
-"faster scrolling when pressing Ctrl:
-" nmap <c-j> 5j
-" nmap <c-k> 5k
-" nmap <c-h> 5h
-" nmap <c-l> 5l
+" Easy switching between splits:
+nmap <c-j> <c-w>j
+nmap <c-k> <c-w>k
+nmap <c-h> <c-w>h
+nmap <c-l> <c-w>l
 "
 " Enable folding with the spacebar
 nnoremap <space> zA
