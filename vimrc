@@ -27,6 +27,7 @@ call minpac#add('guns/vim-sexp')
 call minpac#add('gu-fan/simpleterm.vim') "NOTE: change degault shortcuts
 call minpac#add('skywind3000/asyncrun.vim')
 call minpac#add('zizhongyan/stata-vim-syntax')
+call minpac#add('christoomey/vim-tmux-navigator')
 """"""""""""""
 " Interesting packages:
 " call minpac#add('milkypostman/vim-togglelist')
@@ -44,7 +45,6 @@ call minpac#add('zizhongyan/stata-vim-syntax')
 " call minpac#add('godlygeek/tabular')
 " call minpac#add('fadein/vim-FIGlet')
 " call minpac#add('vim-pandoc/vim-pandoc') "NOTE: Requires python3
-" call minpac#add('')
 " call minpac#add('')
 " Load the plugins right now. (optional)
 packloadall
@@ -283,5 +283,6 @@ autocmd FileType vim      nnoremap <silent> <buffer> <leader>hj :center 80<cr>hh
 "............................. Quickfix shortcuts  ............................
 nnoremap <silent> <leader>cc :ccl<CR>
 nnoremap <silent> <leader>co :copen<CR>
+nnoremap <silent> <leader>cv :copen<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
