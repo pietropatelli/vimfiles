@@ -16,7 +16,6 @@ call minpac#add('rafi/awesome-vim-colorschemes')
 call minpac#add('scrooloose/nerdtree')
 call minpac#add('tomtom/tcomment_vim')
 call minpac#add('farmergreg/vim-lastplace')
-call minpac#add('JuliaEditorSupport/julia-vim')
 call minpac#add('tmhedberg/SimpylFold')
 call minpac#add('itchyny/lightline.vim')
 call minpac#add('tpope/vim-fugitive')
@@ -30,6 +29,8 @@ call minpac#add('zizhongyan/stata-vim-syntax')
 call minpac#add('christoomey/vim-tmux-navigator')
 """"""""""""""
 " Interesting packages:
+" call minpac#add('yssl/QFEnter')
+" call minpac#add('JuliaEditorSupport/julia-vim')
 " call minpac#add('milkypostman/vim-togglelist')
 " call minpac#add('Valloric/YouCompleteMe')
 " call minpac#add('scrooloose/nerdcommenter')
@@ -162,6 +163,20 @@ imap <C-v> <C-r>*
 " map <Leader>p :set paste<CR>o<esc>"*p:set nopaste<cr>
 noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
 noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
+"............................ Better paste in WSL .............................
+if has('unix')
+    let s:clip = '/mnt/c/Windows/System32/clip.exe' 
+    if executable(s:clip)
+        augroup WSLYank
+            autocmd!
+            autocmd TextYankPost * call system('echo '.shellescape(join(v:event.regcontents, "\<CR>")).' | '.s:clip)
+        augroup END
+    end
+    map <silent> <leader>lp :r !powershell.exe -Command Get-Clipboard<CR>
+    map <silent> <leader>lP k:r !powershell.exe -Command Get-Clipboard<CR>
+    cmap <silent> <c-v> :r !powershell.exe -Command Get-Clipboard<CR>
+    imap <silent> <c-v> :r !powershell.exe -Command Get-Clipboard<CR>
+endif
 ".................................. Mappings ..................................
 " Easier switching buffers
 noremap <F2> :ls<CR>:b
@@ -185,16 +200,22 @@ map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 :nnoremap <Leader>q` ciw``<Esc>P
 "
 " Easy switching between splits:
+" NOTE: With windows <c-h> affects backspace as well.
 nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-h> <c-w>h
 nmap <c-l> <c-w>l
+"
+tmap <c-j> <c-w>j
+tmap <c-k> <c-w>k
+tmap <c-l> <c-w>l
 "
 " Enable folding with the spacebar
 nnoremap <space> zA
 "............................... :term settings ...............................
 " Alt-t to start terminal at 10 size
 nnoremap <silent> <a-t> :term ++rows=8 <CR>
+nnoremap <silent> <leader>t :term ++rows=8 <CR>
 " Terminal settings using simpleterm:
 let g:simpleterm.row=8
 " nmap <silent> <a-t> :Stoggle<CR>
@@ -259,27 +280,29 @@ autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :AsyncRun matlab
 autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :AsyncRun Rscript % <CR>
 autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :AsyncRun stata do % <CR>
 autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :VimtexCompile <CR>
+" Run and show output:
+map <leader>aq <leader>aa:copen<CR>
 "........................... Section line shortcuts ...........................
 " Section line
-autocmd FileType python   nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
-autocmd FileType sh   nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
-autocmd FileType julia    nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
-autocmd FileType markdown nnoremap <silent> <buffer> <leader>hh o<!--<esc>72a.<esc>a--><Esc>
-autocmd FileType matlab   nnoremap <silent> <buffer> <leader>hh o<esc>79i%<Esc>
-autocmd FileType r        nnoremap <silent> <buffer> <leader>hh o<esc>79i#<Esc>
-autocmd FileType stata    nnoremap <silent> <buffer> <leader>hh o<esc>79i*<Esc>
-autocmd FileType tex      nnoremap <silent> <buffer> <leader>hh o<esc>79i%<Esc>
-autocmd FileType vim      nnoremap <silent> <buffer> <leader>hh o"<esc>78a.<Esc>
+autocmd FileType python   nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
+autocmd FileType sh   nnoremap <silent> <buffer> <leader>hh osssc>79i#<Esc>
+autocmd FileType julia    nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>ss o<!--<esc>72a.<esc>a--><Esc>
+autocmd FileType matlab   nnoremap <silent> <buffer> <leader>ss o<esc>79i%<Esc>
+autocmd FileType r        nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
+autocmd FileType stata    nnoremap <silent> <buffer> <leader>ss o<esc>79i*<Esc>
+autocmd FileType tex      nnoremap <silent> <buffer> <leader>ss o<esc>79i%<Esc>
+autocmd FileType vim      nnoremap <silent> <buffer> <leader>ss o"<esc>78a.<Esc>
 " Transform line to section title l<silent> ine
-autocmd FileType python   nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-autocmd FileType sh   nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-autocmd FileType julia    nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-autocmd FileType markdown nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
-autocmd FileType matlab   nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
-autocmd FileType r        nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-autocmd FileType stata    nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d79\|
-autocmd FileType tex      nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
-autocmd FileType vim      nnoremap <silent> <buffer> <leader>hj :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
+autocmd FileType python   nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType sh   nnoremap <silent> <buffer> <leader>hj :stnter 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType julia    nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
+autocmd FileType matlab   nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
+autocmd FileType r        nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType stata    nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d79\|
+autocmd FileType tex      nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
+autocmd FileType vim      nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
 "............................. Quickfix shortcuts  ............................
 nnoremap <silent> <leader>cc :ccl<CR>
 nnoremap <silent> <leader>co :copen<CR>
