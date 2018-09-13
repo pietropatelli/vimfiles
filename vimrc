@@ -162,6 +162,20 @@ imap <C-v> <C-r>*
 " map <Leader>p :set paste<CR>o<esc>"*p:set nopaste<cr>
 noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
 noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
+"............................ Better paste in WSL .............................
+if has('unix')
+    let s:clip = '/mnt/c/Windows/System32/clip.exe' 
+    if executable(s:clip)
+        augroup WSLYank
+            autocmd!
+            autocmd TextYankPost * call system('echo '.shellescape(join(v:event.regcontents, "\<CR>")).' | '.s:clip)
+        augroup END
+    end
+    map <silent> <leader>lp :r !powershell.exe -Command Get-Clipboard<CR>
+    map <silent> <leader>lP k:r !powershell.exe -Command Get-Clipboard<CR>
+    cmap <silent> <c-v> :r !powershell.exe -Command Get-Clipboard<CR>
+    imap <silent> <c-v> :r !powershell.exe -Command Get-Clipboard<CR>
+endif
 ".................................. Mappings ..................................
 " Easier switching buffers
 noremap <F2> :ls<CR>:b
@@ -195,6 +209,7 @@ nnoremap <space> zA
 "............................... :term settings ...............................
 " Alt-t to start terminal at 10 size
 nnoremap <silent> <a-t> :term ++rows=8 <CR>
+nnoremap <silent> <leader>t :term ++rows=8 <CR>
 " Terminal settings using simpleterm:
 let g:simpleterm.row=8
 " nmap <silent> <a-t> :Stoggle<CR>
