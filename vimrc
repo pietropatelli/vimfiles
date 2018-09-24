@@ -2,6 +2,8 @@
 let mapleader = "\\"
 let maplocalleader = "\\"
 filetype plugin on
+" Function to save current file and reload vimrc:
+command! Srv :w :so $MYVIMRC
 "................................... minpac ...................................
 packadd minpac
 call minpac#init()
@@ -237,7 +239,24 @@ let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
 " Close Vim if NERDTree is the only window open:
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" Auto close last window if it is NERDTree or Quickfix
+au BufEnter * call CloseLastWindow()
+function! CloseLastWindow()
+  " Check if window is the last window
+  if winnr('$')==1  
+      " if the window is quickfix
+      if &buftype=="quickfix"
+          quit
+      " if the window is terminal
+      elseif &buftype=="terminal"
+          quit!
+      " if the window is a NERDTree window
+      elseif exists("b:NERDTree") && b:NERDTree.isTabTree()
+          quit
+      endif
+  endif
+endfunction
 " NERDtree git plugin settings: " FIXME: NERDTree-git-plugin doesn't work
 " let g:NERDTreeUseSimpleIndicator = 1
 " let g:NERDTreeShowGitStatus=1
