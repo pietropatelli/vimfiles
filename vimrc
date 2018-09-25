@@ -2,8 +2,8 @@
 let mapleader = "\\"
 let maplocalleader = "\\"
 filetype plugin on
-" Function to save current file and reload vimrc:
-command! Srv :w :so $MYVIMRC
+"Save current file and reload vimrc:
+map <leader>rr :w<CR>:so $MYVIMRC<CR>
 "................................... minpac ...................................
 packadd minpac
 call minpac#init()
@@ -106,6 +106,7 @@ let g:lightline = {
       \ },
       \ }
 "............................ Basic configuration: ............................
+:set shortmess=a "decrease message size (how often hit ENTER to contibue appears)
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
 set fileencodings=ucs-bom,utf8,prc "unicode compatibility
@@ -203,10 +204,10 @@ map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 "
 " Easy switching between splits:
 " NOTE: With windows <c-h> affects backspace as well.
-nmap <c-j> <c-w>j
-nmap <c-k> <c-w>k
-nmap <c-h> <c-w>h
-nmap <c-l> <c-w>l
+" nmap <c-j> <c-w>j
+" nmap <c-k> <c-w>k
+" nmap <c-h> <c-w>h
+" nmap <c-l> <c-w>l
 "
 tmap <c-j> <c-w>j
 tmap <c-k> <c-w>k
@@ -240,6 +241,10 @@ let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
 " Close Vim if NERDTree is the only window open:
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" NERDtree git plugin settings: " FIXME: NERDTree-git-plugin doesn't work
+" let g:NERDTreeUseSimpleIndicator = 1
+" let g:NERDTreeShowGitStatus=1
+"........................... Auto close last window ...........................
 " Auto close last window if it is NERDTree or Quickfix
 au BufEnter * call CloseLastWindow()
 function! CloseLastWindow()
@@ -257,9 +262,6 @@ function! CloseLastWindow()
       endif
   endif
 endfunction
-" NERDtree git plugin settings: " FIXME: NERDTree-git-plugin doesn't work
-" let g:NERDTreeUseSimpleIndicator = 1
-" let g:NERDTreeShowGitStatus=1
 "............................ Git gutter settings: ............................
 let g:gitgutter_enabled = 0
 nmap <a-g> :GitGutterEnable<CR>
