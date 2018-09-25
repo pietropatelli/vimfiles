@@ -12,6 +12,7 @@ call minpac#init()
 " call minpac#add('k-takata/minpac', {'type': 'opt'})
 
 " Add other plugins here.
+call minpac#add('JuliaEditorSupport/julia-vim')
 call minpac#add('lervag/vimtex')
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
@@ -25,14 +26,14 @@ call minpac#add('tpope/vim-surround')
 call minpac#add('tpope/vim-dispatch')
 call minpac#add('airblade/vim-gitgutter')
 call minpac#add('guns/vim-sexp')
-call minpac#add('gu-fan/simpleterm.vim') "NOTE: change degault shortcuts
+call minpac#add('gu-fan/simpleterm.vim') "NOTE: change default shortcuts
 call minpac#add('skywind3000/asyncrun.vim')
 call minpac#add('zizhongyan/stata-vim-syntax')
-call minpac#add('christoomey/vim-tmux-navigator')
+call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
+call minpac#add('benmills/vimux') "Send commands to tmux pane
 """"""""""""""
 " Interesting packages:
 " call minpac#add('yssl/QFEnter')
-" call minpac#add('JuliaEditorSupport/julia-vim')
 " call minpac#add('milkypostman/vim-togglelist')
 " call minpac#add('Valloric/YouCompleteMe')
 " call minpac#add('scrooloose/nerdcommenter')
@@ -290,17 +291,18 @@ nnoremap <leader>as :AsyncStop<CR>
 let $PYTHONUNBUFFERED=1
 " Filetype specific mappings:
 if has('win32')
-    autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python %  <CR>
+    autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python %  <CR>
 else
-    autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :AsyncRun python3 %  <CR>
+    autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 %  <CR>
 endif
-autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :AsyncRun julia %  <CR>
-autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :AsyncRun pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css %:p -o %:p:r.pdf <CR> :ccl <CR>
-autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :AsyncRun pandoc %:p -o %:p:r.pdf <CR> :ccl <CR>
-autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :AsyncRun matlab '-nodesktop', '-nosplash', '-r', "try run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]  <CR>
-autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :AsyncRun Rscript % <CR>
-autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :AsyncRun stata do % <CR>
-autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :VimtexCompile <CR>
+autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun %  <CR>
+autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia %  <CR>
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css % -o %:r.pdf <CR>
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc % -o %:r.pdf <CR> 
+autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab '-nodesktop', '-nosplash', '-r', "try run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]  <CR>
+autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript % <CR>
+autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun stata do % <CR>
+autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :w<CR>:VimtexCompile <CR>
 " Run and show output:
 map <leader>aq <leader>aa:copen<CR>
 "........................... Section line shortcuts ...........................
