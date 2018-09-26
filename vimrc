@@ -299,12 +299,13 @@ autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun 
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia %  <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css % -o %:r.pdf <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc % -o %:r.pdf <CR> 
-autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab '-nodesktop', '-nosplash', '-r', "try run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]  <CR>
+autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('prova.m'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
+" OLD VERSION: autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nosplash -nodesktop -minimize -r -wait -log "try, run('%'), catch me, fprintf('%s / %s\n',me.identifier,me.message), end, exit"<CR>
 autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript % <CR>
 autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun stata do % <CR>
 autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :w<CR>:VimtexCompile <CR>
 " Run and show output:
-map <leader>aq <leader>aa:copen<CR>
+map <silent> <leader>aq <leader>aa:copen<CR>
 "........................... Section line shortcuts ...........................
 " Section line
 autocmd FileType python   nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
