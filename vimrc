@@ -3,7 +3,11 @@ let mapleader = "\\"
 let maplocalleader = "\\"
 filetype plugin on
 "Save current file and reload vimrc:
-map <leader>rr :w<CR>:so $MYVIMRC<CR>
+if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
+    map <silent> <leader>rr :w<CR>:call system('dos2unix -n /mnt/c/Users/Pietr/vimfiles/vimrc ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
+else
+    map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
+endif
 "................................... minpac ...................................
 packadd minpac
 call minpac#init()
@@ -107,6 +111,10 @@ let g:lightline = {
       \ },
       \ }
 "............................ Basic configuration: ............................
+colorscheme hemisu  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist,
+					"badwolf, zenburn, apprentice, hemisu, vividchalk,
+					"distinguished, calmar256-dark, dracula, void, lucius,
+                    "greenvision
 :set shortmess=a "decrease message size (how often hit ENTER to contibue appears)
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
@@ -115,10 +123,6 @@ set noeb vb t_vb= "Disable beeping
 syntax on " Enables syntax highlighting
 set background=dark
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function
-colorscheme hemisu  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist,
-					"badwolf, zenburn, apprentice, hemisu, vividchalk,
-					"distinguished, calmar256-dark, dracula, void, lucius,
-                    "greenvision
 set number "Adds line numbers
 set cursorline " Highlight cursor line:
 set hidden "Allows hidden edited bufferd
@@ -299,10 +303,10 @@ autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun 
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia %  <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css % -o %:r.pdf <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc % -o %:r.pdf <CR> 
-autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('prova.m'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
+autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
 " OLD VERSION: autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nosplash -nodesktop -minimize -r -wait -log "try, run('%'), catch me, fprintf('%s / %s\n',me.identifier,me.message), end, exit"<CR>
 autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript % <CR>
-autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun stata do % <CR>
+autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "Stata-64.exe" -b do % &<CR>
 autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :w<CR>:VimtexCompile <CR>
 " Run and show output:
 map <silent> <leader>aq <leader>aa:copen<CR>
