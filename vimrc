@@ -111,10 +111,6 @@ let g:lightline = {
       \ },
       \ }
 "............................ Basic configuration: ............................
-colorscheme hemisu  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist,
-					"badwolf, zenburn, apprentice, hemisu, vividchalk,
-					"distinguished, calmar256-dark, dracula, void, lucius,
-                    "greenvision
 :set shortmess=a "decrease message size (how often hit ENTER to contibue appears)
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
@@ -123,6 +119,10 @@ set noeb vb t_vb= "Disable beeping
 syntax on " Enables syntax highlighting
 set background=dark
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function
+colorscheme hemisu  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist,
+					"badwolf, zenburn, apprentice, hemisu, vividchalk,
+					"distinguished, calmar256-dark, dracula, void, lucius,
+                    "greenvision
 set number "Adds line numbers
 set cursorline " Highlight cursor line:
 set hidden "Allows hidden edited bufferd
