@@ -4,7 +4,7 @@ let maplocalleader = "\\"
 filetype plugin on
 "Save current file and reload vimrc:
 if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
-    map <silent> <leader>rr :w<CR>:call system('dos2unix -n /mnt/c/Users/Pietr/vimfiles/vimrc ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
+    map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
 else
     map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
 endif
@@ -111,7 +111,6 @@ let g:lightline = {
       \ },
       \ }
 "............................ Basic configuration: ............................
-:set shortmess=a "decrease message size (how often hit ENTER to contibue appears)
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
 set fileencodings=ucs-bom,utf8,prc "unicode compatibility
@@ -172,7 +171,7 @@ imap <C-v> <C-r>*
 noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
 noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
 "............................ Better paste in WSL .............................
-if has('unix')
+if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
     let s:clip = '/mnt/c/Windows/System32/clip.exe' 
     if executable(s:clip)
         augroup WSLYank
@@ -296,15 +295,15 @@ let $PYTHONUNBUFFERED=1
 " Filetype specific mappings:
 if has('win32')
     autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python %  <CR>
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME."/vimfiles/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
 else
     autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 %  <CR>
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME."/.vim/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
 endif
 autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun %  <CR>
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia %  <CR>
-autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css % -o %:r.pdf <CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc % -o %:r.pdf <CR> 
 autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
-" OLD VERSION: autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nosplash -nodesktop -minimize -r -wait -log "try, run('%'), catch me, fprintf('%s / %s\n',me.identifier,me.message), end, exit"<CR>
 autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript % <CR>
 autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "Stata-64.exe" -b do % &<CR>
 autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :w<CR>:VimtexCompile <CR>
@@ -313,7 +312,7 @@ map <silent> <leader>aq <leader>aa:copen<CR>
 "........................... Section line shortcuts ...........................
 " Section line
 autocmd FileType python   nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
-autocmd FileType sh   nnoremap <silent> <buffer> <leader>hh osssc>79i#<Esc>
+autocmd FileType sh       nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>ss o<!--<esc>72a.<esc>a--><Esc>
 autocmd FileType matlab   nnoremap <silent> <buffer> <leader>ss o<esc>79i%<Esc>
@@ -323,7 +322,7 @@ autocmd FileType tex      nnoremap <silent> <buffer> <leader>ss o<esc>79i%<Esc>
 autocmd FileType vim      nnoremap <silent> <buffer> <leader>ss o"<esc>78a.<Esc>
 " Transform line to section title l<silent> ine
 autocmd FileType python   nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-autocmd FileType sh   nnoremap <silent> <buffer> <leader>hj :stnter 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+autocmd FileType sh       nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
 autocmd FileType markdown nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
 autocmd FileType matlab   nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
