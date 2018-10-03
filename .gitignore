@@ -6,4 +6,4 @@ plugged/
 *.swp
 pack/minpac/start
 tmp/
-colors/
+colors/nightsea.vim
