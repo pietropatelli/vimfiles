@@ -5,6 +5,7 @@ filetype plugin on
 "Save current file and reload vimrc:
 if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
     map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
+    map <silent> <leader>ee :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea.vim')<CR>:colorscheme nightsea<CR>
 else
     map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
 endif
@@ -16,6 +17,7 @@ call minpac#init()
 " call minpac#add('k-takata/minpac', {'type': 'opt'})
 
 " Add other plugins here.
+" call minpac#add('PietroPate/vim-nightsea')
 call minpac#add('JuliaEditorSupport/julia-vim')
 call minpac#add('lervag/vimtex')
 call minpac#add('flazz/vim-colorschemes')
@@ -131,8 +133,6 @@ set scrolloff=3 "keep at least 3 lines above-below cursor
 set sidescrolloff=5 "keep at least 5 columns to left-right of cursor
 set splitbelow "default horizontal split
 set splitright "default vertical split
-:nnoremap <leader>i :split \| :NERDTreeToggle<CR>
-:nnoremap <leader>v :vsplit \| :NERDTreeToggle<CR>
 set guifont=consolas:h10 "Font settings for gvim.
 set showmatch "bracket matching
 set autoread "listen for external changes to file
@@ -229,6 +229,9 @@ let g:simpleterm.row=8
 nmap <silent> <a-e> :Sline<CR>
 vmap <silent> <a-e> :Sline<CR>
 "............................. NERDTree settings: .............................
+" Open split and then toggle nerdtree (more precse than the other way around)
+:nnoremap <leader>i :split \| :NERDTreeToggle<CR>
+:nnoremap <leader>v :vsplit \| :NERDTreeToggle<CR>
 " shortcuts to toggle NERDTree:
 map <silent> <F1> :NERDTreeToggle<CR>
 imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
@@ -274,7 +277,13 @@ nmap <leader>g :GitGutterEnable<CR>
 nmap <leader>G :GitGutterDisable<CR>
 ".............................. Vimtex settings: ..............................
 let g:tex_flavor='latex'
-let g:vimtex_view_general_viewer = 'sumatrapdf' 
+if has('win32')
+    let g:vimtex_view_general_viewer = 'sumatrapdf'
+" elseif has('unix') && system('uname -a')=~"Microsoft" "Checks if we are in wsl
+"     let g:vimtex_view_general_viewer = 'sumatrapdf.exe'
+else
+    let g:vimtex_view_general_viewer = 'zathura' 
+endif
 let g:vimtex_view_general_options
     \ = ' -reuse-instance -forward-search @tex @line @pdf'
     \ . ' -inverse-search "gvim --servername ' . v:servername
@@ -295,14 +304,15 @@ let $PYTHONUNBUFFERED=1
 " Filetype specific mappings:
 if has('win32')
     autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python %  <CR>
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME."/vimfiles/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
+    " FIXME - The relative path (using $HOME) does not work:
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css" % -o %:r.pdf <CR>
 else
     autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 %  <CR>
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME."/.vim/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME"/.vim/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
 endif
 autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun %  <CR>
 autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia %  <CR>
-autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc % -o %:r.pdf <CR> 
+autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR> 
 autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
 autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript % <CR>
 autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "Stata-64.exe" -b do % &<CR>
