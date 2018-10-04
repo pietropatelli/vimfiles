@@ -39,6 +39,7 @@ call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
 call minpac#add('benmills/vimux') "Send commands to tmux pane
 """"""""""""""
 " Interesting packages:
+" call minpac#add('kergoth/vim-hilinks')
 " call minpac#add('yssl/QFEnter')
 " call minpac#add('milkypostman/vim-togglelist')
 " call minpac#add('Valloric/YouCompleteMe')
@@ -53,7 +54,6 @@ call minpac#add('benmills/vimux') "Send commands to tmux pane
 " call minpac#add('vim-airline/vim-airline')
 " call minpac#add('powerline/powerline')
 " call minpac#add('godlygeek/tabular')
-" call minpac#add('fadein/vim-FIGlet')
 " call minpac#add('vim-pandoc/vim-pandoc') "NOTE: Requires python3
 " call minpac#add('')
 " Load the plugins right now. (optional)
@@ -120,10 +120,10 @@ set noeb vb t_vb= "Disable beeping
 syntax on " Enables syntax highlighting
 set background=dark
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function
-colorscheme hemisu  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist,
-					"badwolf, zenburn, apprentice, hemisu, vividchalk,
-					"distinguished, calmar256-dark, dracula, void, lucius,
-                    "greenvision
+try "No error if missing colorscheme
+colorscheme nightsea  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void, lucius, greenvision
+catch
+endtry
 set number "Adds line numbers
 set cursorline " Highlight cursor line:
 set hidden "Allows hidden edited bufferd
@@ -134,9 +134,10 @@ set sidescrolloff=5 "keep at least 5 columns to left-right of cursor
 set splitbelow "default horizontal split
 set splitright "default vertical split
 set guifont=consolas:h10 "Font settings for gvim.
+" TODO set font options when consolas is not available
 set showmatch "bracket matching
 set autoread "listen for external changes to file
-set history=1000 "store long :cmdline history
+set history=500 "store long :cmdline history
 " Search settings:
 set ignorecase "Ignore case if search is all smallcase
 set smartcase "Use case if search contains any uppercase letter
@@ -150,6 +151,7 @@ set foldmethod=indent "code folding using indent
 set tabstop=4 "Tab length
 set expandtab "Use the appropriate number of spaces to insert a <Tab>
 set shiftwidth=4 "Indentation length
+set lazyredraw " Don't redraw while executing macros (good performance config)
 " Disable comment continuation on <Enter>:
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
@@ -248,7 +250,7 @@ let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
 " Close Vim if NERDTree is the only window open:
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" NERDtree git plugin settings: " FIXME: NERDTree-git-plugin doesn't work
+" NERDtree git plugin settings: " FIXME -  NERDTree-git-plugin doesn't work
 " let g:NERDTreeUseSimpleIndicator = 1
 " let g:NERDTreeShowGitStatus=1
 "........................... Auto close last window ...........................
@@ -346,3 +348,14 @@ nnoremap <silent> <leader>co :copen<CR>
 nnoremap <silent> <leader>cv :copen<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
+"................ Check sintax highlighting group under cursor ................
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+".................... Highlight comment keywords globally .....................
+augroup vimrc_todo
+    au!
+    au Syntax * syn match MyTodo /\v<(FIXME:|NOTE:|NB:|TODO:|OPTIMIZE:|FIXME|NOTE|NB|TODO|OPTIMIZE|XXX)/
+          \ containedin=.*Comment,vimCommentTitle
+augroup END
+hi! def link MyTodo Todo
