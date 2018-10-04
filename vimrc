@@ -61,40 +61,6 @@ packloadall
 " Commands for easier package management
 command! PUpdate call minpac#update()
 command! PClean  call minpac#clean()
-"................................. Word Count .................................
-function! WordCount()
-    " Based on: https://stackoverflow.com/questions/114431/fast-word-count-function-in-vim
-   let s:old_status = v:statusmsg
-   let position = getpos(".")
-   exe ":silent normal g\<c-g>"
-   let stat = v:statusmsg
-   let s:word_count = 0
-   let s:wordc_pos = 0
-   if stat != '--No lines in buffer--'
-     let s:wordc_pos = index(split(v:statusmsg),'Word')
-     if s:wordc_pos != -1 "Not in visual mode
-         let s:word_count = str2nr(split(v:statusmsg)[s:wordc_pos+3])
-     else "In visual mode
-         let s:wordc_pos = index(split(v:statusmsg),'Words;')
-         let s:word_count = str2nr(split(v:statusmsg)[s:wordc_pos-3])
-     let v:statusmsg = s:old_status
-     end
-       call setpos('.', position)
-       return s:word_count 
-   else
-       call setpos('.', position)
-       return 'NA' 
-   end
-endfunction
-function! TexWordCount()
-  if &filetype == 'tex'
-    let s:TEXcount = split(system('TEXcount -nc -0 -sum -inc ' . expand('%')),'\n')[1]
-    return s:TEXcount
-  else
-    return WordCount()
-  end
-endfunction
-command! WC echom TexWordCount()
 ".......................... Lightline, airline etc.  ..........................
 set laststatus=2
 set noshowmode
@@ -113,10 +79,6 @@ let g:lightline = {
       \ },
       \ }
 "............................ Basic configuration: ............................
-set encoding=utf-8 "unicode compatibility
-set fileencoding=utf-8 "unicode compatibility
-set fileencodings=ucs-bom,utf8,prc "unicode compatibility
-set noeb vb t_vb= "Disable beeping
 syntax on " Enables syntax highlighting
 set background=dark
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function
@@ -124,6 +86,10 @@ try " If missing colorscheme simply use default
 colorscheme nightsea  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void, lucius, greenvision
 catch
 endtry
+set encoding=utf-8 "unicode compatibility
+set fileencoding=utf-8 "unicode compatibility
+set fileencodings=ucs-bom,utf8,prc "unicode compatibility
+set noeb vb t_vb= "Disable beeping
 set number "Adds line numbers
 set cursorline " Highlight cursor line:
 set hidden "Allows hidden edited bufferd
@@ -150,6 +116,7 @@ set autoindent "apply current indent to next line
 set smartindent "smart indenting, use in addition to `autoindent`
 set breakindent "wrapped line continue visually indented
 " set foldmethod=indent "code folding using indent
+set foldlevelstart=1 "Open level x-level folds on start
 set tabstop=4 "Tab length
 set expandtab "Use the appropriate number of spaces to insert a <Tab>
 set shiftwidth=4 "Indentation length
@@ -176,6 +143,7 @@ imap <C-v> <C-r>*
 " map <Leader>p :set paste<CR>o<esc>"*p:set nopaste<cr>
 noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
 noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
+noremap <Leader>y "*y
 "............................ Better paste in WSL .............................
 if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
     let s:clip = '/mnt/c/Windows/System32/clip.exe' 
@@ -363,11 +331,11 @@ nnoremap <silent> <leader>co :copen<CR>
 nnoremap <silent> <leader>cv :copen<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
-"................ Check sintax highlighting group under cursor ................
+"......................... Global syntax highlighting .........................
+" Check sintax highlighting group under cursor 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-".................... Highlight comment keywords globally .....................
 augroup vimrc_syntax
     au!
     au Syntax * syn match MyTodo /\v<(FIXME:|TODO:|OPTIMIZE:|FIXME|TODO|OPTIMIZE|XXX)/ containedin=.*Comment,vimCommentTitle
@@ -377,3 +345,37 @@ hi! def link MyTodo Todo
 hi! def link MyNote Constant
 command! KWF execute "/\\v\TODO|\FIXME|\NOTE|\OPTIMIZE|\XXX"
 command! KWD execute "vimgrep /\\v\TODO\|\FIXME\|\NOTE\|\OPTIMIZE\|\XXX/gj **/*" <Bar>
+"................................. Word Count .................................
+function! WordCount()
+    " Based on: https://stackoverflow.com/questions/114431/fast-word-count-function-in-vim
+   let s:old_status = v:statusmsg
+   let position = getpos(".")
+   exe ":silent normal g\<c-g>"
+   let stat = v:statusmsg
+   let s:word_count = 0
+   let s:wordc_pos = 0
+   if stat != '--No lines in buffer--'
+     let s:wordc_pos = index(split(v:statusmsg),'Word')
+     if s:wordc_pos != -1 "Not in visual mode
+         let s:word_count = str2nr(split(v:statusmsg)[s:wordc_pos+3])
+     else "In visual mode
+         let s:wordc_pos = index(split(v:statusmsg),'Words;')
+         let s:word_count = str2nr(split(v:statusmsg)[s:wordc_pos-3])
+     let v:statusmsg = s:old_status
+     end
+       call setpos('.', position)
+       return s:word_count 
+   else
+       call setpos('.', position)
+       return 'NA' 
+   end
+endfunction
+function! TexWordCount()
+  if &filetype == 'tex'
+    let s:TEXcount = split(system('TEXcount -nc -0 -sum -inc ' . expand('%')),'\n')[1]
+    return s:TEXcount
+  else
+    return WordCount()
+  end
+endfunction
+command! WC echom TexWordCount()
