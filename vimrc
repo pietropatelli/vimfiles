@@ -11,56 +11,45 @@ else
 endif
 "................................... minpac ...................................
 packadd minpac
-call minpac#init()
-" minpac must have {'type': 'opt'} so that it can be loaded with `packadd`.
-" NOTE: I have added minpac as a submodule in my vimfiles repository.
-" call minpac#add('k-takata/minpac', {'type': 'opt'})
-
-" Add other plugins here.
+call minpac#init() " NOTE: I have added minpac as a git submodule
+" Essential plugins:
+call minpac#add('scrooloose/nerdtree') " file tree browser
+call minpac#add('skywind3000/asyncrun.vim') " Run commands asynchronously
+call minpac#add('tomtom/tcomment_vim') " toggle comments
+call minpac#add('farmergreg/vim-lastplace') " reopen files at last edit
+call minpac#add('itchyny/lightline.vim') " statusline
+call minpac#add('tpope/vim-fugitive') " Git integration
+call minpac#add('airblade/vim-gitgutter') " Shows git diff in sign column
+call minpac#add('godlygeek/tabular') " Align text
+" call minpac#add('wellle/targets.vim') "Working inside pair of ([{,'
+call minpac#add('milkypostman/vim-togglelist') "Toggle quickfix
+call minpac#add('gu-fan/simpleterm.vim') "TODO: change default shortcuts
+call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
+call minpac#add('benmills/vimux') "Send commands to tmux pane TODO: figure out how
+" colorscheme plugins:
 " call minpac#add('PietroPate/vim-nightsea')
-call minpac#add('JuliaEditorSupport/julia-vim')
-call minpac#add('lervag/vimtex')
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
-call minpac#add('scrooloose/nerdtree')
-call minpac#add('tomtom/tcomment_vim')
-call minpac#add('farmergreg/vim-lastplace')
-call minpac#add('tmhedberg/SimpylFold')
-call minpac#add('itchyny/lightline.vim')
-call minpac#add('tpope/vim-fugitive')
-call minpac#add('tpope/vim-surround')
-call minpac#add('tpope/vim-dispatch')
-call minpac#add('airblade/vim-gitgutter')
-call minpac#add('guns/vim-sexp')
-call minpac#add('gu-fan/simpleterm.vim') "TODO: change default shortcuts
-call minpac#add('skywind3000/asyncrun.vim')
-call minpac#add('zizhongyan/stata-vim-syntax')
-call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
-call minpac#add('benmills/vimux') "Send commands to tmux pane
-""""""""""""""
-" Interesting packages:
-" call minpac#add('kergoth/vim-hilinks')
-" call minpac#add('yssl/QFEnter')
-" call minpac#add('milkypostman/vim-togglelist')
-" call minpac#add('Valloric/YouCompleteMe')
-" call minpac#add('scrooloose/nerdcommenter')
-" call minpac#add('vim-syntastic/syntastic')
-" call minpac#add('Xuyuanp/nerdtree-git-plugin')
-" call minpac#add('altercation/vim-colors-solarized')
-" call minpac#add('jpitblado/vim-stata')
-" call minpac#add('bling/vim-bufferline')
-" call minpac#add('ryanoasis/vim-devicons')
-" call minpac#add('wellle/targets.vim')
-" call minpac#add('vim-airline/vim-airline')
-" call minpac#add('powerline/powerline')
-" call minpac#add('godlygeek/tabular')
-" call minpac#add('vim-pandoc/vim-pandoc') "Note: Requires python3
+" language-specific plugins
+call minpac#add('tmhedberg/SimpylFold') " smart python code folding
+call minpac#add('JuliaEditorSupport/julia-vim') "julia support
+call minpac#add('lervag/vimtex') " Simple latex integration
+call minpac#add('zizhongyan/stata-vim-syntax') " stata grammar
+""""" Interesting packages:
+" call minpac#add('SirVer/ultisnips') " need python
+" call minpac#add('w0rp/ale') " need the engine 
+" call minpac#add('Valloric/YouCompleteMe') " need the engine
+" call minpac#add('garbas/vim-snipmate') " weird behaviour
+" call minpac#add('honza/vim-snippets') " need working engine
+" call minpac#add('Xuyuanp/nerdtree-git-plugin') " doesn't work
+" call minpac#add('ryanoasis/vim-devicons') " requires appropriate font
+" call minpac#add('guns/vim-sexp') " not working for me
 " call minpac#add('')
-" Load the plugins right now. (optional)
+" Load the plugins right now:
 packloadall
 " Commands for easier package management
-command! PUpdate call minpac#update()
-command! PClean  call minpac#clean()
+command! PUpdate packadd minpac | source $MYVIMRC | call minpac#update()
+command! PClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 ".......................... Lightline, airline etc.  ..........................
 set laststatus=2
 set noshowmode
@@ -112,8 +101,7 @@ nnoremap <silent> <leader>cs :let @/ = ""<CR>
 nnoremap <silent> <leader>noh :noh<CR>
 nnoremap <silent> <leader>hls :set hlsearch!<CR>
 " Indentation settings:
-set autoindent "apply current indent to next line
-set smartindent "smart indenting, use in addition to `autoindent`
+filetype indent on "better indenting - substitutes auto,smart and c indent
 set breakindent "wrapped line continue visually indented
 " set foldmethod=indent "code folding using indent
 set foldlevelstart=1 "Open level x-level folds on start
@@ -192,6 +180,8 @@ tmap <c-j> <c-w>j
 tmap <c-k> <c-w>k
 tmap <c-l> <c-w>l
 "
+" Easy reload file:
+nnoremap <leader>e :edit!<CR>
 " Enable folding with the spacebar
 nnoremap <space> /
 nnoremap <leader>f zR
@@ -286,14 +276,15 @@ augroup vimrc_asyncrun
     if has('win32')
         autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python %  <CR>
         " FIXME - The relative path (using $HOME) does not work:
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css" % -o %:r.pdf <CR>
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css" % -o %:r.pdf \| sumatrapdf %:r.pdf <CR> 
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf \| sumatrapdf %:r.pdf <CR> 
     else
         autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 %  <CR>
         autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME"/.vim/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR> 
     endif
     autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun %  <CR>
     autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia %  <CR>
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR> 
     autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
     autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript % <CR>
     autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "Stata-64.exe" -b do % &<CR>
@@ -326,9 +317,10 @@ augroup vimrc_sections
     autocmd FileType vim      nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
 augroup END
 "............................. Quickfix shortcuts  ............................
-nnoremap <silent> <leader>cc :ccl<CR>
-nnoremap <silent> <leader>co :copen<CR>
-nnoremap <silent> <leader>cv :copen<CR>
+nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
+" nnoremap <silent> <leader>cc :ccl<CR>
+" nnoremap <silent> <leader>co :copen<CR>
+" nnoremap <silent> <leader>cv :copen<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
 "......................... Global syntax highlighting .........................
@@ -339,7 +331,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 augroup vimrc_syntax
     au!
     au Syntax * syn match MyTodo /\v<(FIXME:|TODO:|OPTIMIZE:|FIXME|TODO|OPTIMIZE|XXX)/ containedin=.*Comment,vimCommentTitle
-    au Syntax * syn match MyNote /\v<(NOTE:|NOTE)/ containedin=.*Comment,vimCommentTitle
+    au Syntax * syn match MyNote /\v<(NOTE:|NOTE|NB:|NB)/ containedin=.*Comment,vimCommentTitle
 augroup END
 hi! def link MyTodo Todo
 hi! def link MyNote Constant
