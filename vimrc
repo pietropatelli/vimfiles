@@ -2,13 +2,6 @@
 let mapleader = "\\"
 let maplocalleader = "\\"
 filetype plugin on
-"Save current file and reload vimrc:
-if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
-    map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
-    map <silent> <leader>ee :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea.vim')<CR>:colorscheme nightsea<CR>
-else
-    map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
-endif
 "................................... minpac ...................................
 packadd minpac
 call minpac#init() " NOTE: I have added minpac as a git submodule
@@ -67,6 +60,19 @@ let g:lightline = {
       \   'gitbranch': 'fugitive#head',
       \ },
       \ }
+"...................... General system-dependent options ......................
+if has('win32') "WINDOWS (32 or 64 bit)
+    set dir=~/vimfiles/tmp/.vim-swapfiles " directory for swap files
+    map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
+else "UNIX OR WSL
+    set dir=~/.vim/tmp/.vim-swapfiles " directory for swap files
+    if system('uname -a')=~"Microsoft" " WSL
+        map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
+        map <silent> <leader>ee :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea.vim')<CR>:colorscheme nightsea<CR>
+    else " UNIX ONLY
+        map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
+    endif
+endif
 "............................ Basic configuration: ............................
 syntax on " Enables syntax highlighting
 set background=dark
@@ -75,6 +81,13 @@ try " If missing colorscheme simply use default
 colorscheme nightsea  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void, lucius, greenvision
 catch
 endtry
+set swapfile "use swapfiles
+if has('win32')
+    set dir=~/vimfiles/tmp/.vim-swapfiles
+
+else
+    set dir=~/.vim/tmp/.vim-swapfiles
+endif
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
 set fileencodings=ucs-bom,utf8,prc "unicode compatibility
