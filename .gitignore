@@ -1,10 +1,9 @@
-TODO.md
-_viminfo
-vimrc.swp
-plugged/
-.netrwhist
 *.swp
+*.swo
 pack/minpac/start
 tmp/*
 !tmp/.vim-swapfiles/
+.netrwhist
+_viminfo
 colors/nightsea.vim
+plugged/

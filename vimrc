@@ -82,12 +82,6 @@ colorscheme nightsea  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, 
 catch
 endtry
 set swapfile "use swapfiles
-if has('win32')
-    set dir=~/vimfiles/tmp/.vim-swapfiles
-
-else
-    set dir=~/.vim/tmp/.vim-swapfiles
-endif
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
 set fileencodings=ucs-bom,utf8,prc "unicode compatibility
