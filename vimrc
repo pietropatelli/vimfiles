@@ -2,6 +2,23 @@
 let mapleader = "\\"
 let maplocalleader = "\\"
 filetype plugin on
+"...................... General system-dependent options ......................
+if has('win32') "WINDOWS (32 or 64 bit)
+    set pythonthreedll=python36.dll " Specify which python dll to use
+    let g:UltiSnipsUsePythonVersion = 3 " Reduntand: tell ultisnips to use py3
+    set guifont=consolas:h10 "Font settings for gvim.
+    set dir=~/vimfiles/tmp/.vim-swapfiles " directory for swap files
+    map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
+else "UNIX OR WSL
+    " TODO set font options when consolas is not available
+    set dir=~/.vim/tmp/.vim-swapfiles " directory for swap files
+    if system('uname -a')=~"Microsoft" " WSL
+        map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
+        map <silent> <leader>ee :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea.vim')<CR>:colorscheme nightsea<CR>
+    else " UNIX ONLY
+        map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
+    endif
+endif
 "................................... minpac ...................................
 packadd minpac
 call minpac#init() " NOTE: I have added minpac as a git submodule
@@ -23,17 +40,17 @@ call minpac#add('benmills/vimux') "Send commands to tmux pane TODO: figure out h
 " call minpac#add('PietroPate/vim-nightsea')
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
-" language-specific plugins
+" language-specific plugins:
 call minpac#add('tmhedberg/SimpylFold') " smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim') "julia support
 call minpac#add('lervag/vimtex') " Simple latex integration
 call minpac#add('zizhongyan/stata-vim-syntax') " stata grammar
+" snippets plugins:
+call minpac#add('SirVer/ultisnips') " NB: needs python
+call minpac#add('honza/vim-snippets') " NB: needs working engine
 """"" Interesting packages:
-" call minpac#add('SirVer/ultisnips') " need python
 " call minpac#add('w0rp/ale') " need the engine 
 " call minpac#add('Valloric/YouCompleteMe') " need the engine
-" call minpac#add('garbas/vim-snipmate') " weird behaviour
-" call minpac#add('honza/vim-snippets') " need working engine
 " call minpac#add('Xuyuanp/nerdtree-git-plugin') " doesn't work
 " call minpac#add('ryanoasis/vim-devicons') " requires appropriate font
 " call minpac#add('guns/vim-sexp') " not working for me
@@ -60,19 +77,6 @@ let g:lightline = {
       \   'gitbranch': 'fugitive#head',
       \ },
       \ }
-"...................... General system-dependent options ......................
-if has('win32') "WINDOWS (32 or 64 bit)
-    set dir=~/vimfiles/tmp/.vim-swapfiles " directory for swap files
-    map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
-else "UNIX OR WSL
-    set dir=~/.vim/tmp/.vim-swapfiles " directory for swap files
-    if system('uname -a')=~"Microsoft" " WSL
-        map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
-        map <silent> <leader>ee :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea.vim')<CR>:colorscheme nightsea<CR>
-    else " UNIX ONLY
-        map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
-    endif
-endif
 "............................ Basic configuration: ............................
 syntax on " Enables syntax highlighting
 set background=dark
@@ -95,8 +99,6 @@ set scrolloff=3 "keep at least 3 lines above-below cursor
 set sidescrolloff=5 "keep at least 5 columns to left-right of cursor
 set splitbelow "default horizontal split
 set splitright "default vertical split
-set guifont=consolas:h10 "Font settings for gvim.
-" TODO set font options when consolas is not available
 set showmatch "bracket matching
 set autoread "listen for external changes to file
 set history=500 "store long :cmdline history
@@ -126,6 +128,14 @@ map H ddpkJ
 " Allow j and k to move in autocomplete list
 inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
+"............................. Ultisnips settings .............................
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 ".............................. Paste settings: ...............................
 " set clipboard=unnamed " Always use system clipboard
 "Pasting from system clipboard in command and insert mode with Ctrl-vò
@@ -283,8 +293,8 @@ augroup vimrc_asyncrun
     if has('win32')
         autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python %  <CR>
         " FIXME - The relative path (using $HOME) does not work:
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css" % -o %:r.pdf \| sumatrapdf %:r.pdf <CR> 
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf \| sumatrapdf %:r.pdf <CR> 
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css" % -o %:r.pdf <CR>
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR>
     else
         autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 %  <CR>
         autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME"/.vim/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
