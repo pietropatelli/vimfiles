@@ -31,7 +31,7 @@ call minpac#add('itchyny/lightline.vim') " statusline
 call minpac#add('tpope/vim-fugitive') " Git integration
 call minpac#add('airblade/vim-gitgutter') " Shows git diff in sign column
 call minpac#add('godlygeek/tabular') " Align text
-" call minpac#add('wellle/targets.vim') "Working inside pair of ([{,'
+call minpac#add('wellle/targets.vim') " Working with pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist') "Toggle quickfix
 call minpac#add('gu-fan/simpleterm.vim') "TODO: change default shortcuts
 call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
@@ -48,8 +48,11 @@ call minpac#add('zizhongyan/stata-vim-syntax') " stata grammar
 " snippets plugins:
 call minpac#add('SirVer/ultisnips') " NB: needs python
 call minpac#add('honza/vim-snippets') " NB: needs working engine
+" linting:
+call minpac#add('w0rp/ale') " need the engines 
+call minpac#add('Kuniwak/vint')
+" call minpac#add('maximbaz/lightline-ale')
 """"" Interesting packages:
-" call minpac#add('w0rp/ale') " need the engine 
 " call minpac#add('Valloric/YouCompleteMe') " need the engine
 " call minpac#add('Xuyuanp/nerdtree-git-plugin') " doesn't work
 " call minpac#add('ryanoasis/vim-devicons') " requires appropriate font
@@ -94,7 +97,7 @@ set number "Adds line numbers
 set cursorline " Highlight cursor line:
 set hidden "Allows hidden edited bufferd
 set wrap "wrap dynamically to window width
-call matchadd('ColorColumn', '\%81v', 100) " Make 81srt column stand out
+call matchadd('ColorColumn', '\%82v', 100) " Make 82nd column stand out
 set scrolloff=3 "keep at least 3 lines above-below cursor
 set sidescrolloff=5 "keep at least 5 columns to left-right of cursor
 set splitbelow "default horizontal split
@@ -107,8 +110,7 @@ set ignorecase "Ignore case if search is all smallcase
 set smartcase "Use case if search contains any uppercase letter
 " set hlsearch "highlight search results
 nnoremap <silent> <leader>cs :let @/ = ""<CR>
-nnoremap <silent> <leader>noh :noh<CR>
-nnoremap <silent> <leader>hls :set hlsearch!<CR>
+nnoremap <silent> <leader>noh :set hlsearch!<CR>
 " Indentation settings:
 filetype indent on "better indenting - substitutes auto,smart and c indent
 set breakindent "wrapped line continue visually indented
@@ -133,9 +135,27 @@ inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsEditSplit="vertical" " :UltiSnipsEdit split window vertically.
+"................................ ALE Settings ................................
+let g:ale_enabled=0 " Disabled at startup
+let g:ale_set_highlights=0 " Do not highlight problems in text
+" Shortcuts to enable/disable
+nmap <a-h> :ALEToggle<CR>
+nmap <leader>h :ALEToggle<CR>
+" let g:ale_lint_on_text_change='never' " Refresh on text change
+" Use quickfix list:
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
+" Fixers to use:
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['autopep8'],
+\   'matlab': ['mlint'],
+\   'vim': ['vlint'],
+\   'r': ['lintr'],
+\   'tex': ['chktex'],
+\   'julia': ['languageserver'],
+\}
 ".............................. Paste settings: ...............................
 " set clipboard=unnamed " Always use system clipboard
 "Pasting from system clipboard in command and insert mode with Ctrl-vò
@@ -149,6 +169,7 @@ imap <C-v> <C-r>*
 noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
 noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
 noremap <Leader>y "*y
+noremap <Leader>o "*p
 "............................ Better paste in WSL .............................
 if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
     let s:clip = '/mnt/c/Windows/System32/clip.exe' 
@@ -257,10 +278,8 @@ function! CloseLastWindow()
 endfunction
 "............................ Git gutter settings: ............................
 let g:gitgutter_enabled = 0
-nmap <a-g> :GitGutterEnable<CR>
-nmap <a-G> :GitGutterDisable<CR>
-nmap <leader>g :GitGutterEnable<CR>
-nmap <leader>G :GitGutterDisable<CR>
+nmap <a-g> :GitGutterToggle<CR>
+nmap <leader>g :GitGutterToggle<CR>
 ".............................. Vimtex settings: ..............................
 let g:tex_flavor='latex'
 if has('win32')
