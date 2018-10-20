@@ -145,8 +145,8 @@ let g:UltiSnipsEditSplit="horizontal" " :UltiSnipsEdit split window direction.
 let g:ale_enabled=0 " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
 " Shortcuts to enable/disable
-nmap <a-g> :GitGutterDisable<CR>:ALEToggle<CR>
-nmap <leader>g :GitGutterDisable<CR>:ALEToggle<CR>
+nmap <silent> <a-g> :GitGutterDisable<CR>:ALEToggle<CR>
+nmap <silent> <leader>g :GitGutterDisable<CR>:ALEToggle<CR>
 " let g:ale_lint_on_text_change='never' " Refresh on text change
 " Use quickfix list:
 " let g:ale_set_loclist = 0
@@ -174,9 +174,6 @@ endfunction
 "Pasting from system clipboard in command and insert mode with Ctrl-vò
 cmap <C-v> <C-r>*
 imap <C-v> <C-r>*
-" Easy toggle paste mode:
-" set pastetoggle=Ά "This is <F12> on my laptop
-" set pastetoggle=<F12> "This is <F12> on my laptop
 " Alternative shortcut to paste correctly from system clipboard in normal mode
 " map <Leader>p :set paste<CR>o<esc>"*p:set nopaste<cr>
 noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
@@ -247,8 +244,8 @@ nmap <silent> <a-e> :Sline<CR>
 vmap <silent> <a-e> :Sline<CR>
 "............................. NERDTree settings: .............................
 " Open split and then toggle nerdtree (more precse than the other way around)
-:nnoremap <leader>i :split \| :NERDTreeToggle<CR>
-:nnoremap <leader>v :vsplit \| :NERDTreeToggle<CR>
+:nnoremap <silent> <leader>i :split \| :NERDTreeToggle<CR>
+:nnoremap <silent> <leader>v :vsplit \| :NERDTreeToggle<CR>
 " shortcuts to toggle NERDTree:
 map <silent> <F1> :NERDTreeToggle<CR>
 imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
@@ -291,8 +288,8 @@ function! CloseLastWindow()
 endfunction
 "............................ Git gutter settings: ............................
 let g:gitgutter_enabled = 0
-nmap <a-h> :ALEDisable<CR>:GitGutterToggle<CR>
-nmap <leader>hh :ALEDisable<CR>:GitGutterToggle<CR>
+nmap <silent> <a-h> :ALEDisable<CR>:GitGutterToggle<CR>
+nmap <silent> <leader>hh :ALEDisable<CR>:GitGutterToggle<CR>
 function! GitGutterRunning()
     if g:gitgutter_enabled==0
         return ""
@@ -427,3 +424,26 @@ function! TexWordCount()
   end
 endfunction
 command! WC echom TexWordCount()
+"................................ Toggle Note .................................
+" Toggle a markdown notes file in a fixed window on the right with F12
+" The note.md file is created in the same directory as the current file
+" Based on https://github.com/scrooloose/vimfiles
+nnoremap <F12> :NotesToggle<cr>
+command! -nargs=0 NotesToggle call <sid>toggleNotes()
+function! s:toggleNotes() abort
+    let winnr = bufwinnr("notes.md")
+    if winnr > 0
+        exec winnr . "wincmd c"
+        return
+    endif
+    " Open size 80 if window is large, half window otherwise
+    if winwidth(0) > 160
+        botright 80vs %:p:h/notes.md
+    else
+        botright  vs %:p:h/notes.md
+    endif
+    setl wfw
+    setl nonu
+    "hack to make nerdtree et al not split the window
+    setl previewwindow
+endfunction
