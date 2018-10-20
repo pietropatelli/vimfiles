@@ -73,7 +73,8 @@ let g:lightline = {
       \ 'colorscheme': 'powerline',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'linting']],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified'],
+      \             [ 'linting', 'gitgutter' ] ],
       \ 'right': [ [ 'lineinfo' ],
       \            [ 'percent' ],
       \            [ 'fileformat', 'fileencoding', 'filetype'] ]
@@ -81,6 +82,7 @@ let g:lightline = {
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
       \   'linting': 'ALErunning',
+      \   'gitgutter': 'GitGutterRunning',
       \ },
       \ }
 "............................ Basic configuration: ............................
@@ -143,8 +145,8 @@ let g:UltiSnipsEditSplit="horizontal" " :UltiSnipsEdit split window direction.
 let g:ale_enabled=0 " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
 " Shortcuts to enable/disable
-nmap <a-g> :ALEToggle<CR>
-nmap <leader>g :ALEToggle<CR>
+nmap <a-g> :GitGutterDisable<CR>:ALEToggle<CR>
+nmap <leader>g :GitGutterDisable<CR>:ALEToggle<CR>
 " let g:ale_lint_on_text_change='never' " Refresh on text change
 " Use quickfix list:
 " let g:ale_set_loclist = 0
@@ -159,12 +161,12 @@ let g:ale_fixers = {
 \   'tex': ['chktex'],
 \   'julia': ['languageserver'],
 \}
-" Function that displays 'Linting...' if ALE is running
+" Function that displays ' linting...' if ALE is running
 function! ALErunning()
     if g:ale_enabled==0
         return ""
     else
-        return " linting..."
+        return "linting"
     end
 endfunction
 ".............................. Paste settings: ...............................
@@ -289,8 +291,15 @@ function! CloseLastWindow()
 endfunction
 "............................ Git gutter settings: ............................
 let g:gitgutter_enabled = 0
-nmap <a-h> :GitGutterToggle<CR>
-nmap <leader>hh :GitGutterToggle<CR>
+nmap <a-h> :ALEDisable<CR>:GitGutterToggle<CR>
+nmap <leader>hh :ALEDisable<CR>:GitGutterToggle<CR>
+function! GitGutterRunning()
+    if g:gitgutter_enabled==0
+        return ""
+    else
+        return "gitgutter"
+    end
+endfunction
 ".............................. Vimtex settings: ..............................
 let g:tex_flavor='latex'
 if has('win32')
