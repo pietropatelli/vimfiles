@@ -8,10 +8,13 @@ if has('win32') "WINDOWS (32 or 64 bit)
     let g:UltiSnipsUsePythonVersion = 3 " Reduntand: tell ultisnips to use py3
     set guifont=consolas:h10 "Font settings for gvim.
     set dir=~/vimfiles/tmp/.vim-swapfiles " directory for swap files
+    " let g:UltiSnipsSnippetDirectories=['$HOME/vimfiles/mysnippets']
+    let g:UltiSnipsSnippetDirectories=['C:/Users/Pietr/vimfiles/mysnippets']
     map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
 else "UNIX OR WSL
     " TODO set font options when consolas is not available
     set dir=~/.vim/tmp/.vim-swapfiles " directory for swap files
+    let g:UltiSnipsSnippetDirectories=['~/.vim/mysnippets']
     if system('uname -a')=~"Microsoft" " WSL
         map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
         map <silent> <leader>ee :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea.vim')<CR>:colorscheme nightsea<CR>
@@ -47,11 +50,10 @@ call minpac#add('lervag/vimtex') " Simple latex integration
 call minpac#add('zizhongyan/stata-vim-syntax') " stata grammar
 " snippets plugins:
 call minpac#add('SirVer/ultisnips') " NB: needs python
-call minpac#add('honza/vim-snippets') " NB: needs working engine
+" call minpac#add('honza/vim-snippets') " NB: needs working engine
 " linting:
 call minpac#add('w0rp/ale') " need the engines 
 call minpac#add('Kuniwak/vint')
-" call minpac#add('maximbaz/lightline-ale')
 """"" Interesting packages:
 " call minpac#add('Valloric/YouCompleteMe') " need the engine
 " call minpac#add('Xuyuanp/nerdtree-git-plugin') " doesn't work
@@ -71,13 +73,14 @@ let g:lightline = {
       \ 'colorscheme': 'powerline',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified',] ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'linting']],
       \ 'right': [ [ 'lineinfo' ],
       \            [ 'percent' ],
       \            [ 'fileformat', 'fileencoding', 'filetype'] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
+      \   'linting': 'ALErunning',
       \ },
       \ }
 "............................ Basic configuration: ............................
@@ -133,15 +136,15 @@ inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 "............................. Ultisnips settings .............................
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsEditSplit="vertical" " :UltiSnipsEdit split window vertically.
+let g:UltiSnipsEditSplit="horizontal" " :UltiSnipsEdit split window direction.
 "................................ ALE Settings ................................
 let g:ale_enabled=0 " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
 " Shortcuts to enable/disable
-nmap <a-h> :ALEToggle<CR>
-nmap <leader>h :ALEToggle<CR>
+nmap <a-g> :ALEToggle<CR>
+nmap <leader>g :ALEToggle<CR>
 " let g:ale_lint_on_text_change='never' " Refresh on text change
 " Use quickfix list:
 " let g:ale_set_loclist = 0
@@ -156,6 +159,14 @@ let g:ale_fixers = {
 \   'tex': ['chktex'],
 \   'julia': ['languageserver'],
 \}
+" Function that displays 'Linting...' if ALE is running
+function! ALErunning()
+    if g:ale_enabled==0
+        return ""
+    else
+        return " linting..."
+    end
+endfunction
 ".............................. Paste settings: ...............................
 " set clipboard=unnamed " Always use system clipboard
 "Pasting from system clipboard in command and insert mode with Ctrl-vò
@@ -278,8 +289,8 @@ function! CloseLastWindow()
 endfunction
 "............................ Git gutter settings: ............................
 let g:gitgutter_enabled = 0
-nmap <a-g> :GitGutterToggle<CR>
-nmap <leader>g :GitGutterToggle<CR>
+nmap <a-h> :GitGutterToggle<CR>
+nmap <leader>hh :GitGutterToggle<CR>
 ".............................. Vimtex settings: ..............................
 let g:tex_flavor='latex'
 if has('win32')

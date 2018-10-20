@@ -1,9 +1,66 @@
-snippet doc "documentclass etc"
-\documentclass[a4paper, 10pt]{article}
-\usepackage[margin=.9in]{geometry}
-\usepackage{setspace, csquotes, ulem}
+snippet setup "documentclass etc"
+\documentclass[a4paper, 11pt]{article}
+\usepackage[margin=.8in]{geometry}
 \usepackage[utf8]{inputenc}
+\usepackage{csquotes, multicol, setspace, mathtools, amssymb, amsthm, stmaryrd}
+%\usepackage{graphicx}\graphicspath{{./subfolderhere/}}
 \setlength{\parindent}{0cm}
+\setlength{\parskip}{2pt plus 4pt}
+\DeclareMathOperator*{\plim}{plim}
+\DeclareMathOperator*{\argmin}{arg, min}
+\DeclareMathOperator*{\argmax}{arg, max}
+\DeclareMathOperator*{\rank}{rank}
+\DeclareMathOperator*{\Tr}{Tr}
+\DeclareMathOperator*{\eig}{eig}
+\DeclareMathOperator*{\where}{ \quad where \ }
+\DeclareMathOperator*{\with}{ \quad with \ }
+\DeclareMathOperator*{\textand}{ \ and \ }
+\DeclareMathOperator*{\st}{ \qquad s.t. \ }
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\newcommand\E{\mathbb{E}}
+\newcommand\V{\mathbb{V}}
+\newcommand\R{\mathbb{R}}
+\newcommand\N{\mathbb{N}}
+\DeclareMathOperator*{\vx}{\mathbf{x}}
+\DeclareMathOperator*{\vy}{\mathbf{x}}
+\DeclareMathOperator*{\iv}{^{-1}}
+\DeclareMathOperator*{\quadd}{\qquad\qquad\quad}
 $0
 endsnippet
-	
+
+snippet "be(gin)?( (\S+))?" "begin{} / end{}" br
+\begin{${1:`!p
+snip.rv = match.group(3) if match.group(2) is not None else "something"`}}
+    ${2:${VISUAL}}
+\end{$1}$0
+endsnippet
+
+snippet usepackage
+\usepackage$2{$1}
+$0
+endsnippet
+
+snippet title
+\title{$1}\author{${2:PP}}\date{${3:\today}}\maketitle
+$0
+endsnippet
+
+snippet sec
+\section{$1}
+$0
+endsnippet
+
+snippet subsec
+\subsection{$1}
+$0
+endsnippet
+
+snippet newline
+\hfill\break
+$0
+endsnippet
+
+snippet ali
+\begin{align*}
+$0
+\end{align*}
