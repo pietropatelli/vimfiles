@@ -52,7 +52,7 @@ call minpac#add('zizhongyan/stata-vim-syntax') " stata grammar
 call minpac#add('SirVer/ultisnips') " NB: needs python
 " call minpac#add('honza/vim-snippets') " NB: needs working engine
 " linting:
-call minpac#add('w0rp/ale') " need the engines 
+call minpac#add('w0rp/ale') " need the engines
 call minpac#add('Kuniwak/vint')
 """"" Interesting packages:
 " call minpac#add('Valloric/YouCompleteMe') " need the engine
@@ -169,6 +169,8 @@ function! ALErunning()
         return "linting"
     end
 endfunction
+" Automatically remove trailing space on write:
+autocmd BufWritePre * :%s/\s\+$//e
 ".............................. Paste settings: ...............................
 " set clipboard=unnamed " Always use system clipboard
 "Pasting from system clipboard in command and insert mode with Ctrl-vò
@@ -182,7 +184,7 @@ noremap <Leader>y "*y
 noremap <Leader>o "*p
 "............................ Better paste in WSL .............................
 if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
-    let s:clip = '/mnt/c/Windows/System32/clip.exe' 
+    let s:clip = '/mnt/c/Windows/System32/clip.exe'
     if executable(s:clip)
         augroup WSLYank
             autocmd!
@@ -208,10 +210,10 @@ imap <Up> <NOP>
 imap <Down> <NOP>
 imap <Left> <NOP>
 imap <Right> <NOP>
-" Easy search for current word in current directory "Note: <F11> on my keyboard 
-" TODO: Figure out what cw<CR> is there for 
-map ΅ :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> 
-map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> 
+" Easy search for current word in current directory "Note: <F11> on my keyboard
+" TODO: Figure out what cw<CR> is there for
+map ΅ :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 "Easier quoting/unquoting:
 :nnoremap <Leader>q" ciW""<Esc>P
 :nnoremap <Leader>q' ciW''<Esc>P
@@ -273,7 +275,7 @@ let g:NERDTreeUpdateOnWrite=1
 au BufEnter * call CloseLastWindow()
 function! CloseLastWindow()
   " Check if window is the last window
-  if winnr('$')==1  
+  if winnr('$')==1
       " if the window is quickfix
       if &buftype=="quickfix"
           quit
@@ -304,7 +306,7 @@ if has('win32')
 " elseif has('unix') && system('uname -a')=~"Microsoft" "Checks if we are in wsl
 "     let g:vimtex_view_general_viewer = 'sumatrapdf.exe'
 else
-    let g:vimtex_view_general_viewer = 'zathura' 
+    let g:vimtex_view_general_viewer = 'zathura'
 endif
 let g:vimtex_view_general_options
     \ = ' -reuse-instance -forward-search @tex @line @pdf'
@@ -318,10 +320,10 @@ let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 let g:vimtex_quickfix_mode=0
 " Fix colorscheme loading issue:
-autocmd FileType tex :so $MYVIMRC  
+autocmd FileType tex :so $MYVIMRC
 "............................. AsyncRun Settings ..............................
 " let g:asyncrun_open = 8 "opens quickfix by default
-let g:asyncrun_last = 1 "scroll only if cursor is on last line 
+let g:asyncrun_last = 1 "scroll only if cursor is on last line
 nnoremap <leader>as :AsyncStop<CR>
 " See python realtime output
 let $PYTHONUNBUFFERED=1
@@ -336,7 +338,7 @@ augroup vimrc_asyncrun
     else
         autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 %  <CR>
         autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME"/.vim/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR> 
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR>
     endif
     autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun %  <CR>
     autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia %  <CR>
@@ -379,7 +381,7 @@ nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
 "......................... Global syntax highlighting .........................
-" Check sintax highlighting group under cursor 
+" Check sintax highlighting group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
@@ -411,10 +413,10 @@ function! WordCount()
      let v:statusmsg = s:old_status
      end
        call setpos('.', position)
-       return s:word_count 
+       return s:word_count
    else
        call setpos('.', position)
-       return 'NA' 
+       return 'NA'
    end
 endfunction
 function! TexWordCount()
