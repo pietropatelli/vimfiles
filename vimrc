@@ -17,7 +17,7 @@ else "UNIX OR WSL
     let g:UltiSnipsSnippetDirectories=['~/.vim/mysnippets']
     if system('uname -a')=~"Microsoft" " WSL
         map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
-        map <silent> <leader>ee :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea.vim')<CR>:colorscheme nightsea<CR>
+        map <silent> <leader>nn :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea_dev.vim')<CR>:colorscheme nightsea_dev<CR>
     else " UNIX ONLY
         map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
     endif
@@ -40,7 +40,7 @@ call minpac#add('gu-fan/simpleterm.vim') "TODO: change default shortcuts
 call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
 call minpac#add('benmills/vimux') "Send commands to tmux pane TODO: figure out how
 " colorscheme plugins:
-" call minpac#add('PietroPate/vim-nightsea')
+call minpac#add('PietroPate/vim-nightsea')
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
 " language-specific plugins:
@@ -59,6 +59,8 @@ call minpac#add('Kuniwak/vint')
 " call minpac#add('Xuyuanp/nerdtree-git-plugin') " doesn't work
 " call minpac#add('ryanoasis/vim-devicons') " requires appropriate font
 " call minpac#add('guns/vim-sexp') " not working for me
+" call minpac#add('xolox/vim-session')
+" call minpac#add('thaerkh/vim-workspace')
 " call minpac#add('')
 " Load the plugins right now:
 packloadall
@@ -89,10 +91,10 @@ let g:lightline = {
 syntax on " Enables syntax highlighting
 set background=dark
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function
-" try " If missing colorscheme simply use default
+try " If missing colorscheme simply use default
 colorscheme nightsea  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void, lucius, greenvision
-" catch
-" endtry
+catch
+endtry
 set swapfile "use swapfiles
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
@@ -319,8 +321,8 @@ let g:vimtex_view_general_options
 let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 let g:vimtex_quickfix_mode=0
-" Fix colorscheme loading issue:
-autocmd FileType tex :so $MYVIMRC
+" Fix colorscheme loading issue in tex files:
+let g:tex_fast="cmMprsSvV"
 "............................. AsyncRun Settings ..............................
 " let g:asyncrun_open = 8 "opens quickfix by default
 let g:asyncrun_last = 1 "scroll only if cursor is on last line

@@ -6,4 +6,5 @@ tmp/*
 .netrwhist
 _viminfo
 colors/nightsea.vim
+colors/nightsea_dev.vim
 plugged/
