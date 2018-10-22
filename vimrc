@@ -89,10 +89,10 @@ let g:lightline = {
 syntax on " Enables syntax highlighting
 set background=dark
 set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function
-try " If missing colorscheme simply use default
+" try " If missing colorscheme simply use default
 colorscheme nightsea  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void, lucius, greenvision
-catch
-endtry
+" catch
+" endtry
 set swapfile "use swapfiles
 set encoding=utf-8 "unicode compatibility
 set fileencoding=utf-8 "unicode compatibility
@@ -213,9 +213,9 @@ imap <Right> <NOP>
 map ΅ :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> 
 map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> 
 "Easier quoting/unquoting:
-:nnoremap <Leader>q" ciw""<Esc>P
-:nnoremap <Leader>q' ciw''<Esc>P
-:nnoremap <Leader>q` ciw``<Esc>P
+:nnoremap <Leader>q" ciW""<Esc>P
+:nnoremap <Leader>q' ciW''<Esc>P
+:nnoremap <Leader>q` ciW``<Esc>P
 "
 " Easy switching between splits:
 " NOTE: With windows <c-h> affects backspace as well.
@@ -317,6 +317,8 @@ let g:vimtex_view_general_options
 let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background       = 1
 let g:vimtex_quickfix_mode=0
+" Fix colorscheme loading issue:
+autocmd FileType tex :so $MYVIMRC  
 "............................. AsyncRun Settings ..............................
 " let g:asyncrun_open = 8 "opens quickfix by default
 let g:asyncrun_last = 1 "scroll only if cursor is on last line 
