@@ -43,6 +43,7 @@ call minpac#add('benmills/vimux') "Send commands to tmux pane TODO: figure out h
 call minpac#add('PietroPate/vim-nightsea')
 call minpac#add('flazz/vim-colorschemes')
 call minpac#add('rafi/awesome-vim-colorschemes')
+call minpac#add('gerw/vim-HiLinkTrace')
 " language-specific plugins:
 call minpac#add('tmhedberg/SimpylFold') " smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim') "julia support
@@ -383,10 +384,9 @@ nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
 "......................... Global syntax highlighting .........................
-" Check sintax highlighting group under cursor
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" " Check sintax highlighting group under cursor using HiLinkTrace
+map <F10> :HLT<CR>
+" Highlight Keywords uniformly:
 augroup vimrc_syntax
     au!
     au Syntax * syn match MyTodo /\v<(FIXME:|TODO:|OPTIMIZE:|FIXME|TODO|OPTIMIZE|XXX)/ containedin=.*Comment,vimCommentTitle
