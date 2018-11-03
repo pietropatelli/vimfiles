@@ -3,6 +3,9 @@
 pack/minpac/start
 tmp/*
 !tmp/.vim-swapfiles/
+!tmp/.undodir/
+tmp/.undodir/*
+!tmp/.undodir/README.md
 .netrwhist
 _viminfo
 colors/nightsea.vim

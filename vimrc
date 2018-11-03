@@ -2,19 +2,19 @@
 let mapleader = "\\"
 let maplocalleader = "\\"
 filetype plugin on
+let $VIMHOME=expand(split(&rtp, ',')[0])
+set dir=$VIMHOME\\tmp\\.vim-swapfiles " directory for swap files
+let g:UltiSnipsSnippetsDir=expand($VIMHOME."/mysnippets") " snippet dir
+set undodir=$VIMHOME\\tmp\\.undodir " persistend undo dir
+set undofile
 "...................... General system-dependent options ......................
 if has('win32') "WINDOWS (32 or 64 bit)
     set pythonthreedll=python36.dll " Specify which python dll to use
     let g:UltiSnipsUsePythonVersion = 3 " Reduntand: tell ultisnips to use py3
     set guifont=consolas:h10 "Font settings for gvim.
-    set dir=~/vimfiles/tmp/.vim-swapfiles " directory for swap files
-    " let g:UltiSnipsSnippetDirectories=['$HOME/vimfiles/mysnippets']
-    let g:UltiSnipsSnippetDirectories=['C:/Users/Pietr/vimfiles/mysnippets']
     map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
 else "UNIX OR WSL
     " TODO set font options when consolas is not available
-    set dir=~/.vim/tmp/.vim-swapfiles " directory for swap files
-    let g:UltiSnipsSnippetDirectories=['~/.vim/mysnippets']
     if system('uname -a')=~"Microsoft" " WSL
         map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
         map <silent> <leader>nn :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea_dev.vim')<CR>:colorscheme nightsea_dev<CR>
