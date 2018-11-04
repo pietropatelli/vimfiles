@@ -3,6 +3,8 @@
 pack/minpac/start
 tmp/*
 !tmp/.vim-swapfiles/
+tmp/.vim-swapfiles/*
+!tmp/.vim-swapfiles/README.md
 !tmp/.undodir/
 tmp/.undodir/*
 !tmp/.undodir/README.md
@@ -11,3 +13,4 @@ _viminfo
 colors/nightsea.vim
 colors/nightsea_dev.vim
 plugged/
+sessions/

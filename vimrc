@@ -1,12 +1,11 @@
 " NOTE: the .vimrc file in the home directory simply points here.
-let mapleader = "\\"
+let mapleader = "\\" "Use \ as <leader>
 let maplocalleader = "\\"
-filetype plugin on
+filetype plugin on "Allow plugins for specific filetypes
 let $VIMHOME=expand(split(&rtp, ',')[0])
 set dir=$VIMHOME\\tmp\\.vim-swapfiles " directory for swap files
-let g:UltiSnipsSnippetsDir=expand($VIMHOME."/mysnippets") " snippet dir
 set undodir=$VIMHOME\\tmp\\.undodir " persistend undo dir
-set undofile
+set undofile " persistend undo
 "...................... General system-dependent options ......................
 if has('win32') "WINDOWS (32 or 64 bit)
     set pythonthreedll=python36.dll " Specify which python dll to use
@@ -39,6 +38,8 @@ call minpac#add('milkypostman/vim-togglelist') "Toggle quickfix
 call minpac#add('gu-fan/simpleterm.vim') "TODO: change default shortcuts
 call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
 call minpac#add('benmills/vimux') "Send commands to tmux pane TODO: figure out how
+call minpac#add('xolox/vim-session') "Easy session management
+call minpac#add('xolox/vim-misc') "Necessary for vim-session
 " colorscheme plugins:
 call minpac#add('PietroPate/vim-nightsea')
 call minpac#add('flazz/vim-colorschemes')
@@ -60,14 +61,13 @@ call minpac#add('Kuniwak/vint')
 " call minpac#add('Xuyuanp/nerdtree-git-plugin') " doesn't work
 " call minpac#add('ryanoasis/vim-devicons') " requires appropriate font
 " call minpac#add('guns/vim-sexp') " not working for me
-" call minpac#add('xolox/vim-session')
 " call minpac#add('thaerkh/vim-workspace')
 " call minpac#add('')
 " Load the plugins right now:
 packloadall
 " Commands for easier package management
-command! PUpdate packadd minpac | source $MYVIMRC | call minpac#update()
-command! PClean  packadd minpac | source $MYVIMRC | call minpac#clean()
+command! PUpdate :w | packadd minpac | source $MYVIMRC | call minpac#update()
+command! PClean  :w | packadd minpac | source $MYVIMRC | call minpac#clean()
 ".......................... Lightline, airline etc.  ..........................
 set laststatus=2
 set noshowmode
@@ -138,7 +138,24 @@ map H ddpkJ
 " Allow j and k to move in autocomplete list
 inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
+"............................ vim-session settings ............................
+let g:session_menu = 0
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
+let g:session_autosave_periodic = 0
+let g:session_verbose_messages = 0
+" let g:session_autosave_silent = 1
+" let g:session_default_to_last = 1
+set sessionoptions-=help "Do not restore help windows
+set sessionoptions-=buffers "Don't save hidden and unloaded buffers in sessions.
+" Useful mappings:
+noremap <F3> :OpenSession<CR>
+imap <F3> <Esc>:w<CR>:OpenSession<CR>
+noremap AA :OpenSession default<CR>
+noremap SS :ccl<CR>:lcl<CR>:SaveSession<CR>
+noremap ZZ :ccl<CR>:lcl<CR>:SaveSession<CR>:wqa<CR>
 "............................. Ultisnips settings .............................
+let g:UltiSnipsSnippetDirectories=[expand($VIMHOME."/mysnippets")] " snippets dir
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -218,11 +235,15 @@ imap <Right> <NOP>
 map ΅ :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 "Easier quoting/unquoting:
-:nnoremap <Leader>q" ciW""<Esc>P
-:nnoremap <Leader>q' ciW''<Esc>P
-:nnoremap <Leader>q` ciW``<Esc>P
+:nnoremap <Leader>q" ciw""<Esc>P
+:nnoremap <Leader>q' ciw''<Esc>P
+:nnoremap <Leader>q` ciw``<Esc>P
+
+:nnoremap <Leader>Q" ciw""<Esc>P
+:nnoremap <Leader>Q' ciw''<Esc>P
+:nnoremap <Leader>Q` ciW``<Esc>P
 "
-" Easy switching between splits:
+" Easy sWitching betWeen splits:
 " NOTE: With windows <c-h> affects backspace as well.
 " nmap <c-j> <c-w>j
 " nmap <c-k> <c-w>k
@@ -336,7 +357,7 @@ augroup vimrc_asyncrun
     if has('win32')
         autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python %  <CR>
         " FIXME - The relative path (using $HOME) does not work:
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "C:/Users/Pietr/vimfiles/otherstuff/mypdfstyle.css" % -o %:r.pdf <CR>
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "$(VIM_HOME)\otherstuff\mypdfstyle.css" % -o %:r.pdf <CR>
         autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR>
     else
         autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 %  <CR>
