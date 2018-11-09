@@ -3,8 +3,8 @@ let mapleader = "\\" "Use \ as <leader>
 let maplocalleader = "\\"
 filetype plugin on "Allow plugins for specific filetypes
 let $VIMHOME=expand(split(&rtp, ',')[0])
-set dir=$VIMHOME\\tmp\\.vim-swapfiles " directory for swap files
-set undodir=$VIMHOME\\tmp\\.undodir " persistend undo dir
+set dir=$VIMHOME/tmp/.vim-swapfiles " directory for swap files
+set undodir=$VIMHOME/tmp/.undodir " persistend undo dir
 set undofile " persistend undo
 "...................... General system-dependent options ......................
 if has('win32') "WINDOWS (32 or 64 bit)
