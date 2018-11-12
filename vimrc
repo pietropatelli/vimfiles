@@ -1,66 +1,66 @@
 " NOTE: the .vimrc file in the home directory simply points here.
-let mapleader = "\\" "Use \ as <leader>
-let maplocalleader = "\\"
-filetype plugin on "Allow plugins for specific filetypes
-let $VIMHOME=expand(split(&rtp, ',')[0])
-set dir=$VIMHOME/tmp/.vim-swapfiles " directory for swap files
-set undodir=$VIMHOME/tmp/.undodir " persistend undo dir
-set undofile " persistend undo
+let mapleader = "\\"                     " Use \ as <leader>
+let maplocalleader = "\\"                " Use \ as <localleader>
+filetype plugin on                       " Allow plugins for specific filetypes
+let $VIMHOME=expand(split(&rtp, ',')[0]) " First directory in runtime path
+set dir=$VIMHOME/tmp/.vim-swapfiles      " Directory for swap files
+set undodir=$VIMHOME/tmp/.undodir        " Persistend undo dir
+set undofile                             " Persistend undo
 "...................... General system-dependent options ......................
-if has('win32') "WINDOWS (32 or 64 bit)
-    set pythonthreedll=python36.dll " Specify which python dll to use
-    let g:UltiSnipsUsePythonVersion = 3 " Reduntand: tell ultisnips to use py3
-    set guifont=consolas:h10 "Font settings for gvim.
+if has('win32')                          " WINDOWS (32 or 64 bit)
+    set pythonthreedll=python36.dll      " Specify which python dll to use
+    let g:UltiSnipsUsePythonVersion = 3  " Redundand: tell ultisnips to use py3
+    set guifont=consolas:h10             " Font settings for gvim.
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
-else "UNIX OR WSL
-    " TODO set font options when consolas is not available
-    if system('uname -a')=~"Microsoft" " WSL
+else                                     " UNIX OR WSL
+    if system('uname -a')=~"Microsoft"   " WSL
         map <silent> <leader>ww :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
         map <silent> <leader>nn :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea_dev.vim')<CR>:colorscheme nightsea_dev<CR>
-    else " UNIX ONLY
+    else                                 " UNIX ONLY
         map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
     endif
 endif
 "................................... minpac ...................................
+" NOTE: I have added minpac as a git submodule
 packadd minpac
-call minpac#init() " NOTE: I have added minpac as a git submodule
+call minpac#init()
 " Essential plugins:
-call minpac#add('scrooloose/nerdtree') " file tree browser
-call minpac#add('skywind3000/asyncrun.vim') " Run commands asynchronously
-call minpac#add('tomtom/tcomment_vim') " toggle comments
-call minpac#add('farmergreg/vim-lastplace') " reopen files at last edit
-call minpac#add('itchyny/lightline.vim') " statusline
-call minpac#add('tpope/vim-fugitive') " Git integration
-call minpac#add('airblade/vim-gitgutter') " Shows git diff in sign column
-call minpac#add('godlygeek/tabular') " Align text
-call minpac#add('wellle/targets.vim') " Working with pairs of ([{,'
-call minpac#add('milkypostman/vim-togglelist') "Toggle quickfix
-call minpac#add('gu-fan/simpleterm.vim') " Easy interction with terminal
-call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
-call minpac#add('xolox/vim-session') "Easy session management
-call minpac#add('xolox/vim-misc') "Necessary for vim-session
+call minpac#add('scrooloose/nerdtree')            " File tree browser
+call minpac#add('skywind3000/asyncrun.vim')       " Run commands asynchronously
+call minpac#add('tomtom/tcomment_vim')            " Toggle comments
+call minpac#add('farmergreg/vim-lastplace')       " Reopen files at last edit
+call minpac#add('itchyny/lightline.vim')          " Statusline
+call minpac#add('tpope/vim-fugitive')             " Git integration
+call minpac#add('airblade/vim-gitgutter')         " Shows gitdiff in sign column
+call minpac#add('godlygeek/tabular')              " Align text
+call minpac#add('wellle/targets.vim')             " Working with pairs of ([{,'
+call minpac#add('milkypostman/vim-togglelist')    " Toggle quickfix
+call minpac#add('gu-fan/simpleterm.vim')          " Easy interction w terminal
+call minpac#add('christoomey/vim-tmux-navigator') " Navigate vim and tmux
+call minpac#add('xolox/vim-session')              " Easy session management
+call minpac#add('xolox/vim-misc')                 " Necessary for vim-session
 " colorscheme plugins:
-call minpac#add('PietroPate/vim-nightsea')
-call minpac#add('flazz/vim-colorschemes')
-call minpac#add('rafi/awesome-vim-colorschemes')
-call minpac#add('gerw/vim-HiLinkTrace')
+call minpac#add('PietroPate/vim-nightsea')        " My colorscheme
+call minpac#add('flazz/vim-colorschemes')         " Colorscheme collection
+call minpac#add('rafi/awesome-vim-colorschemes')  " Colorscheme collection
+call minpac#add('gerw/vim-HiLinkTrace')           " Shows syntax tree
 " language-specific plugins:
-call minpac#add('tmhedberg/SimpylFold') " smart python code folding
-call minpac#add('JuliaEditorSupport/julia-vim') "julia support
-call minpac#add('lervag/vimtex') " Simple latex integration
-call minpac#add('zizhongyan/stata-vim-syntax') " stata grammar
+call minpac#add('tmhedberg/SimpylFold')           " Smart python code folding
+call minpac#add('JuliaEditorSupport/julia-vim')   " Julia support
+call minpac#add('lervag/vimtex')                  " Simple latex integration
+call minpac#add('zizhongyan/stata-vim-syntax')    " Stata grammar
 " snippets plugins:
-call minpac#add('SirVer/ultisnips') " NB: needs python
-" call minpac#add('honza/vim-snippets') " NB: needs working engine
+call minpac#add('SirVer/ultisnips')               " Snippet engine, needs python
 " linting:
 call minpac#add('w0rp/ale') " need the engines
 """"" Interesting packages:
-" call minpac#add('christoomey/vim-tmux-runner') "Send commands to tmux
-" call minpac#add('Valloric/YouCompleteMe') " need the engine
-" call minpac#add('Xuyuanp/nerdtree-git-plugin') " doesn't work
-" call minpac#add('ryanoasis/vim-devicons') " requires appropriate font
-" call minpac#add('guns/vim-sexp') " not working for me
-" call minpac#add('Kuniwak/vint') " FIXME
+" call minpac#add('honza/vim-snippets')             " Snippets
+" call minpac#add('christoomey/vim-tmux-runner')    " Send commands to tmux
+" call minpac#add('Valloric/YouCompleteMe')         " Need the engine
+" call minpac#add('Xuyuanp/nerdtree-git-plugin')    " Doesn't work
+" call minpac#add('ryanoasis/vim-devicons')         " Requires appropriate font
+" call minpac#add('guns/vim-sexp')                  " Not working for me
+" call minpac#add('Kuniwak/vint')                   " Not working
 " call minpac#add('')
 " Load the plugins right now:
 packloadall
@@ -88,48 +88,48 @@ let g:lightline = {
       \ },
       \ }
 "............................ Basic configuration: ............................
-syntax on " Enables syntax highlighting
-set background=dark
-set t_Co=256 "Enables 256 color terminal; necessary for colorscheme to function
-try " If missing colorscheme simply use default
-colorscheme nightsea  "GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void, lucius, greenvision
+syntax on                                  " Enables syntax highlighting
+set background=dark                        " Use dark background
+set t_Co=256                               " Enables 256 color terminal
+try                                        " If missing colorscheme use default
+colorscheme nightsea " GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void, lucius, greenvision
 catch
 endtry
-set swapfile "use swapfiles
-set encoding=utf-8 "unicode compatibility
-set fileencoding=utf-8 "unicode compatibility
-set fileencodings=ucs-bom,utf8,prc "unicode compatibility
-set noeb vb t_vb= "Disable beeping
-set number "Adds line numbers
-set cursorline " Highlight cursor line:
-set hidden "Allows hidden edited bufferd
-set wrap "wrap dynamically to window width
+set swapfile                               " use swapfiles
+set encoding=utf-8                         " unicode compatibility
+set fileencoding=utf-8                     " unicode compatibility
+set fileencodings=ucs-bom,utf8,prc         " unicode compatibility
+set noeb vb t_vb=                          " Disable beeping
+set number                                 " Adds line numbers
+set cursorline                             " Highlight cursor line:
+set hidden                                 " Allows hidden edited bufferd
+set wrap                                   " wrap dynamically to window width
 call matchadd('ColorColumn', '\%82v', 100) " Make 82nd column stand out
-set scrolloff=3 "keep at least 3 lines above-below cursor
-set sidescrolloff=5 "keep at least 5 columns to left-right of cursor
-set splitbelow "default horizontal split
-set splitright "default vertical split
-set showmatch "bracket matching
-set autoread "listen for external changes to file
-set history=500 "store long :cmdline history
+set scrolloff=3                            " keep 3 lines above-below cursor
+set sidescrolloff=5                        " keep 5 columns left-right of cursor
+set splitbelow                             " default horizontal split
+set splitright                             " default vertical split
+set showmatch                              " bracket matching
+set autoread                               " listen for external changes to file
+set history=500                            " store long :cmdline history
 " Search settings:
-set ignorecase "Ignore case if search is all smallcase
-set smartcase "Use case if search contains any uppercase letter
-" set hlsearch "highlight search results
-nnoremap <silent> <leader>cs :let @/ = ""<CR>
-nnoremap <silent> <leader>noh :set hlsearch!<CR>
+set ignorecase                             " Ignore case if search is lowercase
+set smartcase                              " Use case if search has uppercase
+set nohlsearch                             " Do not highlight search results
 " Indentation settings:
-filetype indent on "better indenting - substitutes auto,smart and c indent
-set breakindent "wrapped line continue visually indented
-" set foldmethod=indent "code folding using indent
-set foldlevelstart=1 "Open level x-level folds on start
-set tabstop=4 "Tab length
-set expandtab "Use the appropriate number of spaces to insert a <Tab>
-set shiftwidth=4 "Indentation length
-set lazyredraw " Don't redraw while executing macros (good performance config)
+filetype indent on                         " Filetype indenting
+set breakindent                            " Wrapped line continue indented
+" set foldmethod=indent                    " Code folding using indent
+set foldlevelstart=1                       " Open level x-level folds on start
+set tabstop=4                              " Tab length
+set expandtab                              " Use spaces instead of <Tab>
+set shiftwidth=4                           " Indentation length
+set lazyredraw                             " No redraw while executing macros
 " Disable comment continuation on <Enter>:
 set formatoptions-=c formatoptions-=r formatoptions-=o
-runtime macros/matchit.vim "Enables matchit plugin (included in base vim)
+runtime macros/matchit.vim                 " Enables matchit plugin
+".................................. Mappings ..................................
+nnoremap <space> /
 " Making Y work like C or D:
 map Y y$
 " Making H work like J but putting the current line after the next one
@@ -137,6 +137,40 @@ map H ddpkJ
 " Allow j and k to move in autocomplete list
 inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
+" Clear search and toggle search highlight
+nnoremap <silent> <leader>cs :let @/ = ""<CR>
+nnoremap <silent> <leader>noh :set hlsearch!<CR>
+" Easier switching buffers
+noremap <F2> :ls<CR>:b
+imap <F2> <Esc>:ls<CR>:b
+cmap <F2> <Esc><CR>
+" Habit breaking:
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+imap <Up> <NOP>
+imap <Down> <NOP>
+imap <Left> <NOP>
+imap <Right> <NOP>
+" Easy search for word under cursor in current directory:
+map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+"Easier quoting/unquoting:
+:nnoremap <Leader>q" ciw""<Esc>P
+:nnoremap <Leader>q' ciw''<Esc>P
+:nnoremap <Leader>q` ciw``<Esc>P
+:nnoremap <Leader>Q" ciw""<Esc>P
+:nnoremap <Leader>Q' ciw''<Esc>P
+:nnoremap <Leader>Q` ciW``<Esc>P
+" Easy switching betWeen splits:
+" NOTE: With windows <c-h> affects backspace as well.
+tmap <c-j> <c-w>j
+tmap <c-k> <c-w>k
+tmap <c-l> <c-w>l
+" Easy reload file:
+nnoremap <leader>e :edit!<CR>
+" Enable folding with the spacebar
+nnoremap <leader>f zR
 "............................ vim-session settings ............................
 let g:session_menu = 0
 let g:session_autoload = 'no'
@@ -145,8 +179,8 @@ let g:session_autosave_periodic = 0
 let g:session_verbose_messages = 0
 " let g:session_autosave_silent = 1
 " let g:session_default_to_last = 1
-set sessionoptions-=help "Do not restore help windows
-set sessionoptions-=buffers "Don't save hidden and unloaded buffers in sessions.
+set sessionoptions-=help    " Don't restore help windows
+set sessionoptions-=buffers " Don't save hidden and unloaded buffers in sessions
 " Useful mappings:
 noremap <F3> :OpenSession<CR>
 imap <F3> <Esc>:w<CR>:OpenSession<CR>
@@ -154,14 +188,14 @@ noremap AA :OpenSession default<CR>
 noremap SS :ccl<CR>:lcl<CR>:SaveSession<CR>
 noremap ZZ :ccl<CR>:lcl<CR>:SaveSession<CR>:wqa<CR>
 "............................. Ultisnips settings .............................
-let g:UltiSnipsSnippetDirectories=[expand($VIMHOME."/mysnippets")] " snippets dir
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsSnippetDirectories=[expand($VIMHOME."/mysnippets")] "Snippets dir
+" Trigger config. Avoid <tab> if using https://github.com/Valloric/YouCompleteMe
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="horizontal" " :UltiSnipsEdit split window direction.
 "................................ ALE Settings ................................
-let g:ale_enabled=0 " Disabled at startup
+let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
 " Shortcuts to enable/disable
 nmap <silent> <a-g> :GitGutterDisable<CR>:ALEToggle<CR>
@@ -196,7 +230,6 @@ autocmd BufWritePre * :%s/\s\+$//e
 cmap <C-v> <C-r>*
 imap <C-v> <C-r>*
 " Alternative shortcut to paste correctly from system clipboard in normal mode
-" map <Leader>p :set paste<CR>o<esc>"*p:set nopaste<cr>
 noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
 noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
 noremap <Leader>y "*y
@@ -215,72 +248,28 @@ if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
     cmap <silent> <c-v> :r !powershell.exe -Command Get-Clipboard<CR>
     imap <silent> <c-v> :r !powershell.exe -Command Get-Clipboard<CR>
 endif
-".................................. Mappings ..................................
-" Easier switching buffers
-noremap <F2> :ls<CR>:b
-imap <F2> <Esc>:ls<CR>:b
-cmap <F2> <Esc><CR>
-" Habit breaking:
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-imap <Up> <NOP>
-imap <Down> <NOP>
-imap <Left> <NOP>
-imap <Right> <NOP>
-" Easy search for current word in current directory "Note: <F11> on my keyboard
-" TODO: Figure out what cw<CR> is there for
-map ΅ :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
-map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
-"Easier quoting/unquoting:
-:nnoremap <Leader>q" ciw""<Esc>P
-:nnoremap <Leader>q' ciw''<Esc>P
-:nnoremap <Leader>q` ciw``<Esc>P
-
-:nnoremap <Leader>Q" ciw""<Esc>P
-:nnoremap <Leader>Q' ciw''<Esc>P
-:nnoremap <Leader>Q` ciW``<Esc>P
-"
-" Easy sWitching betWeen splits:
-" NOTE: With windows <c-h> affects backspace as well.
-" nmap <c-j> <c-w>j
-" nmap <c-k> <c-w>k
-" nmap <c-h> <c-w>h
-" nmap <c-l> <c-w>l
-"
-tmap <c-j> <c-w>j
-tmap <c-k> <c-w>k
-tmap <c-l> <c-w>l
-"
-" Easy reload file:
-nnoremap <leader>e :edit!<CR>
-" Enable folding with the spacebar
-nnoremap <space> /
-nnoremap <leader>f zR
 "............................ simpleterm settings .............................
 " nnoremap <silent> <leader>t :Stoggle<CR> " Use <leader>ss
 let g:simpleterm.row=8
 nmap <silent> <leader>r :Sline<CR>
-nmap <silent> <tab> :Sline<CR>
+nmap <silent> <leader><tab> :Sline<CR>
 nmap <silent> <leader>sk :Skill<CR>
 "............................. NERDTree settings: .............................
 " Open split and then toggle nerdtree (more precse than the other way around)
-:nnoremap <silent> <leader>i :split \| :NERDTreeToggle<CR>
-:nnoremap <silent> <leader>v :vsplit \| :NERDTreeToggle<CR>
-" shortcuts to toggle NERDTree:
+nnoremap <silent> <leader>i :split \| :NERDTreeToggle<CR>
+nnoremap <silent> <leader>v :vsplit \| :NERDTreeToggle<CR>
+" Shortcuts to toggle NERDTree:
 map <silent> <F1> :NERDTreeToggle<CR>
 imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
 cmap <F1> <Esc><Esc>:NERDTreeToggle<CR>
-let NERDTreeShowHidden=1 "Show hidden files (eg. dotfiles)
-let NERDTreeShowBookmarks=1 "Shows bookmarks
-"open if vim is started without a file selcted:
-augroup vimrc_nerdtree
+let NERDTreeShowHidden=1    " Show hidden files (eg. dotfiles)
+let NERDTreeShowBookmarks=1 " Shows bookmarks
+augroup vimrc_nerdtree      " Open if vim is started without a file selcted
     autocmd!
     autocmd StdinReadPre * let s:std_in=1
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 augroup END
-let NERDTreeQuitOnOpen = 1 "Closes NERDTree when opening a file
+let NERDTreeQuitOnOpen = 1  " Closes NERDTree when opening a file
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
@@ -294,15 +283,11 @@ let g:NERDTreeUpdateOnWrite=1
 " Auto close last window if it is NERDTree or Quickfix
 au BufEnter * call CloseLastWindow()
 function! CloseLastWindow()
-  " Check if window is the last window
-  if winnr('$')==1
-      " if the window is quickfix
+  if winnr('$')==1 " If window is the last window
       if &buftype=="quickfix"
           quit
-      " if the window is terminal
       elseif &buftype=="terminal"
           quit!
-      " if the window is a NERDTree window
       elseif exists("b:NERDTree") && b:NERDTree.isTabTree()
           quit
       endif
@@ -337,29 +322,22 @@ let g:vimtex_view_general_options
     \ . ':\%l^<CR^>:normal\! zzzv^<CR^>'
     \ . ':call remote_foreground('''.v:servername.''')^<CR^>^<CR^>\""'
 let g:vimtex_view_general_options_latexmk='-reuse-instance'
-let g:vimtex_latexmk_background       = 1
+let g:vimtex_latexmk_background=1
 let g:vimtex_quickfix_mode=0
-" Fix colorscheme loading issue in tex files:
-let g:tex_fast="cmMprsSvV"
+let g:tex_fast="cmMprsSvV" " Fix colorscheme loading issue in tex files
 "............................. AsyncRun Settings ..............................
-" let g:asyncrun_open = 8 "opens quickfix by default
-let g:asyncrun_last = 1 "scroll only if cursor is on last line
+let g:asyncrun_last=1      " Scroll only if cursor is on last line
 nnoremap <leader>as :AsyncStop<CR>
-" See python realtime output
-let $PYTHONUNBUFFERED=1
-" Filetype specific mappings:
-augroup vimrc_asyncrun
+let $PYTHONUNBUFFERED=1    " See python realtime output
+augroup vimrc_asyncrun     " Filetype specific mappings
     au!
     if has('win32')
-        autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python "%"  <CR>
-        " FIXME - The relative path (using $HOME) does not work:
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "$(VIM_HOME)\otherstuff\mypdfstyle.css" "%" -o "%:r.pdf" <CR>
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" <CR>
-    else
-        autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 "%"  <CR>
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME"/.vim/otherstuff/mypdfstyle.css"'' "%" -o "%:r.pdf" <CR>
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" <CR>
+        autocmd FileType python nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python "%"  <CR>
+    else "
+        autocmd FileType python nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 "%"  <CR>
     endif
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" <CR>
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "$(VIM_HOME)/otherstuff/mypdfstyle.css" "%" -o "%:r.pdf" <CR>
     autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "%"  <CR>
     autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia "%"  <CR>
     autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
@@ -400,10 +378,9 @@ nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
 "......................... Global syntax highlighting .........................
-" " Check sintax highlighting group under cursor using HiLinkTrace
+" Check sintax highlighting group under cursor using HiLinkTrace
 map <F10> :HLT<CR>
-" Highlight Keywords uniformly:
-augroup vimrc_syntax
+augroup vimrc_syntax " Highlight Keywords uniformly
     au!
     au Syntax * syn match MyTodo /\v<(FIXME:|TODO:|OPTIMIZE:|FIXME|TODO|OPTIMIZE|XXX)/ containedin=.*Comment,vimCommentTitle
     au Syntax * syn match MyNote /\v<(NOTE:|NOTE|NB:|NB)/ containedin=.*Comment,vimCommentTitle
@@ -414,7 +391,7 @@ command! KWF execute "/\\v\TODO|\FIXME|\NOTE|\OPTIMIZE|\XXX"
 command! KWD execute "vimgrep /\\v\TODO\|\FIXME\|\NOTE\|\OPTIMIZE\|\XXX/gj **/*" <Bar>
 "................................. Word Count .................................
 function! WordCount()
-    " Based on: https://stackoverflow.com/questions/114431/fast-word-count-function-in-vim
+   " Based on stackoverflow.com/questions/114431/fast-word-count-function-in-vim
    let s:old_status = v:statusmsg
    let position = getpos(".")
    exe ":silent normal g\<c-g>"
@@ -423,9 +400,9 @@ function! WordCount()
    let s:wordc_pos = 0
    if stat != '--No lines in buffer--'
      let s:wordc_pos = index(split(v:statusmsg),'Word')
-     if s:wordc_pos != -1 "Not in visual mode
+     if s:wordc_pos != -1 " Not in visual mode
          let s:word_count = str2nr(split(v:statusmsg)[s:wordc_pos+3])
-     else "In visual mode
+     else                 " In visual mode
          let s:wordc_pos = index(split(v:statusmsg),'Words;')
          let s:word_count = str2nr(split(v:statusmsg)[s:wordc_pos-3])
      let v:statusmsg = s:old_status
@@ -458,14 +435,12 @@ function! s:toggleNotes() abort
         exec winnr . "wincmd c"
         return
     endif
-    " Open size 80 if window is large, half window otherwise
-    if winwidth(0) > 160
+    if winwidth(0) > 160 " Open size 80 if window large, half window otherwise
         botright 80vs %:p:h/notes.md
     else
         botright  vs %:p:h/notes.md
     endif
     setl wfw
     setl nonu
-    "hack to make nerdtree et al not split the window
-    setl previewwindow
+    setl previewwindow   " hack to make nerdtree et al not split the window
 endfunction
