@@ -14,8 +14,12 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
 else                                            " UNIX OR WSL
     if system('uname -a')=~#'Microsoft'         " WSL
-        map <silent> <leader>ww :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
-        map <silent> <leader>nn :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea_dev.vim')<CR>:colorscheme nightsea_dev<CR>
+        map <silent> <leader>ww :w<CR>:call system
+                    \('dos2unix -n $WINHOME"/vimfiles/vimrc" ~/.vim/vimrc')<CR>
+                    \:so $MYVIMRC<CR>
+        map <silent> <leader>nn :w<CR>:call system
+                    \('dos2unix -n $WINHOME"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea_dev.vim')<CR>
+                    \:colorscheme nightsea_dev<CR>
     else                                        " UNIX ONLY
         map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
     endif
@@ -56,8 +60,7 @@ call minpac#add('w0rp/ale')                       " Async linting, needs engines
 """"" Interesting packages:
 " call minpac#add('honza/vim-snippets')             " Snippets
 " call minpac#add('christoomey/vim-tmux-runner')    " Send commands to tmux
-" call minpac#add('Valloric/YouCompleteMe')         " Need the engine
-" call minpac#add('Xuyuanp/nerdtree-git-plugin')    " Doesn't work
+" call minpac#add('Valloric/YouCompleteMe')         " Needs the engine
 " call minpac#add('ryanoasis/vim-devicons')         " Requires appropriate font
 " call minpac#add('guns/vim-sexp')                  " Not working for me
 " call minpac#add('')
@@ -91,7 +94,10 @@ syntax on                                  " Enables syntax highlighting
 set background=dark                        " Use dark background
 set t_Co=256                               " Enables 256 color terminal
 try                                        " If missing colorscheme use default
-colorscheme nightsea " GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn, apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void, lucius, greenvision
+colorscheme nightsea
+" GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn,
+" apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void,
+" lucius, greenvision
 catch
 endtry
 set swapfile                               " use swapfiles
@@ -104,7 +110,6 @@ set number                                 " Adds line numbers
 set cursorline                             " Highlight cursor line:
 set hidden                                 " Allows hidden edited bufferd
 set wrap                                   " wrap dynamically to window width
-call matchadd('ColorColumn', '\%82v', 100) " Make 82nd column stand out
 set scrolloff=3                            " keep 3 lines above-below cursor
 set sidescrolloff=5                        " keep 5 columns left-right of cursor
 set splitbelow                             " default horizontal split
@@ -138,7 +143,7 @@ map H ddpkJ
 inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 " Clear search and toggle search highlight
-nnoremap <silent> <leader>cs :let @/ = ""<CR>
+nnoremap <silent> <leader>ch :let @/ = ""<CR>:call clearmatches()<CR>
 nnoremap <silent> <leader>noh :set hlsearch!<CR>
 " Easier switching buffers
 noremap <F2> :ls<CR>:b
@@ -153,15 +158,17 @@ imap <Up> <NOP>
 imap <Down> <NOP>
 imap <Left> <NOP>
 imap <Right> <NOP>
+" Make 81st column stand out
+nnoremap <silent> <leader>8 :call matchadd('ColorColumn', '\%81v', 100)<CR>
 " Easy search for word under cursor in current directory:
 map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 "Easier quoting/unquoting:
-:nnoremap <Leader>q" ciw""<Esc>P
-:nnoremap <Leader>q' ciw''<Esc>P
-:nnoremap <Leader>q` ciw``<Esc>P
-:nnoremap <Leader>Q" ciw""<Esc>P
-:nnoremap <Leader>Q' ciw''<Esc>P
-:nnoremap <Leader>Q` ciW``<Esc>P
+nnoremap <Leader>q" ciw""<Esc>P
+nnoremap <Leader>q' ciw''<Esc>P
+nnoremap <Leader>q` ciw``<Esc>P
+nnoremap <Leader>Q" ciW""<Esc>P
+nnoremap <Leader>Q' ciW''<Esc>P
+nnoremap <Leader>Q` ciW``<Esc>P
 " Easy switching betWeen splits:
 " NOTE: With windows <c-h> affects backspace as well.
 tmap <c-j> <c-w>j
@@ -268,8 +275,7 @@ endif
 "............................ simpleterm settings .............................
 " nnoremap <silent> <leader>t :Stoggle<CR> " Use <leader>ss
 let g:simpleterm.row=8
-nmap <silent> <leader>r :Sline<CR>
-nmap <silent> <leader><tab> :Sline<CR>
+nmap <silent> <leader><tab> :normal <leader>slj<CR>
 nmap <silent> <leader>sk :Skill<CR>
 "............................. NERDTree settings: .............................
 " Open split and then toggle nerdtree (more precse than the other way around)
@@ -291,11 +297,6 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
-" Close Vim if NERDTree is the only window open:
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" NERDtree git plugin settings: " FIXME -  NERDTree-git-plugin doesn't work
-" let g:NERDTreeUseSimpleIndicator = 1
-" let g:NERDTreeShowGitStatus=1
 "............................ Git gutter settings: ............................
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
