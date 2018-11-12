@@ -11,14 +11,14 @@ if has('win32') "WINDOWS (32 or 64 bit)
     set pythonthreedll=python36.dll " Specify which python dll to use
     let g:UltiSnipsUsePythonVersion = 3 " Reduntand: tell ultisnips to use py3
     set guifont=consolas:h10 "Font settings for gvim.
-    map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
+    map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
 else "UNIX OR WSL
     " TODO set font options when consolas is not available
     if system('uname -a')=~"Microsoft" " WSL
-        map <silent> <leader>rr :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
+        map <silent> <leader>ww :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
         map <silent> <leader>nn :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea_dev.vim')<CR>:colorscheme nightsea_dev<CR>
     else " UNIX ONLY
-        map <silent> <leader>rr :w<CR>:so $MYVIMRC<CR>
+        map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
     endif
 endif
 "................................... minpac ...................................
@@ -35,9 +35,8 @@ call minpac#add('airblade/vim-gitgutter') " Shows git diff in sign column
 call minpac#add('godlygeek/tabular') " Align text
 call minpac#add('wellle/targets.vim') " Working with pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist') "Toggle quickfix
-call minpac#add('gu-fan/simpleterm.vim') "TODO: change default shortcuts
+call minpac#add('gu-fan/simpleterm.vim') " Easy interction with terminal
 call minpac#add('christoomey/vim-tmux-navigator') "Navigate vim and tmux
-call minpac#add('benmills/vimux') "Send commands to tmux pane TODO: figure out how
 call minpac#add('xolox/vim-session') "Easy session management
 call minpac#add('xolox/vim-misc') "Necessary for vim-session
 " colorscheme plugins:
@@ -55,19 +54,19 @@ call minpac#add('SirVer/ultisnips') " NB: needs python
 " call minpac#add('honza/vim-snippets') " NB: needs working engine
 " linting:
 call minpac#add('w0rp/ale') " need the engines
-call minpac#add('Kuniwak/vint')
 """"" Interesting packages:
+" call minpac#add('christoomey/vim-tmux-runner') "Send commands to tmux
 " call minpac#add('Valloric/YouCompleteMe') " need the engine
 " call minpac#add('Xuyuanp/nerdtree-git-plugin') " doesn't work
 " call minpac#add('ryanoasis/vim-devicons') " requires appropriate font
 " call minpac#add('guns/vim-sexp') " not working for me
-" call minpac#add('thaerkh/vim-workspace')
+" call minpac#add('Kuniwak/vint') " FIXME
 " call minpac#add('')
 " Load the plugins right now:
 packloadall
 " Commands for easier package management
-command! PUpdate :w | packadd minpac | source $MYVIMRC | call minpac#update()
-command! PClean  :w | packadd minpac | source $MYVIMRC | call minpac#clean()
+command! PUpdate  packadd minpac | source $MYVIMRC | call minpac#update()
+command! PClean   packadd minpac | source $MYVIMRC | call minpac#clean()
 ".......................... Lightline, airline etc.  ..........................
 set laststatus=2
 set noshowmode
@@ -259,15 +258,12 @@ nnoremap <leader>e :edit!<CR>
 " Enable folding with the spacebar
 nnoremap <space> /
 nnoremap <leader>f zR
-"............................... :term settings ...............................
-" Alt-t to start terminal at 10 size
-nnoremap <silent> <a-t> :term ++rows=8 <CR>
-nnoremap <silent> <leader>t :term ++rows=8 <CR>
-" Terminal settings using simpleterm:
+"............................ simpleterm settings .............................
+" nnoremap <silent> <leader>t :Stoggle<CR> " Use <leader>ss
 let g:simpleterm.row=8
-" nmap <silent> <a-t> :Stoggle<CR>
-nmap <silent> <a-e> :Sline<CR>
-vmap <silent> <a-e> :Sline<CR>
+nmap <silent> <leader>r :Sline<CR>
+nmap <silent> <tab> :Sline<CR>
+nmap <silent> <leader>sk :Skill<CR>
 "............................. NERDTree settings: .............................
 " Open split and then toggle nerdtree (more precse than the other way around)
 :nnoremap <silent> <leader>i :split \| :NERDTreeToggle<CR>
@@ -328,7 +324,7 @@ let g:tex_flavor='latex'
 if has('win32')
     let g:vimtex_view_general_viewer = 'sumatrapdf'
 " elseif has('unix') && system('uname -a')=~"Microsoft" "Checks if we are in wsl
-"     let g:vimtex_view_general_viewer = 'sumatrapdf.exe'
+"     let g:vimtex_view_general_viewer = 'TBD'
 else
     let g:vimtex_view_general_viewer = 'zathura'
 endif
@@ -355,20 +351,20 @@ let $PYTHONUNBUFFERED=1
 augroup vimrc_asyncrun
     au!
     if has('win32')
-        autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python %  <CR>
+        autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python "%"  <CR>
         " FIXME - The relative path (using $HOME) does not work:
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "$(VIM_HOME)\otherstuff\mypdfstyle.css" % -o %:r.pdf <CR>
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR>
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "$(VIM_HOME)\otherstuff\mypdfstyle.css" "%" -o "%:r.pdf" <CR>
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" <CR>
     else
-        autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 %  <CR>
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME"/.vim/otherstuff/mypdfstyle.css"'' % -o %:r.pdf <CR>
-        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex % -o %:r.pdf <CR>
+        autocmd FileType python   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 "%"  <CR>
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  ''$HOME"/.vim/otherstuff/mypdfstyle.css"'' "%" -o "%:r.pdf" <CR>
+        autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" <CR>
     endif
-    autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun %  <CR>
-    autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia %  <CR>
+    autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "%"  <CR>
+    autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia "%"  <CR>
     autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
-    autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript % <CR>
-    autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "Stata-64.exe" -b do % &<CR>
+    autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript "%" <CR>
+    autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "Stata-64.exe" -b do "%" &<CR>
     autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :w<CR>:VimtexCompile <CR>
 augroup END
 " Run and show output:
@@ -377,31 +373,30 @@ map <silent> <leader>aq <leader>aa:copen<CR>
 augroup vimrc_sections
     au!
     " Section line
-    autocmd FileType python   nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
-    autocmd FileType sh       nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
-    autocmd FileType julia    nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>ss o<!--<esc>72a.<esc>a--><Esc>
-    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>ss o<esc>79i%<Esc>
-    autocmd FileType r        nnoremap <silent> <buffer> <leader>ss o<esc>79i#<Esc>
-    autocmd FileType stata    nnoremap <silent> <buffer> <leader>ss o<esc>79i*<Esc>
-    autocmd FileType tex      nnoremap <silent> <buffer> <leader>ss o<esc>79i%<Esc>
-    autocmd FileType vim      nnoremap <silent> <buffer> <leader>ss o"<esc>78a.<Esc>
-    " Transform line to section title l<silent> ine
-    autocmd FileType python   nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-    autocmd FileType sh       nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-    autocmd FileType julia    nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
-    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
-    autocmd FileType r        nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-    autocmd FileType stata    nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d79\|
-    autocmd FileType tex      nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
-    autocmd FileType vim      nnoremap <silent> <buffer> <leader>st :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
+    autocmd FileType python   nnoremap <silent> <buffer> <leader>ts o<esc>79i#<Esc>
+    autocmd FileType sh       nnoremap <silent> <buffer> <leader>ts o<esc>79i#<Esc>
+    autocmd FileType julia    nnoremap <silent> <buffer> <leader>ts o<esc>79i#<Esc>
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>ts o<!--<esc>72a.<esc>a--><Esc>
+    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>ts o<esc>79i%<Esc>
+    autocmd FileType r        nnoremap <silent> <buffer> <leader>ts o<esc>79i#<Esc>
+    autocmd FileType stata    nnoremap <silent> <buffer> <leader>ts o<esc>79i*<Esc>
+    autocmd FileType tex      nnoremap <silent> <buffer> <leader>ts o<esc>79i%<Esc>
+    autocmd FileType vim      nnoremap <silent> <buffer> <leader>ts o"<esc>78a.<Esc>
+    " Transform line to section title line
+    autocmd FileType python   nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+    autocmd FileType sh       nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+    autocmd FileType julia    nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
+    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
+    autocmd FileType r        nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
+    autocmd FileType stata    nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d79\|
+    autocmd FileType tex      nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
+    autocmd FileType vim      nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
 augroup END
 "............................. Quickfix shortcuts  ............................
 nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 " nnoremap <silent> <leader>cc :ccl<CR>
 " nnoremap <silent> <leader>co :copen<CR>
-" nnoremap <silent> <leader>cv :copen<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
 "......................... Global syntax highlighting .........................
