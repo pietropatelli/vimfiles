@@ -1,22 +1,22 @@
 " NOTE: the .vimrc file in the home directory simply points here.
-let mapleader = "\\"                     " Use \ as <leader>
-let maplocalleader = "\\"                " Use \ as <localleader>
-filetype plugin on                       " Allow plugins for specific filetypes
-let $VIMHOME=expand(split(&rtp, ',')[0]) " First directory in runtime path
-set dir=$VIMHOME/tmp/.vim-swapfiles      " Directory for swap files
-set undodir=$VIMHOME/tmp/.undodir        " Persistend undo dir
-set undofile                             " Persistend undo
+let mapleader = "\\"                            " Use \ as <leader>
+let maplocalleader = "\\"                       " Use \ as <localleader>
+filetype plugin on                              " Allow plugins for filetypes
+let $VIMHOME=expand(split(&runtimepath,',')[0]) " First dir in runtime path
+set directory=$VIMHOME/tmp/.vim-swapfiles       " Directory for swap files
+set undodir=$VIMHOME/tmp/.undodir               " Persistend undo dir
+set undofile                                    " Persistend undo
 "...................... General system-dependent options ......................
-if has('win32')                          " WINDOWS (32 or 64 bit)
-    set pythonthreedll=python36.dll      " Specify which python dll to use
-    let g:UltiSnipsUsePythonVersion = 3  " Redundand: tell ultisnips to use py3
-    set guifont=consolas:h10             " Font settings for gvim.
+if has('win32')                                 " WINDOWS (32 or 64 bit)
+    set pythonthreedll=python36.dll             " Specify which python dll
+    let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
+    set guifont=consolas:h10                    " Font settings for gvim.
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
-else                                     " UNIX OR WSL
-    if system('uname -a')=~"Microsoft"   " WSL
+else                                            " UNIX OR WSL
+    if system('uname -a')=~#'Microsoft'         " WSL
         map <silent> <leader>ww :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/vimfiles/vimrc" ~/.vim/vimrc')<CR>:so $MYVIMRC<CR>
         map <silent> <leader>nn :w<CR>:call system('dos2unix -n $(cmd.exe /C "cd /D %USERPROFILE% && bash.exe -c pwd")"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea_dev.vim')<CR>:colorscheme nightsea_dev<CR>
-    else                                 " UNIX ONLY
+    else                                        " UNIX ONLY
         map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
     endif
 endif
@@ -52,7 +52,7 @@ call minpac#add('zizhongyan/stata-vim-syntax')    " Stata grammar
 " snippets plugins:
 call minpac#add('SirVer/ultisnips')               " Snippet engine, needs python
 " linting:
-call minpac#add('w0rp/ale') " need the engines
+call minpac#add('w0rp/ale')                       " Async linting, needs engines
 """"" Interesting packages:
 " call minpac#add('honza/vim-snippets')             " Snippets
 " call minpac#add('christoomey/vim-tmux-runner')    " Send commands to tmux
@@ -60,7 +60,6 @@ call minpac#add('w0rp/ale') " need the engines
 " call minpac#add('Xuyuanp/nerdtree-git-plugin')    " Doesn't work
 " call minpac#add('ryanoasis/vim-devicons')         " Requires appropriate font
 " call minpac#add('guns/vim-sexp')                  " Not working for me
-" call minpac#add('Kuniwak/vint')                   " Not working
 " call minpac#add('')
 " Load the plugins right now:
 packloadall
@@ -97,9 +96,10 @@ catch
 endtry
 set swapfile                               " use swapfiles
 set encoding=utf-8                         " unicode compatibility
+scriptencoding utf-8
 set fileencoding=utf-8                     " unicode compatibility
 set fileencodings=ucs-bom,utf8,prc         " unicode compatibility
-set noeb vb t_vb=                          " Disable beeping
+set noerrorbells vb t_vb=                  " Disable beeping
 set number                                 " Adds line numbers
 set cursorline                             " Highlight cursor line:
 set hidden                                 " Allows hidden edited bufferd
@@ -171,6 +171,22 @@ tmap <c-l> <c-w>l
 nnoremap <leader>e :edit!<CR>
 " Enable folding with the spacebar
 nnoremap <leader>f zR
+"............................ general autocommands ............................
+augroup general
+    autocmd BufWritePre * :%s/\s\+$//e   " Remove trailing space on write
+    au BufEnter * call CloseLastWindow() " Close last window if quickfix etc
+augroup END
+function! CloseLastWindow()
+  if winnr('$')==1 " If window is the last window
+      if &buftype==?'quickfix'
+          quit
+      elseif &buftype==?'terminal'
+          quit!
+      elseif exists('b:NERDTree') && b:NERDTree.isTabTree()
+          quit
+      endif
+  endif
+endfunction
 "............................ vim-session settings ............................
 let g:session_menu = 0
 let g:session_autoload = 'no'
@@ -188,18 +204,21 @@ noremap AA :OpenSession default<CR>
 noremap SS :ccl<CR>:lcl<CR>:SaveSession<CR>
 noremap ZZ :ccl<CR>:lcl<CR>:SaveSession<CR>:wqa<CR>
 "............................. Ultisnips settings .............................
-let g:UltiSnipsSnippetDirectories=[expand($VIMHOME."/mysnippets")] "Snippets dir
+let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
 " Trigger config. Avoid <tab> if using https://github.com/Valloric/YouCompleteMe
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsEditSplit="horizontal" " :UltiSnipsEdit split window direction.
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<c-z>'
+let g:UltiSnipsEditSplit='horizontal' " :UltiSnipsEdit split window direction.
 "................................ ALE Settings ................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
 " Shortcuts to enable/disable
 nmap <silent> <a-g> :GitGutterDisable<CR>:ALEToggle<CR>
 nmap <silent> <leader>g :GitGutterDisable<CR>:ALEToggle<CR>
+" Shortcuts to navigate errors
+nmap <silent> [g <Plug>(ale_previous_wrap)
+nmap <silent> ]g <Plug>(ale_next_wrap)
 " let g:ale_lint_on_text_change='never' " Refresh on text change
 " Use quickfix list:
 " let g:ale_set_loclist = 0
@@ -209,7 +228,7 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['autopep8'],
 \   'matlab': ['mlint'],
-\   'vim': ['vlint'],
+\   'vim': ['vint'],
 \   'r': ['lintr'],
 \   'tex': ['chktex'],
 \   'julia': ['languageserver'],
@@ -217,13 +236,11 @@ let g:ale_fixers = {
 " Function that displays ' linting...' if ALE is running
 function! ALErunning()
     if g:ale_enabled==0
-        return ""
+        return ''
     else
-        return "linting"
+        return 'linting'
     end
 endfunction
-" Automatically remove trailing space on write:
-autocmd BufWritePre * :%s/\s\+$//e
 ".............................. Paste settings: ...............................
 " set clipboard=unnamed " Always use system clipboard
 "Pasting from system clipboard in command and insert mode with Ctrl-vò
@@ -235,7 +252,7 @@ noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
 noremap <Leader>y "*y
 noremap <Leader>o "*p
 "............................ Better paste in WSL .............................
-if has('unix') && system('uname -a')=~"Microsoft" "This checks if we are in wsl
+if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in wsl
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
     if executable(s:clip)
         augroup WSLYank
@@ -279,29 +296,17 @@ let g:NERDTreeUpdateOnWrite=1
 " NERDtree git plugin settings: " FIXME -  NERDTree-git-plugin doesn't work
 " let g:NERDTreeUseSimpleIndicator = 1
 " let g:NERDTreeShowGitStatus=1
-"........................... Auto close last window ...........................
-" Auto close last window if it is NERDTree or Quickfix
-au BufEnter * call CloseLastWindow()
-function! CloseLastWindow()
-  if winnr('$')==1 " If window is the last window
-      if &buftype=="quickfix"
-          quit
-      elseif &buftype=="terminal"
-          quit!
-      elseif exists("b:NERDTree") && b:NERDTree.isTabTree()
-          quit
-      endif
-  endif
-endfunction
 "............................ Git gutter settings: ............................
 let g:gitgutter_enabled = 0
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
 nmap <silent> <a-h> :ALEDisable<CR>:GitGutterToggle<CR>
 nmap <silent> <leader>hh :ALEDisable<CR>:GitGutterToggle<CR>
 function! GitGutterRunning()
     if g:gitgutter_enabled==0
-        return ""
+        return ''
     else
-        return "gitgutter"
+        return 'gitgutter'
     end
 endfunction
 ".............................. Vimtex settings: ..............................
@@ -324,7 +329,7 @@ let g:vimtex_view_general_options
 let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background=1
 let g:vimtex_quickfix_mode=0
-let g:tex_fast="cmMprsSvV" " Fix colorscheme loading issue in tex files
+let g:tex_fast='cmMprsSvV' " Fix colorscheme loading issue in tex files
 "............................. AsyncRun Settings ..............................
 let g:asyncrun_last=1      " Scroll only if cursor is on last line
 nnoremap <leader>as :AsyncStop<CR>
@@ -393,12 +398,12 @@ command! KWD execute "vimgrep /\\v\TODO\|\FIXME\|\NOTE\|\OPTIMIZE\|\XXX/gj **/*"
 function! WordCount()
    " Based on stackoverflow.com/questions/114431/fast-word-count-function-in-vim
    let s:old_status = v:statusmsg
-   let position = getpos(".")
+   let position = getpos('.')
    exe ":silent normal g\<c-g>"
    let stat = v:statusmsg
    let s:word_count = 0
    let s:wordc_pos = 0
-   if stat != '--No lines in buffer--'
+   if stat !=# '--No lines in buffer--'
      let s:wordc_pos = index(split(v:statusmsg),'Word')
      if s:wordc_pos != -1 " Not in visual mode
          let s:word_count = str2nr(split(v:statusmsg)[s:wordc_pos+3])
@@ -415,7 +420,7 @@ function! WordCount()
    end
 endfunction
 function! TexWordCount()
-  if &filetype == 'tex'
+  if &filetype ==? 'tex'
     let s:TEXcount = split(system('TEXcount -nc -0 -sum -inc ' . expand('%')),'\n')[1]
     return s:TEXcount
   else
@@ -430,9 +435,9 @@ command! WC echom TexWordCount()
 nnoremap <F12> :NotesToggle<cr>
 command! -nargs=0 NotesToggle call <sid>toggleNotes()
 function! s:toggleNotes() abort
-    let winnr = bufwinnr("notes.md")
+    let winnr = bufwinnr('notes.md')
     if winnr > 0
-        exec winnr . "wincmd c"
+        exec winnr . 'wincmd c'
         return
     endif
     if winwidth(0) > 160 " Open size 80 if window large, half window otherwise
@@ -440,7 +445,7 @@ function! s:toggleNotes() abort
     else
         botright  vs %:p:h/notes.md
     endif
-    setl wfw
-    setl nonu
+    setl winfixwidth
+    setl nonumber
     setl previewwindow   " hack to make nerdtree et al not split the window
 endfunction
