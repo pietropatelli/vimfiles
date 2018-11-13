@@ -1,0 +1,19 @@
+snippet stime "print start time"
+print('#############################################################')
+print('#### Starting at '+datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")+ ' ####')
+print('#############################################################')
+$0
+endsnippet
+
+snippet credentials "input credentials" b
+with open("credentials")as f:
+    credentials     = f.readlines()
+credentials         = [x.strip() for x in credentials]
+$0
+endsnippet
+
+snippet utf "utf encoding header" b
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+$0
+endsnippet
