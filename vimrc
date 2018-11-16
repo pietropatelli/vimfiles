@@ -180,6 +180,8 @@ nnoremap <leader>e :edit!<CR>
 nnoremap <leader>f zR
 "............................ general autocommands ............................
 augroup general
+    autocmd!
+    autocmd filetype markdown setlocal nonumber textwidth=80
     autocmd BufWritePre * :%s/\s\+$//e   " Remove trailing space on write
     au BufEnter * call CloseLastWindow() " Close last window if quickfix etc
 augroup END
