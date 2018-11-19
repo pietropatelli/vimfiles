@@ -1,3 +1,17 @@
+extends general
+
+snippet fm "fmatter"
+---
+title: ${1:Title}
+date: ${2:`!p import time; snip.rv=time.strftime("%d-%m-%Y")`}
+author: PP
+tags: $3
+---
+# $1
+## $2
+$0
+endsnippet
+
 snippet link "Link to something"
 [${1:${VISUAL:Text}}](${3:http://${2:www.url.com}})$0
 endsnippet

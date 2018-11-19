@@ -139,6 +139,8 @@ nnoremap <space> /
 map Y y$
 " Making H work like J but putting the current line after the next one
 map H ddpkJ
+" Make Enter insert new line below
+nmap <CR> o<Esc>
 " Allow j and k to move in autocomplete list
 inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
@@ -390,8 +392,9 @@ nnoremap <silent> <leader>cp :cp<CR>
 map <F10> :HLT<CR>
 augroup vimrc_syntax " Highlight Keywords uniformly
     au!
+    autocmd filetype markdown syntax match Comment /\%^---\_.\{-}---$/
     au Syntax * syn match MyTodo /\v<(FIXME:|TODO:|OPTIMIZE:|FIXME|TODO|OPTIMIZE|XXX)/ containedin=.*Comment,vimCommentTitle
-    au Syntax * syn match MyNote /\v<(NOTE:|NOTE|NB:|NB)/ containedin=.*Comment,vimCommentTitle
+    au Syntax * syn match MyNote /\v<(NOTE:|NOTE |NB:|NB )/ containedin=.*Comment,vimCommentTitle
 augroup END
 hi! def link MyTodo Todo
 hi! def link MyNote Constant
