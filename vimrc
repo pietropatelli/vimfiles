@@ -266,15 +266,13 @@ noremap <Leader>o "*p
 if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in wsl
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
     if executable(s:clip)
-        augroup WSLYank
+        augroup WSLYank "Automatically yanks text to system clipboard
             autocmd!
             autocmd TextYankPost * call system('echo '.shellescape(join(v:event.regcontents, "\<CR>")).' | '.s:clip)
         augroup END
     end
-    map <silent> <leader>lp :r !powershell.exe -Command Get-Clipboard<CR>
-    map <silent> <leader>lP k:r !powershell.exe -Command Get-Clipboard<CR>
-    cmap <silent> <c-v> :r !powershell.exe -Command Get-Clipboard<CR>
-    imap <silent> <c-v> :r !powershell.exe -Command Get-Clipboard<CR>
+    noremap <silent> <leader>p :r !powershell.exe -Command Get-Clipboard<CR>
+    noremap <silent> <leader>P k:r !powershell.exe -Command Get-Clipboard<CR>
 endif
 "............................ simpleterm settings .............................
 " nnoremap <silent> <leader>t :Stoggle<CR> " Use <leader>ss
