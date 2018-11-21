@@ -1,18 +1,15 @@
 extends general
 
 snippet rmdiff "clear variables except listed"
-rm(list=setdiff(ls(), c($1)))
-$0
+rm(list=setdiff(ls(), c($1))) $0
 endsnippet
 
 snippet opa "save original plot parameters"
-opa <- par(no.readonly = TRUE)
-$0
+opa <- par(no.readonly = TRUE) $0
 endsnippet
 
 snippet require "load and install if not present"
-if(!require($1)){chooseCRANmirror(graphics=F,ind=35);install.packages("$1"); library($1)}
-$0
+if(!require($1)){chooseCRANmirror(graphics=F,ind=35);install.packages("$1"); library($1)} $0
 endsnippet
 
 

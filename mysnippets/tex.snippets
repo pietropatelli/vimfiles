@@ -2,9 +2,10 @@ extends general
 
 snippet setup "documentclass etc"
 \documentclass[a4paper, 11pt]{article}
-\usepackage[margin=.8in]{geometry}
+\documentclass{beamer}
+%\usepackage[margin=.8in]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage{csquotes, multicol, setspace, mathtools, amssymb, amsthm, stmaryrd}
+\usepackage{csquotes, multicol, setspace, mathtools, amssymb, amsthm, stmaryrd, booktabs}
 %\usepackage{graphicx}\graphicspath{{./subfolderhere/}}
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{2pt plus 4pt}
@@ -47,12 +48,22 @@ snippet title
 $0
 endsnippet
 
+snippet ite "itemize" b
+\begin{itemize}
+	\item $0
+\end{itemize}
+endsnippet
+
+snippet i "item" b
+\item $0
+endsnippet
+
 snippet sec
 \section{$1}
 $0
 endsnippet
 
-snippet subsec
+snippet sub
 \subsection{$1}
 $0
 endsnippet
@@ -66,4 +77,56 @@ snippet ali
 \begin{align*}
 $0
 \end{align*}
+endsnippet
+
+snippet lp "Long parenthesis"
+\left(${1:${VISUAL:contents}}\right)$0
+endsnippet
+
+snippet lb "Long brackets"
+\left[${1:${VISUAL:contents}}\right]$0
+endsnippet
+
+snippet lc "Long curly brackets"
+\left\{${1:${VISUAL:contents}}\right\}$0
+endsnippet
+
+snippet pres "presentation setup"
+\mode<presentation>{\usetheme{Madrid}}
+\title${2:[short]}{${1:long}}
+\author${4:[short]}{${3:long}}
+\date{${5:\today}}
+\institute${6:[short]}{${5:long}}
+%\titlegraphic{\includegraphics[scale=.2]{...}}
+
+\begin{document}
+\begin{frame}
+\titlepage % TITLE SLIDE
+\end{frame}
+\begin{frame}
+\frametitle{Overview} % TABLE OF CONTENTS
+\tableofcontents
+\end{frame}
+$0
+
+
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+\footnotesize{\begin{thebibliography}{99} % REFERENCES (Beamer doesn't support BibTeX)
+	\bibitem[short]{reference}long
+\end{thebibliography}}
+\end{frame}
+
+\begin{frame}
+\Huge{\centerline{The End}} % END SLIDE
+\end{frame}
+\end{document}
+endsnippet
+
+snippet frame "Frame for beamer doc" b
+\begin{frame}
+\frametitle{${1:Title}}${2:[allowframebreaks]}
+$0
+\end{frame}
+
 endsnippet
