@@ -8,11 +8,13 @@ set undodir=$VIMHOME/tmp/.undodir               " Persistend undo dir
 set undofile                                    " Persistend undo
 "...................... General system-dependent options ......................
 if has('win32')                                 " WINDOWS (32 or 64 bit)
+    set clipboard=unnamed                       " Always use system clipboard
     set pythonthreedll=python36.dll             " Specify which python dll
     let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
     set guifont=consolas:h10                    " Font settings for gvim.
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
 else                                            " UNIX OR WSL
+    set clipboard=unnamedplus                   " Always use system clipboard
     if system('uname -a')=~#'Microsoft'         " WSL
         map <silent> <leader>ww :w<CR>:call system
                     \('dos2unix -n $WINHOME"/vimfiles/vimrc" ~/.vim/vimrc')<CR>
@@ -117,6 +119,7 @@ set splitright                             " default vertical split
 set showmatch                              " bracket matching
 set autoread                               " listen for external changes to file
 set history=500                            " store long :cmdline history
+set showcmd                                " show partial command
 " Search settings:
 set ignorecase                             " Ignore case if search is lowercase
 set smartcase                              " Use case if search has uppercase
@@ -180,6 +183,24 @@ tmap <c-l> <c-w>l
 nnoremap <leader>e :edit!<CR>
 " Enable folding with the spacebar
 nnoremap <leader>f zR
+" Pasting from system clipboard in command and insert mode with Ctrl-v
+" cmap <C-v> <C-r>*
+" imap <C-v> <C-r>*
+" Paste multiple lines correctly from system clipboard in normal mode
+noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
+noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
+"............................ Better paste in WSL .............................
+if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in wsl
+    let s:clip = '/mnt/c/Windows/System32/clip.exe'
+    if executable(s:clip)
+        augroup WSLYank
+            autocmd!
+            autocmd TextYankPost * call system('echo '.shellescape(join(v:event.regcontents, "\<CR>")).' | '.s:clip)
+        augroup END
+    end
+    nnoremap <silent> <leader>p :r !powershell.exe -Command Get-Clipboard<CR>
+    nnoremap <silent> <leader>P k:r !powershell.exe -Command Get-Clipboard<CR>
+endif
 "............................ general autocommands ............................
 augroup general
     autocmd!
@@ -208,7 +229,7 @@ let g:session_verbose_messages = 0
 " let g:session_default_to_last = 1
 set sessionoptions-=help    " Don't restore help windows
 set sessionoptions-=buffers " Don't save hidden and unloaded buffers in sessions
-" Useful mappings:
+" Session mappings:
 noremap <F3> :OpenSession<CR>
 imap <F3> <Esc>:w<CR>:OpenSession<CR>
 noremap AA :OpenSession default<CR>
@@ -252,28 +273,6 @@ function! ALErunning()
         return 'linting'
     end
 endfunction
-".............................. Paste settings: ...............................
-" set clipboard=unnamed " Always use system clipboard
-"Pasting from system clipboard in command and insert mode with Ctrl-vò
-cmap <C-v> <C-r>*
-imap <C-v> <C-r>*
-" Alternative shortcut to paste correctly from system clipboard in normal mode
-noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
-noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
-noremap <Leader>y "*y
-noremap <Leader>o "*p
-"............................ Better paste in WSL .............................
-if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in wsl
-    let s:clip = '/mnt/c/Windows/System32/clip.exe'
-    if executable(s:clip)
-        augroup WSLYank "Automatically yanks text to system clipboard
-            autocmd!
-            autocmd TextYankPost * call system('echo '.shellescape(join(v:event.regcontents, "\<CR>")).' | '.s:clip)
-        augroup END
-    end
-    noremap <silent> <leader>p :r !powershell.exe -Command Get-Clipboard<CR>
-    noremap <silent> <leader>P k:r !powershell.exe -Command Get-Clipboard<CR>
-endif
 "............................ simpleterm settings .............................
 " nnoremap <silent> <leader>t :Stoggle<CR> " Use <leader>ss
 let g:simpleterm.row=8
