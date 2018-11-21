@@ -187,10 +187,16 @@ nnoremap <leader>f zR
 " cmap <C-v> <C-r>*
 " imap <C-v> <C-r>*
 " Paste multiple lines correctly from system clipboard in normal mode
-noremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
-noremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
+nnoremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
+nnoremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
+" Delete to the 'black hole' register
+nnoremap <Leader>d "_d
+nnoremap <Leader>D "_D
+" Paste last yank in vim:
+nnoremap 0p "0p
+nnoremap 0P "0P
 "............................ Better paste in WSL .............................
-if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in wsl
+if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
     if executable(s:clip)
         augroup WSLYank
