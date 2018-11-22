@@ -6,10 +6,10 @@ let $VIMHOME=expand(split(&runtimepath,',')[0]) " First dir in runtime path
 set directory=$VIMHOME/tmp/.vim-swapfiles       " Directory for swap files
 set undodir=$VIMHOME/tmp/.undodir               " Persistend undo dir
 set undofile                                    " Persistend undo
-"...................... General system-dependent options ......................
+"...................... General system-dependent options .......................
 if has('win32')                                 " WINDOWS (32 or 64 bit)
     set clipboard=unnamed                       " Always use system clipboard
-    set pythonthreedll=python36.dll             " Specify which python dll
+    set pythonthreedll=python37.dll             " Specify which python dll
     let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
     set guifont=consolas:h10                    " Font settings for gvim.
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
@@ -26,7 +26,7 @@ else                                            " UNIX OR WSL
         map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
     endif
 endif
-"................................... minpac ...................................
+"................................... minpac ....................................
 " NOTE: I have added minpac as a git submodule
 packadd minpac
 call minpac#init()
@@ -71,7 +71,7 @@ packloadall
 " Commands for easier package management
 command! PUpdate  packadd minpac | source $MYVIMRC | call minpac#update()
 command! PClean   packadd minpac | source $MYVIMRC | call minpac#clean()
-".......................... Lightline, airline etc.  ..........................
+".......................... Lightline, airline etc.  ...........................
 set laststatus=2
 set noshowmode
 " Lightline settings - Note: This must be before the colorscheme
@@ -91,7 +91,7 @@ let g:lightline = {
       \   'gitgutter': 'GitGutterRunning',
       \ },
       \ }
-"............................ Basic configuration: ............................
+"............................ Basic configuration: .............................
 syntax on                                  " Enables syntax highlighting
 set background=dark                        " Use dark background
 set t_Co=256                               " Enables 256 color terminal
@@ -104,22 +104,25 @@ catch
 endtry
 set swapfile                               " use swapfiles
 set encoding=utf-8                         " unicode compatibility
-scriptencoding utf-8
+scriptencoding utf-8                       " unicode compatibility
 set fileencoding=utf-8                     " unicode compatibility
 set fileencodings=ucs-bom,utf8,prc         " unicode compatibility
 set noerrorbells vb t_vb=                  " Disable beeping
 set number                                 " Adds line numbers
-set cursorline                             " Highlight cursor line:
+set cursorline                             " Highlight cursor line
 set hidden                                 " Allows hidden edited bufferd
 set wrap                                   " wrap dynamically to window width
 set scrolloff=3                            " keep 3 lines above-below cursor
 set sidescrolloff=5                        " keep 5 columns left-right of cursor
 set splitbelow                             " default horizontal split
 set splitright                             " default vertical split
-set showmatch                              " bracket matching
 set autoread                               " listen for external changes to file
 set history=500                            " store long :cmdline history
 set showcmd                                " show partial command
+set lazyredraw                             " No redraw while executing macros
+set ttyfast                                " Faster redrawing
+set noshowmatch                            " don't jump to matching parentheris
+let loaded_matchparen = 1                  " don't load marchparen
 " Search settings:
 set ignorecase                             " Ignore case if search is lowercase
 set smartcase                              " Use case if search has uppercase
@@ -132,11 +135,9 @@ set foldlevelstart=1                       " Open level x-level folds on start
 set tabstop=4                              " Tab length
 set expandtab                              " Use spaces instead of <Tab>
 set shiftwidth=4                           " Indentation length
-set lazyredraw                             " No redraw while executing macros
-" Disable comment continuation on <Enter>:
-set formatoptions-=c formatoptions-=r formatoptions-=o
+set formatoptions-=r formatoptions-=o " No autocontinue comment
 runtime macros/matchit.vim                 " Enables matchit plugin
-".................................. Mappings ..................................
+".................................. Mappings ...................................
 nnoremap <space> /
 " Making Y work like C or D:
 map Y y$
@@ -195,7 +196,7 @@ nnoremap <Leader>D "_D
 " Paste last yank in vim:
 nnoremap 0p "0p
 nnoremap 0P "0P
-"............................ Better paste in WSL .............................
+"............................ Better paste in WSL ..............................
 if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
     if executable(s:clip)
@@ -207,10 +208,11 @@ if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     nnoremap <silent> <leader>p :r !powershell.exe -Command Get-Clipboard<CR>
     nnoremap <silent> <leader>P k:r !powershell.exe -Command Get-Clipboard<CR>
 endif
-"............................ general autocommands ............................
+"............................ general autocommands .............................
 augroup general
     autocmd!
     autocmd filetype markdown setlocal nonumber textwidth=80
+    autocmd filetype * setlocal breakindent formatoptions-=r formatoptions-=o
     autocmd BufWritePre * :%s/\s\+$//e   " Remove trailing space on write
     au BufEnter * call CloseLastWindow() " Close last window if quickfix etc
 augroup END
@@ -225,7 +227,7 @@ function! CloseLastWindow()
       endif
   endif
 endfunction
-"............................ vim-session settings ............................
+"............................ vim-session settings .............................
 let g:session_menu = 0
 let g:session_autoload = 'no'
 let g:session_autosave = 'no'
@@ -279,12 +281,12 @@ function! ALErunning()
         return 'linting'
     end
 endfunction
-"............................ simpleterm settings .............................
+"............................ simpleterm settings ..............................
 " nnoremap <silent> <leader>t :Stoggle<CR> " Use <leader>ss
 let g:simpleterm.row=8
 nmap <silent> <leader><tab> :normal <leader>slj<CR>
-nmap <silent> <leader>sk :Skill<CR>
-"............................. NERDTree settings: .............................
+nmap <leader>sk :Skill<CR>
+"............................. NERDTree settings: ..............................
 " Open split and then toggle nerdtree (more precse than the other way around)
 nnoremap <silent> <leader>i :split \| :NERDTreeToggle<CR>
 nnoremap <silent> <leader>v :vsplit \| :NERDTreeToggle<CR>
@@ -294,7 +296,7 @@ imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
 cmap <F1> <Esc><Esc>:NERDTreeToggle<CR>
 let NERDTreeShowHidden=1    " Show hidden files (eg. dotfiles)
 let NERDTreeShowBookmarks=1 " Shows bookmarks
-augroup vimrc_nerdtree      " Open if vim is started without a file selcted
+augroup vimrc_nerdtree      " Open if vim is started without a file - SLOW
     autocmd!
     autocmd StdinReadPre * let s:std_in=1
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -304,7 +306,7 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
-"............................ Git gutter settings: ............................
+"............................ Git gutter settings: .............................
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
@@ -317,7 +319,7 @@ function! GitGutterRunning()
         return 'gitgutter'
     end
 endfunction
-".............................. Vimtex settings: ..............................
+".............................. Vimtex settings: ...............................
 let g:tex_flavor='latex'
 if has('win32')
     let g:vimtex_view_general_viewer = 'sumatrapdf'
@@ -338,12 +340,12 @@ let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background=1
 let g:vimtex_quickfix_mode=0
 let g:tex_fast='cmMprsSvV' " Fix colorscheme loading issue in tex files
-"............................. AsyncRun Settings ..............................
+"............................. AsyncRun Settings ...............................
 let g:asyncrun_last=1      " Scroll only if cursor is on last line
 nnoremap <leader>as :AsyncStop<CR>
 let $PYTHONUNBUFFERED=1    " See python realtime output
 augroup vimrc_asyncrun     " Filetype specific mappings
-    au!
+    autocmd!
     if has('win32')
         autocmd FileType python nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python "%"  <CR>
     else "
@@ -360,41 +362,36 @@ augroup vimrc_asyncrun     " Filetype specific mappings
 augroup END
 " Run and show output:
 map <silent> <leader>aq <leader>aa:copen<CR>
-"........................... Section line shortcuts ...........................
-augroup vimrc_sections
-    au!
+"........................... Section line shortcuts ............................
+" Defaults for section line and section title
+nnoremap <silent> <leader>ts o<esc>80i#<Esc>
+nnoremap <silent> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d80\|
+augroup vimrc_sections "Filetype dependent (only when different)
+    autocmd!
     " Section line
-    autocmd FileType python   nnoremap <silent> <buffer> <leader>ts o<esc>79i#<Esc>
-    autocmd FileType sh       nnoremap <silent> <buffer> <leader>ts o<esc>79i#<Esc>
-    autocmd FileType julia    nnoremap <silent> <buffer> <leader>ts o<esc>79i#<Esc>
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>ts o<!--<esc>72a.<esc>a--><Esc>
-    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>ts o<esc>79i%<Esc>
-    autocmd FileType r        nnoremap <silent> <buffer> <leader>ts o<esc>79i#<Esc>
-    autocmd FileType stata    nnoremap <silent> <buffer> <leader>ts o<esc>79i*<Esc>
-    autocmd FileType tex      nnoremap <silent> <buffer> <leader>ts o<esc>79i%<Esc>
-    autocmd FileType vim      nnoremap <silent> <buffer> <leader>ts o"<esc>78a.<Esc>
-    " Transform line to section title line
-    autocmd FileType python   nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-    autocmd FileType sh       nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-    autocmd FileType julia    nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0R<!--<esc>$hhR--><esc>
-    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
-    autocmd FileType r        nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d79\|
-    autocmd FileType stata    nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d79\|
-    autocmd FileType tex      nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d79\|
-    autocmd FileType vim      nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d79\|0r"
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>ts o<!--<esc>73a.<esc>a--><Esc>
+    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>ts o<esc>80i%<Esc>
+    autocmd FileType stata    nnoremap <silent> <buffer> <leader>ts o<esc>80i*<Esc>
+    autocmd FileType tex      nnoremap <silent> <buffer> <leader>ts o<esc>80i%<Esc>
+    autocmd FileType vim      nnoremap <silent> <buffer> <leader>ts o"<esc>79a.<Esc>
+    " Section title
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d80\|0R<!--<esc>$hhR--><esc>
+    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d80\|
+    autocmd FileType stata    nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d80\|
+    autocmd FileType tex      nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d80\|
+    autocmd FileType vim      nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d80\|0r"
 augroup END
-"............................. Quickfix shortcuts  ............................
+"............................. Quickfix shortcuts ..............................
 nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 " nnoremap <silent> <leader>cc :ccl<CR>
 " nnoremap <silent> <leader>co :copen<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
-"......................... Global syntax highlighting .........................
+"......................... Global syntax highlighting ..........................
 " Check sintax highlighting group under cursor using HiLinkTrace
 map <F10> :HLT<CR>
 augroup vimrc_syntax " Highlight Keywords uniformly
-    au!
+    autocmd!
     autocmd filetype markdown syntax match Comment /\%^---\_.\{-}---$/
     au Syntax * syn match MyTodo /\v<(FIXME:|TODO:|OPTIMIZE:|FIXME|TODO|OPTIMIZE|XXX)/ containedin=.*Comment,vimCommentTitle
     au Syntax * syn match MyNote /\v<(NOTE:|NOTE |NB:|NB )/ containedin=.*Comment,vimCommentTitle
@@ -403,7 +400,7 @@ hi! def link MyTodo Todo
 hi! def link MyNote Constant
 command! KWF execute "/\\v\TODO|\FIXME|\NOTE|\OPTIMIZE|\XXX"
 command! KWD execute "vimgrep /\\v\TODO\|\FIXME\|\NOTE\|\OPTIMIZE\|\XXX/gj **/*" <Bar>
-"................................. Word Count .................................
+"................................. Word Count ..................................
 function! WordCount()
    " Based on stackoverflow.com/questions/114431/fast-word-count-function-in-vim
    let s:old_status = v:statusmsg
@@ -437,7 +434,7 @@ function! TexWordCount()
   end
 endfunction
 command! WC echom TexWordCount()
-"................................ Toggle Note .................................
+"................................ Toggle Note ..................................
 " Toggle a markdown notes file in a fixed window on the right with F12
 " The note.md file is created in the same directory as the current file
 " Based on https://github.com/scrooloose/vimfiles
