@@ -31,34 +31,35 @@ endif
 packadd minpac
 call minpac#init()
 " Essential plugins:
-call minpac#add('scrooloose/nerdtree')            " File tree browser
-call minpac#add('skywind3000/asyncrun.vim')       " Run commands asynchronously
-call minpac#add('tomtom/tcomment_vim')            " Toggle comments
-call minpac#add('farmergreg/vim-lastplace')       " Reopen files at last edit
-call minpac#add('itchyny/lightline.vim')          " Statusline
-call minpac#add('tpope/vim-fugitive')             " Git integration
-call minpac#add('airblade/vim-gitgutter')         " Shows gitdiff in sign column
-call minpac#add('godlygeek/tabular')              " Align text
-call minpac#add('wellle/targets.vim')             " Working with pairs of ([{,'
-call minpac#add('milkypostman/vim-togglelist')    " Toggle quickfix
-call minpac#add('gu-fan/simpleterm.vim')          " Easy interction w terminal
-call minpac#add('christoomey/vim-tmux-navigator') " Navigate vim and tmux
-call minpac#add('xolox/vim-session')              " Easy session management
-call minpac#add('xolox/vim-misc')                 " Necessary for vim-session
+call minpac#add('scrooloose/nerdtree')              " File tree browser
+call minpac#add('tomtom/tcomment_vim')              " Toggle comments
+call minpac#add('farmergreg/vim-lastplace')         " Reopen files at last pos
+call minpac#add('itchyny/lightline.vim')            " Statusline
+call minpac#add('tpope/vim-fugitive')               " Git integration
+call minpac#add('godlygeek/tabular')                " Align text
+call minpac#add('wellle/targets.vim')               " Working w pairs of ([{,'
+call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
+" terminal plugins
+call minpac#add('gu-fan/simpleterm.vim')            " Easy interction w :term
+call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
+call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 " colorscheme plugins:
-call minpac#add('PietroPate/vim-nightsea')        " My colorscheme
-call minpac#add('flazz/vim-colorschemes')         " Colorscheme collection
-call minpac#add('rafi/awesome-vim-colorschemes')  " Colorscheme collection
-call minpac#add('gerw/vim-HiLinkTrace')           " Shows syntax tree
+call minpac#add('PietroPate/vim-nightsea')          " My colorscheme
+call minpac#add('flazz/vim-colorschemes')           " Colorscheme collection
+call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
 " language-specific plugins:
-call minpac#add('tmhedberg/SimpylFold')           " Smart python code folding
-call minpac#add('JuliaEditorSupport/julia-vim')   " Julia support
-call minpac#add('lervag/vimtex')                  " Simple latex integration
-call minpac#add('zizhongyan/stata-vim-syntax')    " Stata grammar
-" snippets plugins:
-call minpac#add('SirVer/ultisnips')               " Snippet engine, needs python
-" linting:
-call minpac#add('w0rp/ale')                       " Async linting, needs engines
+call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
+call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
+call minpac#add('lervag/vimtex')                    " Simple latex integration
+call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
+call minpac#add('PProvost/vim-ps1')                 " Powershell
+" plugins loaded later:
+call minpac#add('gerw/vim-HiLinkTrace',  {'type': 'opt'}) " Shows syntax tree
+call minpac#add('xolox/vim-session',     {'type': 'opt'}) " Session management
+call minpac#add('xolox/vim-misc',        {'type': 'opt'}) " Req by vim-session
+call minpac#add('SirVer/ultisnips',      {'type': 'opt'}) " Snippet engine
+call minpac#add('airblade/vim-gitgutter',{'type': 'opt'}) " Gitdiff in sign col
+call minpac#add('w0rp/ale',              {'type': 'opt'}) " Async linting
 """"" Interesting packages:
 " call minpac#add('honza/vim-snippets')             " Snippets
 " call minpac#add('christoomey/vim-tmux-runner')    " Send commands to tmux
@@ -238,24 +239,37 @@ let g:session_verbose_messages = 0
 set sessionoptions-=help    " Don't restore help windows
 set sessionoptions-=buffers " Don't save hidden and unloaded buffers in sessions
 " Session mappings:
-noremap <F3> :OpenSession<CR>
-imap <F3> <Esc>:w<CR>:OpenSession<CR>
-noremap AA :OpenSession default<CR>
-noremap SS :ccl<CR>:lcl<CR>:SaveSession<CR>
-noremap ZZ :ccl<CR>:lcl<CR>:SaveSession<CR>:wqa<CR>
-"............................. Ultisnips settings .............................
+noremap <F3> :packadd vim-misc<CR>:packadd vim-session<CR>:OpenSession<CR>
+imap <F3> <Esc>:packadd vim-misc<CR>:packadd vim-session<CR>:w<CR>:OpenSession<CR>
+noremap AA :packadd vim-misc<CR>:packadd vim-session<CR>:OpenSession default<CR>
+noremap SS :ccl<CR>:lcl<CR>:packadd vim-misc<CR>:packadd vim-session<CR>:SaveSession<CR>
+noremap ZZ :ccl<CR>:lcl<CR>:packadd vim-misc<CR>:packadd vim-session<CR>:SaveSession<CR>:wqa<CR>
+"............................. Ultisnips settings ..............................
 let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
 " Trigger config. Avoid <tab> if using https://github.com/Valloric/YouCompleteMe
 let g:UltiSnipsExpandTrigger='<tab>'
 let g:UltiSnipsJumpForwardTrigger='<tab>'
 let g:UltiSnipsJumpBackwardTrigger='<c-z>'
 let g:UltiSnipsEditSplit='horizontal' " :UltiSnipsEdit split window direction.
-"................................ ALE Settings ................................
+inoremap <silent> <tab> <C-r>=LoadUltiSnips()<cr>
+command! USE :packadd ultisnips|:UltiSnipsEdit
+" This function only runs when UltiSnips is not loaded
+function! LoadUltiSnips()
+  let l:curpos = getcurpos()
+  execute "packadd ultisnips"
+  call cursor(l:curpos[1], l:curpos[2])
+  call UltiSnips#ExpandSnippet()
+  if g:ulti_expand_res == 0
+      " call feedkeys('    ')
+      call feedkeys("\<tab>")
+  endif
+  return ""
+endfunction
+"................................ ALE Settings .................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
 " Shortcuts to enable/disable
-nmap <silent> <a-g> :GitGutterDisable<CR>:ALEToggle<CR>
-nmap <silent> <leader>g :GitGutterDisable<CR>:ALEToggle<CR>
+nmap <silent> <leader>g :packadd ale<CR>:packadd vim-gitgutter<CR>:GitGutterDisable<CR>:ALEToggle<CR>
 " Shortcuts to navigate errors
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
@@ -282,10 +296,12 @@ function! ALErunning()
     end
 endfunction
 "............................ simpleterm settings ..............................
-" nnoremap <silent> <leader>t :Stoggle<CR> " Use <leader>ss
-let g:simpleterm.row=8
-nmap <silent> <leader><tab> :normal <leader>slj<CR>
-nmap <leader>sk :Skill<CR>
+if exists('g:simpleterm')
+    " nnoremap <silent> <leader>t :Stoggle<CR> " Use <leader>ss
+    let g:simpleterm.row=8
+    nmap <silent> <leader><tab> :normal <leader>slj<CR>
+    nmap <leader>sk :Skill<CR>
+endif
 "............................. NERDTree settings: ..............................
 " Open split and then toggle nerdtree (more precse than the other way around)
 nnoremap <silent> <leader>i :split \| :NERDTreeToggle<CR>
@@ -310,8 +326,7 @@ let g:NERDTreeUpdateOnWrite=1
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
-nmap <silent> <a-h> :ALEDisable<CR>:GitGutterToggle<CR>
-nmap <silent> <leader>hh :ALEDisable<CR>:GitGutterToggle<CR>
+nmap <silent> <leader>hh :packadd ale<CR>:packadd vim-gitgutter<CR>:ALEDisable<CR>:GitGutterToggle<CR>
 function! GitGutterRunning()
     if g:gitgutter_enabled==0
         return ''
@@ -389,7 +404,7 @@ nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
 "......................... Global syntax highlighting ..........................
 " Check sintax highlighting group under cursor using HiLinkTrace
-map <F10> :HLT<CR>
+map <F10> :packadd vim-HiLinkTrace<CR>:HLT<CR>
 augroup vimrc_syntax " Highlight Keywords uniformly
     autocmd!
     autocmd filetype markdown syntax match Comment /\%^---\_.\{-}---$/
