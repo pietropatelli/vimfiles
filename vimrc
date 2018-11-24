@@ -40,7 +40,9 @@ call minpac#add('godlygeek/tabular')                " Align text
 call minpac#add('wellle/targets.vim')               " Working w pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
 " terminal plugins
-call minpac#add('gu-fan/simpleterm.vim')            " Easy interction w :term
+if v:version >=801
+    call minpac#add('gu-fan/simpleterm.vim')        " Easy interction w :term
+endif
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
 call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 " colorscheme plugins:
@@ -53,6 +55,7 @@ call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
 call minpac#add('lervag/vimtex')                    " Simple latex integration
 call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
 call minpac#add('PProvost/vim-ps1')                 " Powershell
+call minpac#add('vim-pandoc/vim-pandoc-syntax')     " Pandoc Markdown
 " plugins loaded later:
 call minpac#add('gerw/vim-HiLinkTrace',  {'type': 'opt'}) " Shows syntax tree
 call minpac#add('xolox/vim-session',     {'type': 'opt'}) " Session management
@@ -123,7 +126,7 @@ set showcmd                                " show partial command
 set lazyredraw                             " No redraw while executing macros
 set ttyfast                                " Faster redrawing
 set noshowmatch                            " don't jump to matching parentheris
-let loaded_matchparen = 1                  " don't load marchparen
+" let loaded_matchparen = 1                  " don't load marchparen
 " Search settings:
 set ignorecase                             " Ignore case if search is lowercase
 set smartcase                              " Use case if search has uppercase
@@ -136,7 +139,7 @@ set foldlevelstart=1                       " Open level x-level folds on start
 set tabstop=4                              " Tab length
 set expandtab                              " Use spaces instead of <Tab>
 set shiftwidth=4                           " Indentation length
-set formatoptions-=r formatoptions-=o " No autocontinue comment
+set formatoptions-=r formatoptions-=o      " No autocontinue comment
 runtime macros/matchit.vim                 " Enables matchit plugin
 ".................................. Mappings ...................................
 nnoremap <space> /
@@ -228,6 +231,8 @@ function! CloseLastWindow()
       endif
   endif
 endfunction
+"............................ vim-pandoc settings ..............................
+let g:pandoc#syntax#conceal#use=0
 "............................ vim-session settings .............................
 let g:session_menu = 0
 let g:session_autoload = 'no'
@@ -312,11 +317,13 @@ imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
 cmap <F1> <Esc><Esc>:NERDTreeToggle<CR>
 let NERDTreeShowHidden=1    " Show hidden files (eg. dotfiles)
 let NERDTreeShowBookmarks=1 " Shows bookmarks
-augroup vimrc_nerdtree      " Open if vim is started without a file - SLOW
-    autocmd!
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-augroup END
+if exists("loaded_nerd_tree")
+    augroup vimrc_nerdtree      " Open if vim is started without a file - SLOW
+        autocmd!
+        autocmd StdinReadPre * let s:std_in=1
+        autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+    augroup END
+endif
 let NERDTreeQuitOnOpen = 1  " Closes NERDTree when opening a file
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
@@ -366,7 +373,8 @@ augroup vimrc_asyncrun     " Filetype specific mappings
     else "
         autocmd FileType python nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 "%"  <CR>
     endif
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" <CR>
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" --filter pandoc-fignos <CR>
+    autocmd FileType markdown nnoremap <silent> <buffer> <leader>ll :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" --filter pandoc-fignos <CR>
     autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "$(VIM_HOME)/otherstuff/mypdfstyle.css" "%" -o "%:r.pdf" <CR>
     autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "%"  <CR>
     autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia "%"  <CR>
@@ -407,7 +415,7 @@ nnoremap <silent> <leader>cp :cp<CR>
 map <F10> :packadd vim-HiLinkTrace<CR>:HLT<CR>
 augroup vimrc_syntax " Highlight Keywords uniformly
     autocmd!
-    autocmd filetype markdown syntax match Comment /\%^---\_.\{-}---$/
+    autocmd filetype matlab syntax match Comment "//.*$"
     au Syntax * syn match MyTodo /\v<(FIXME:|TODO:|OPTIMIZE:|FIXME|TODO|OPTIMIZE|XXX)/ containedin=.*Comment,vimCommentTitle
     au Syntax * syn match MyNote /\v<(NOTE:|NOTE |NB:|NB )/ containedin=.*Comment,vimCommentTitle
 augroup END
