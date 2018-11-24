@@ -1,14 +1,14 @@
 extends general
+extends tex
 
 snippet fm "fmatter"
 ---
 title: ${1:Title}
-date: ${2:`!p import time; snip.rv=time.strftime("%d-%m-%Y")`}
-author: PP
-tags: $3
+date: ${2:`!p import time; snip.rv=time.strftime("%d %B %Y")`}
+author: ${3:PP}
+keywords: $4
+geometry: margin=3cm
 ---
-# $1
-## $2
 $0
 endsnippet
 
@@ -17,5 +17,5 @@ snippet link "Link to something"
 endsnippet
 
 snippet img "Image"
-![${1:pic alt}](${2:path}${3/.+/ "/}${3:opt title}${3/.+/"/})$0
+![${1:label}](${2:path}){#fig:${3:ref} width=85% }$0
 endsnippet
