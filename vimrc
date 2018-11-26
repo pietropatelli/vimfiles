@@ -13,7 +13,10 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
     let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
     set guifont=consolas:h10                    " Font settings for gvim.
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
-else                                            " UNIX OR WSL
+    map <silent> <leader>nn :w<CR>:call system
+                \('powershell -command "COPY ~/github/vim-nightsea/colors/nightsea.vim ~/vimfiles/colors/nightsea_dev.vim"')<CR>
+                \:colorscheme nightsea_dev<CR>
+    else                                        " UNIX OR WSL
     set clipboard=unnamedplus                   " Always use system clipboard
     if system('uname -a')=~#'Microsoft'         " WSL
         map <silent> <leader>ww :w<CR>:call system
@@ -312,23 +315,38 @@ endif
 nnoremap <silent> <leader>i :split \| :NERDTreeToggle<CR>
 nnoremap <silent> <leader>v :vsplit \| :NERDTreeToggle<CR>
 " Shortcuts to toggle NERDTree:
-map <silent> <F1> :NERDTreeToggle<CR>
-imap <silent> <F1> <Esc>:NERDTreeToggle<CR>
-cmap <F1> <Esc><Esc>:NERDTreeToggle<CR>
+map <silent> <F1> :call NERDTreeToggleInCurDir()<CR>
+imap <silent> <F1> <Esc>:call NERDTreeToggleInCurDir()<CR>
+cmap <F1> <Esc><Esc>:call NERDTreeToggleInCurDir()<CR>
 let NERDTreeShowHidden=1    " Show hidden files (eg. dotfiles)
 let NERDTreeShowBookmarks=1 " Shows bookmarks
-if exists("loaded_nerd_tree")
-    augroup vimrc_nerdtree      " Open if vim is started without a file - SLOW
-        autocmd!
-        autocmd StdinReadPre * let s:std_in=1
-        autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-    augroup END
-endif
+" if exists("loaded_nerd_tree")
+"     augroup vimrc_nerdtree      " Open if vim is started without a file - SLOW
+"         autocmd!
+"         autocmd StdinReadPre * let s:std_in=1
+"         autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"     augroup END
+" endif
 let NERDTreeQuitOnOpen = 1  " Closes NERDTree when opening a file
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
+" Open NERDTree in the directory of the current file (or /home if no file is open)
+nmap <silent> <C-i> :call NERDTreeToggleInCurDir()<cr>
+function! NERDTreeToggleInCurDir()
+  " If NERDTree is open in the current buffer
+  if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+    exe ":NERDTreeClose"
+  elseif &filetype!="help" " Try to open at current file directory, otherwise at current vim directory
+    exe ":silent! NERDTree %:p:h"
+      if !(exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+        exe ":NERDTreeCWD"
+      endif
+  else
+    exe ":NERDTreeCWD"
+  endif
+endfunction
 "............................ Git gutter settings: .............................
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
