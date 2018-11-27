@@ -12,6 +12,7 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
     set pythonthreedll=python37.dll             " Specify which python dll
     let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
     set guifont=consolas:h10                    " Font settings for gvim.
+    let g:tex_conceal = "adbg"
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
     map <silent> <leader>nn :w<CR>:call system
                 \('powershell -command "COPY ~/github/vim-nightsea/colors/nightsea.vim ~/vimfiles/colors/nightsea_dev.vim"')<CR>
@@ -19,6 +20,7 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
     else                                        " UNIX OR WSL
     set clipboard=unnamedplus                   " Always use system clipboard
     if system('uname -a')=~#'Microsoft'         " WSL
+        let g:tex_conceal = "adbg"
         map <silent> <leader>ww :w<CR>:call system
                     \('dos2unix -n $WINHOME"/vimfiles/vimrc" ~/.vim/vimrc')<CR>
                     \:so $MYVIMRC<CR>
@@ -27,6 +29,7 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
                     \:colorscheme nightsea_dev<CR>
     else                                        " UNIX ONLY
         map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
+        let g:tex_conceal="abdgm"
     endif
 endif
 "................................... minpac ....................................
@@ -56,6 +59,7 @@ call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
 call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
 call minpac#add('lervag/vimtex')                    " Simple latex integration
+call minpac#add('PietroPate/vim-tex-conceal')       " Improved conceal for tex
 call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
 call minpac#add('PProvost/vim-ps1')                 " Powershell
 call minpac#add('vim-pandoc/vim-pandoc-syntax')     " Pandoc Markdown
@@ -234,7 +238,8 @@ function! CloseLastWindow()
       endif
   endif
 endfunction
-"............................ vim-pandoc settings ..............................
+".............................. conceal settings ...............................
+set conceallevel=2
 let g:pandoc#syntax#conceal#use=0
 "............................ vim-session settings .............................
 let g:session_menu = 0
