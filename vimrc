@@ -11,7 +11,7 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
     set clipboard=unnamed                       " Always use system clipboard
     set pythonthreedll=python37.dll             " Specify which python dll
     let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
-    set guifont=consolas:h10                    " Font settings for gvim.
+    set guifont=consolas:h9                    " Font settings for gvim.
     let g:tex_conceal = "adbg"
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
     map <silent> <leader>nn :w<CR>:call system
@@ -177,8 +177,6 @@ imap <Left> <NOP>
 imap <Right> <NOP>
 " Make 81st column stand out
 nnoremap <silent> <leader>8 :call matchadd('ColorColumn', '\%81v', 100)<CR>
-" Easy search for word under cursor in current directory:
-map <F11> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 "Easier quoting/unquoting:
 nnoremap <Leader>q" ciw""<Esc>P
 nnoremap <Leader>q' ciw''<Esc>P
@@ -238,6 +236,19 @@ function! CloseLastWindow()
       endif
   endif
 endfunction
+"............................... gvim settings .................................
+if has('gui')
+    set lines=80 columns=100
+    if has('win64')
+        map <F11> <Esc>:call libcallnr($VIMHOME.
+                    \"/otherstuff/gvimfullscreen_win32/gvimfullscreen_64.dll",
+                    \"ToggleFullScreen", 0)<CR><esc>
+    endif
+    set guioptions -=m " Menu
+    set guioptions -=T " Toolbar
+    set guioptions -=r " Right scrollbar
+    set guioptions -=L " Left scrollbar
+endif
 ".............................. conceal settings ...............................
 set conceallevel=2
 let g:pandoc#syntax#conceal#use=0
