@@ -420,24 +420,32 @@ augroup END
 " Run and show output:
 map <silent> <leader>aq <leader>aa:copen<CR>
 "........................... Section line shortcuts ............................
-" Defaults for section line and section title
-nnoremap <silent> <leader>ts o<esc>80i#<Esc>
-nnoremap <silent> <leader>tt :center 80<cr>hhv0r#A<space><esc>40A#<esc>"_d80\|
-augroup vimrc_sections "Filetype dependent (only when different)
-    autocmd!
-    " Section line
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>ts o<!--<esc>73a.<esc>a--><Esc>
-    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>ts o<esc>80i%<Esc>
-    autocmd FileType stata    nnoremap <silent> <buffer> <leader>ts o<esc>80i*<Esc>
-    autocmd FileType tex      nnoremap <silent> <buffer> <leader>ts o<esc>80i%<Esc>
-    autocmd FileType vim      nnoremap <silent> <buffer> <leader>ts o"<esc>79a.<Esc>
-    " Section title
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d80\|0R<!--<esc>$hhR--><esc>
-    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d80\|
-    autocmd FileType stata    nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r*A<space><esc>40A*<esc>"_d80\|
-    autocmd FileType tex      nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r%A<space><esc>40A%<esc>"_d80\|
-    autocmd FileType vim      nnoremap <silent> <buffer> <leader>tt :center 80<cr>hhv0r.A<space><esc>40A.<esc>"_d80\|0r"
-augroup END
+nnoremap <silent> <leader>tt :call LineTitle()<cr>
+function! LineTitle()
+    if &filetype=='vim'
+        exe ':s@"@@g'
+        call LineT('.') | call feedkeys('0r"')
+    elseif &filetype=='markdown.pandoc' || &filetype=='markdown'
+        call LineT('.') | call feedkeys("0R<!--\<esc>$hhR-->")
+    elseif &filetype=='tex' || &filetype=='matlab'
+        call LineT('%')
+    elseif &filetype=='stata'
+        call LineT('*')
+    else
+        call LineT('#')
+    endif
+endfunction
+function! LineT(C)
+    exe ':s@\'.a:C.'@@g'
+    if getline('.') !~ '\S'
+        exe ':s@\s@@g'
+        call feedkeys("80i".a:C."\<esc>")
+    else
+        center 80
+        call feedkeys("hhv0r".a:C."A\<space>\<esc>40A".a:C."\<esc>")
+        call feedkeys('$"_d80|')
+    endif
+endfunction
 "............................. Quickfix shortcuts ..............................
 nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 " nnoremap <silent> <leader>cc :ccl<CR>
