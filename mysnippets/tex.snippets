@@ -3,6 +3,7 @@ extends general
 snippet setup "documentclass etc"
 \documentclass[a4paper, 11pt]{article}
 \documentclass{beamer}
+%\setbeamertemplate{caption}[numbered]
 %\usepackage[margin=.8in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{csquotes, multicol, setspace, mathtools, amssymb, amsthm, stmaryrd, booktabs}
@@ -69,8 +70,7 @@ $0
 endsnippet
 
 snippet newline
-\hfill\break
-$0
+\hfill\break $0
 endsnippet
 
 snippet ali
@@ -129,4 +129,8 @@ snippet frame "Frame for beamer doc" b
 $0
 \end{frame}
 
+endsnippet
+
+snippet graph "insert image" b
+\includegraphics[scale=${2:1}]{${1:path}}$0
 endsnippet
