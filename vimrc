@@ -11,11 +11,12 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
     set clipboard=unnamed                       " Always use system clipboard
     set pythonthreedll=python37.dll             " Specify which python dll
     let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
-    set guifont=consolas:h9                    " Font settings for gvim.
+    set guifont=consolas:h9                     " Font settings for gvim.
     let g:tex_conceal = "adbg"
     map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
-    map <silent> <leader>nn :w<CR>:call system
-                \('powershell -command "COPY ~/github/vim-nightsea/colors/nightsea.vim ~/vimfiles/colors/nightsea_dev.vim"')<CR>
+    map <silent> <leader>nn :w<CR>:call system ('powershell -command "COPY
+                \~/github/vim-nightsea/colors/nightsea.vim
+                \~/vimfiles/colors/nightsea_dev.vim"')<CR>
                 \:colorscheme nightsea_dev<CR>
     else                                        " UNIX OR WSL
     set clipboard=unnamedplus                   " Always use system clipboard
@@ -24,8 +25,9 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
         map <silent> <leader>ww :w<CR>:call system
                     \('dos2unix -n $WINHOME"/vimfiles/vimrc" ~/.vim/vimrc')<CR>
                     \:so $MYVIMRC<CR>
-        map <silent> <leader>nn :w<CR>:call system
-                    \('dos2unix -n $WINHOME"/github/vim-nightsea/colors/nightsea.vim" ~/.vim/colors/nightsea_dev.vim')<CR>
+        map <silent> <leader>nn :w<CR>:call system ('dos2unix -n
+                    \$WINHOME"/github/vim-nightsea/colors/nightsea.vim"
+                    \~/.vim/colors/nightsea_dev.vim')<CR>
                     \:colorscheme nightsea_dev<CR>
     else                                        " UNIX ONLY
         map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
@@ -211,7 +213,8 @@ if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     if executable(s:clip)
         augroup WSLYank
             autocmd!
-            autocmd TextYankPost * call system('echo '.shellescape(join(v:event.regcontents, "\<CR>")).' | '.s:clip)
+            autocmd TextYankPost * call system('echo '.shellescape
+                        \(join(v:event.regcontents, "\<CR>")).' | '.s:clip)
         augroup END
     end
     nnoremap <silent> <leader>p :r !powershell.exe -Command Get-Clipboard<CR>
@@ -238,7 +241,11 @@ function! CloseLastWindow()
 endfunction
 "............................... gvim settings .................................
 if has('gui')
-    set lines=80 columns=100
+    set ghr=-100
+    winpos -11 0
+    if &lines < 50
+        set lines=60 columns=100
+    endif
     if has('win64')
         map <F11> <Esc>:call libcallnr($VIMHOME.
                     \"/otherstuff/gvimfullscreen_win32/gvimfullscreen_64.dll",
@@ -264,10 +271,14 @@ set sessionoptions-=help    " Don't restore help windows
 set sessionoptions-=buffers " Don't save hidden and unloaded buffers in sessions
 " Session mappings:
 noremap <F3> :packadd vim-misc<CR>:packadd vim-session<CR>:OpenSession<CR>
-imap <F3> <Esc>:packadd vim-misc<CR>:packadd vim-session<CR>:w<CR>:OpenSession<CR>
+imap <F3> <Esc>:packadd vim-misc<CR>:packadd vim-session<CR>
+            \:w<CR>:OpenSession<CR>
 noremap AA :packadd vim-misc<CR>:packadd vim-session<CR>:OpenSession default<CR>
-noremap SS :ccl<CR>:lcl<CR>:packadd vim-misc<CR>:packadd vim-session<CR>:SaveSession<CR>
-noremap ZZ :ccl<CR>:lcl<CR>:packadd vim-misc<CR>:packadd vim-session<CR>:SaveSession<CR>:wqa<CR>
+noremap SS :ccl<CR>:lcl<CR>:packadd vim-misc<CR>:packadd vim-session<CR>
+            \:wa<CR>:SaveSession<CR>
+noremap SC :packadd vim-misc<CR>:packadd vim-session<CR>:CloseSession!<CR>
+noremap ZZ :ccl<CR>:lcl<CR>:packadd vim-misc<CR>:packadd vim-session<CR>
+            \:SaveSession<CR>:wqa<CR>
 "............................. Ultisnips settings ..............................
 let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
 " Trigger config. Avoid <tab> if using https://github.com/Valloric/YouCompleteMe
@@ -284,7 +295,6 @@ function! LoadUltiSnips()
   call cursor(l:curpos[1], l:curpos[2])
   call UltiSnips#ExpandSnippet()
   if g:ulti_expand_res == 0
-      " call feedkeys('    ')
       call feedkeys("\<tab>")
   endif
   return ""
@@ -293,7 +303,8 @@ endfunction
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
 " Shortcuts to enable/disable
-nmap <silent> <leader>g :packadd ale<CR>:packadd vim-gitgutter<CR>:GitGutterDisable<CR>:ALEToggle<CR>
+nmap <silent> <leader>g :packadd ale<CR>:packadd vim-gitgutter<CR>
+            \:GitGutterDisable<CR>:ALEToggle<CR>
 " Shortcuts to navigate errors
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
@@ -336,25 +347,22 @@ imap <silent> <F1> <Esc>:call NERDTreeToggleInCurDir()<CR>
 cmap <F1> <Esc><Esc>:call NERDTreeToggleInCurDir()<CR>
 let NERDTreeShowHidden=1    " Show hidden files (eg. dotfiles)
 let NERDTreeShowBookmarks=1 " Shows bookmarks
-" if exists("loaded_nerd_tree")
-"     augroup vimrc_nerdtree      " Open if vim is started without a file - SLOW
-"         autocmd!
-"         autocmd StdinReadPre * let s:std_in=1
-"         autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-"     augroup END
-" endif
+" augroup vimrc_nerdtree      " Open if vim is started without a file - SLOW
+"     autocmd!
+"     autocmd StdinReadPre * let s:std_in=1
+"     autocmd VimEnter * if argc() == 0 && !exists("s:std_in")| NERDTree |endif
+" augroup END
 let NERDTreeQuitOnOpen = 1  " Closes NERDTree when opening a file
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
-" Open NERDTree in the directory of the current file (or /home if no file is open)
-nmap <silent> <C-i> :call NERDTreeToggleInCurDir()<cr>
+" Open NERDTree in current file directory (or /home if no file is open)
 function! NERDTreeToggleInCurDir()
   " If NERDTree is open in the current buffer
   if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
     exe ":NERDTreeClose"
-  elseif &filetype!="help" " Try to open at current file directory, otherwise at current vim directory
+  elseif &filetype!="help" " Try to open at current file dir, otherwise at pwd
     exe ":silent! NERDTree %:p:h"
       if !(exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
         exe ":NERDTreeCWD"
@@ -367,7 +375,8 @@ endfunction
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
-nmap <silent> <leader>hh :packadd ale<CR>:packadd vim-gitgutter<CR>:ALEDisable<CR>:GitGutterToggle<CR>
+nmap <silent> <leader>hh :packadd ale<CR>:packadd vim-gitgutter<CR>
+            \:ALEDisable<CR>:GitGutterToggle<CR>
 function! GitGutterRunning()
     if g:gitgutter_enabled==0
         return ''
@@ -403,19 +412,19 @@ let $PYTHONUNBUFFERED=1    " See python realtime output
 augroup vimrc_asyncrun     " Filetype specific mappings
     autocmd!
     if has('win32')
-        autocmd FileType python nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python "%"  <CR>
+        autocmd FileType python nnoremap <buffer> <leader>aa :w<CR>:AsyncRun python "%"<CR>
     else "
-        autocmd FileType python nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun python3 "%"  <CR>
+        autocmd FileType python nnoremap <buffer> <leader>aa :w<CR>:AsyncRun python3 "%"<CR>
     endif
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>al :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" --filter pandoc-fignos <CR>
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>ll :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" --filter pandoc-fignos <CR>
-    autocmd FileType markdown nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "$(VIM_HOME)/otherstuff/mypdfstyle.css" "%" -o "%:r.pdf" <CR>
-    autocmd FileType dosbatch nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "%"  <CR>
-    autocmd FileType julia    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun julia "%"  <CR>
-    autocmd FileType matlab   nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
-    autocmd FileType r        nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun Rscript "%" <CR>
-    autocmd FileType stata    nnoremap <silent> <buffer> <leader>aa :w<CR>:AsyncRun "Stata-64.exe" -b do "%" &<CR>
-    autocmd FileType tex      nnoremap <silent> <buffer> <leader>aa :w<CR>:VimtexCompile <CR>
+    autocmd FileType markdown.pandoc nnoremap <buffer> <leader>ll :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" --filter pandoc-fignos <CR>
+    autocmd FileType markdown nnoremap <buffer> <leader>ll :w<CR>:AsyncRun pandoc --pdf-engine=xelatex "%" -o "%:r.pdf" --filter pandoc-fignos <CR>
+    autocmd FileType markdown nnoremap <buffer> <leader>aa :w<CR>:AsyncRun pandoc -t html5 --css  "$(VIM_HOME)/otherstuff/mypdfstyle.css" "%" -o "%:r.pdf" <CR>
+    autocmd FileType dosbatch nnoremap <buffer> <leader>aa :w<CR>:AsyncRun "%"  <CR>
+    autocmd FileType julia    nnoremap <buffer> <leader>aa :w<CR>:AsyncRun julia "%"  <CR>
+    autocmd FileType matlab   nnoremap <buffer> <leader>aa :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('%'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
+    autocmd FileType r        nnoremap <buffer> <leader>aa :w<CR>:AsyncRun Rscript "%" <CR>
+    autocmd FileType stata    nnoremap <buffer> <leader>aa :w<CR>:AsyncRun "Stata-64.exe" -b do "%" &<CR>
+    autocmd FileType tex      nnoremap <buffer> <leader>aa :w<CR>:VimtexCompile <CR>
 augroup END
 " Run and show output:
 map <silent> <leader>aq <leader>aa:copen<CR>
@@ -492,7 +501,8 @@ function! WordCount()
 endfunction
 function! TexWordCount()
   if &filetype ==? 'tex'
-    let s:TEXcount = split(system('TEXcount -nc -0 -sum -inc ' . expand('%')),'\n')[1]
+    let s:TEXcount = split(system
+                \('TEXcount -nc -0 -sum -inc ' . expand('%')),'\n')[1]
     return s:TEXcount
   else
     return WordCount()
