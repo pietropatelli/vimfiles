@@ -432,10 +432,11 @@ map <silent> <leader>aq <leader>aa:copen<CR>
 nnoremap <silent> <leader>tt :call LineTitle()<cr>
 function! LineTitle()
     if &filetype=='vim'
-        exe ':s@"@@g'
+        exe ':s@"@@ge'
         call LineT('.') | call feedkeys('0r"')
-    elseif &filetype=='markdown.pandoc' || &filetype=='markdown'
-        call LineT('.') | call feedkeys("0R<!--\<esc>$hhR-->")
+    elseif &filetype=~'pandoc' || &filetype=~'markdown'
+        exe ':s@<!--@@ge' | exe ':s@-->@@ge'
+        call LineT('.') | call feedkeys("0R<!--\<esc>$hhR-->\<esc>")
     elseif &filetype=='tex' || &filetype=='matlab'
         call LineT('%')
     elseif &filetype=='stata'
@@ -445,13 +446,14 @@ function! LineTitle()
     endif
 endfunction
 function! LineT(C)
-    exe ':s@\'.a:C.'@@g'
+    exe ':s@\'.a:C.'@@ge'
+    exe ':s@^\s*@@ge'
+    exe ':s@\s\+$@@ge'
     if getline('.') !~ '\S'
-        exe ':s@\s@@g'
         call feedkeys("80i".a:C."\<esc>")
     else
-        center 80
-        call feedkeys("hhv0r".a:C."A\<space>\<esc>40A".a:C."\<esc>")
+        let s:L = float2nr(floor((81 - col('$'))/2))
+        call feedkeys("0".s:L."i".a:C."\<esc>r A \<esc>".s:L."a".a:C."\<esc>")
         call feedkeys('$"_d80|')
     endif
 endfunction
