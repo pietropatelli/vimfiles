@@ -1,52 +1,12 @@
 extends general
 
-snippet setup "documentclass etc"
-\documentclass[a4paper, 11pt]{article}
-\documentclass{beamer}
-%\setbeamertemplate{caption}[numbered]
-%\usepackage[margin=.8in]{geometry}
-\usepackage[utf8]{inputenc}
-\usepackage{csquotes, multicol, setspace, mathtools, amssymb, amsthm, stmaryrd, booktabs}
-%\usepackage{graphicx}\graphicspath{{./subfolderhere/}}
-\setlength{\parindent}{0cm}
-\setlength{\parskip}{2pt plus 4pt}
-\DeclareMathOperator*{\plim}{plim}
-\DeclareMathOperator*{\argmin}{arg, min}
-\DeclareMathOperator*{\argmax}{arg, max}
-\DeclareMathOperator*{\rank}{rank}
-\DeclareMathOperator*{\Tr}{Tr}
-\DeclareMathOperator*{\eig}{eig}
-\DeclareMathOperator*{\where}{ \quad where \ }
-\DeclareMathOperator*{\with}{ \quad with \ }
-\DeclareMathOperator*{\textand}{ \ and \ }
-\DeclareMathOperator*{\st}{ \qquad s.t. \ }
-\renewcommand{\qedsymbol}{$\blacksquare$}
-\newcommand\E{\mathbb{E}}
-\newcommand\V{\mathbb{V}}
-\newcommand\R{\mathbb{R}}
-\newcommand\N{\mathbb{N}}
-\DeclareMathOperator*{\vx}{\mathbf{x}}
-\DeclareMathOperator*{\vy}{\mathbf{x}}
-\DeclareMathOperator*{\iv}{^{-1}}
-\DeclareMathOperator*{\quadd}{\qquad\qquad\quad}
-$0
-endsnippet
-
 snippet "be(gin)?( (\S+))?" "begin{} / end{}" br
+
+
 \begin{${1:`!p
 snip.rv = match.group(3) if match.group(2) is not None else "something"`}}
     ${2:${VISUAL}}
 \end{$1}$0
-endsnippet
-
-snippet usepackage
-\usepackage$2{$1}
-$0
-endsnippet
-
-snippet title
-\title{$1}\author{${2:PP}}\date{${3:\today}}\maketitle
-$0
 endsnippet
 
 snippet ite "itemize" b
@@ -55,9 +15,10 @@ snippet ite "itemize" b
 \end{itemize}
 endsnippet
 
-snippet i "item" b
+snippet \i "item" A
 \item $0
 endsnippet
+
 
 snippet sec
 \section{$1}
@@ -73,25 +34,83 @@ snippet newline
 \hfill\break $0
 endsnippet
 
+snippet graph "insert image" b
+\includegraphics[scale=${2:1}]{${1:path}}$0
+endsnippet
+snippet figure "figure" b
+\begin{figure}
+   \centering
+\includegraphics[width=.7\paperwidth]{${1:path}}
+\caption{$2}
+\end{figure}
+$0
+endsnippet
+
+################################ Math snippets #################################
+
 snippet ali
 \begin{align*}
 $0
 \end{align*}
 endsnippet
 
-snippet lp "Long parenthesis"
-\left(${1:${VISUAL:contents}}\right)$0
+snippet lp "Long parenthesis" i
+\left($0\right)
 endsnippet
 
-snippet lb "Long brackets"
-\left[${1:${VISUAL:contents}}\right]$0
+snippet lb "Long brackets" i
+\left[$0\right]
 endsnippet
 
-snippet lc "Long curly brackets"
-\left\{${1:${VISUAL:contents}}\right\}$0
+snippet lc "Long curly brackets" i
+\left\{$0\right\}
 endsnippet
 
-snippet pres "presentation setup"
+snippet bb "mathbb"
+\mathbb{${1:E}}$0
+endsnippet
+
+snippet bf "mathbf"
+\mathbf{${1:x}}$0
+endsnippet
+
+snippet inv "inverse"
+^{-1}$0
+endsnippet
+
+snippet frac "fraction"
+\frac{${1:num}}{${2:den}}$0
+endsnippet
+
+################################ setup snippets ################################
+
+snippet setup "documentclass etc"
+\documentclass[a4paper, 11pt]{article}
+%\documentclass{beamer}
+%\setbeamertemplate{caption}[numbered]
+%\usepackage[margin=.8in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes, multicol, setspace, mathtools, amssymb, amsthm, stmaryrd, booktabs}
+%\usepackage{graphicx}\graphicspath{{./subfolderhere/}}
+\usepackage{natbib}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{2pt plus 4pt}
+\DeclareMathOperator*{\plim}{plim}
+\DeclareMathOperator*{\argmin}{arg, min}
+\DeclareMathOperator*{\argmax}{arg, max}
+\DeclareMathOperator*{\rank}{rank}
+\DeclareMathOperator*{\Tr}{Tr}
+\DeclareMathOperator*{\eig}{eig}
+\DeclareMathOperator*{\where}{ \quad where \ }
+\DeclareMathOperator*{\with}{ \quad with \ }
+\DeclareMathOperator*{\textand}{ \ and \ }
+\DeclareMathOperator*{\st}{ \qquad s.t. \ }
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\DeclareMathOperator*{\quadd}{\qquad\qquad\quad}
+$0
+endsnippet
+
+snippet presentation "presentation setup"
 \mode<presentation>{\usetheme{Madrid}}
 \title${2:[short]}{${1:long}}
 \author${4:[short]}{${3:long}}
@@ -116,21 +135,40 @@ $0
 	\bibitem[short]{reference}long
 \end{thebibliography}}
 \end{frame}
-
-\begin{frame}
-\Huge{\centerline{The End}} % END SLIDE
-\end{frame}
 \end{document}
 endsnippet
 
+snippet title
+\title{$1}\author{${2:PP}}\date{${3:\today}}\maketitle
+$0
+endsnippet
+
+snippet usepackage
+\usepackage$2{$1} $0
+endsnippet
+
+snippet \use "usepackage" bA
+\usepackage$2{$1} $0
+endsnippet
+
+snippet bibitem "bibitem" b
+\bibitem[${2:Citation}]{${3:ref}}${1:Text}$0
+endsnippet
+
+############################### Beamer snippets ################################
+
+snippet contents "table of contents beamer" b
+\begin{frame}
+\tableofcontents${1:[currentsection]}
+\end{frame}
+$0
+endsnippet
+
 snippet frame "Frame for beamer doc" b
-\begin{frame}${2:[allowframebreaks]}
+\begin{frame}%[allowframebreaks]
 \frametitle{${1:Title}}
 $0
 \end{frame}
 
 endsnippet
 
-snippet graph "insert image" b
-\includegraphics[scale=${2:1}]{${1:path}}$0
-endsnippet
