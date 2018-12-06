@@ -65,15 +65,17 @@ call minpac#add('PietroPate/vim-tex-conceal')       " Improved conceal for tex
 call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
 call minpac#add('PProvost/vim-ps1')                 " Powershell
 call minpac#add('vim-pandoc/vim-pandoc-syntax')     " Pandoc Markdown
+" snippet plugins:
+call minpac#add('SirVer/ultisnips')                 " Snippet engine
+" call minpac#add('honza/vim-snippets')             " Snippets
+" session management
+call minpac#add('xolox/vim-session')                " Session management
+call minpac#add('xolox/vim-misc')                   " Req by vim-session
 " plugins loaded later:
 call minpac#add('gerw/vim-HiLinkTrace',  {'type': 'opt'}) " Shows syntax tree
-call minpac#add('xolox/vim-session',     {'type': 'opt'}) " Session management
-call minpac#add('xolox/vim-misc',        {'type': 'opt'}) " Req by vim-session
-call minpac#add('SirVer/ultisnips',      {'type': 'opt'}) " Snippet engine
 call minpac#add('airblade/vim-gitgutter',{'type': 'opt'}) " Gitdiff in sign col
 call minpac#add('w0rp/ale',              {'type': 'opt'}) " Async linting
 """"" Interesting packages:
-" call minpac#add('honza/vim-snippets')             " Snippets
 " call minpac#add('christoomey/vim-tmux-runner')    " Send commands to tmux
 " call minpac#add('Valloric/YouCompleteMe')         " Needs the engine
 " call minpac#add('ryanoasis/vim-devicons')         " Requires appropriate font
@@ -269,35 +271,29 @@ let g:session_verbose_messages = 0
 set sessionoptions-=help    " Don't restore help windows
 set sessionoptions-=buffers " Don't save hidden and unloaded buffers in sessions
 " Session mappings:
-noremap <F3> :packadd vim-misc<CR>:packadd vim-session<CR>:OpenSession<CR>
-imap <F3> <Esc>:packadd vim-misc<CR>:packadd vim-session<CR>
-            \:w<CR>:OpenSession<CR>
-noremap AA :packadd vim-misc<CR>:packadd vim-session<CR>:OpenSession default<CR>
-noremap SS :ccl<CR>:lcl<CR>:packadd vim-misc<CR>:packadd vim-session<CR>
-            \:wa<CR>:SaveSession<CR>
-noremap SC :packadd vim-misc<CR>:packadd vim-session<CR>:CloseSession!<CR>
-noremap ZZ :ccl<CR>:lcl<CR>:packadd vim-misc<CR>:packadd vim-session<CR>
-            \:SaveSession<CR>:wqa<CR>
+noremap <F3> :OpenSession<CR>
+imap <F3> <Esc>:w<CR>:OpenSession<CR>
+noremap AA :OpenSession default<CR>
+noremap SS :ccl<CR>:lcl<CR>:wa<CR>:SaveSession<CR>
+noremap SC :CloseSession!<CR>
+noremap ZZ :ccl<CR>:lcl<CR>:SaveSession<CR>:wqa<CR>
 "............................. Ultisnips settings ..............................
 let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
 " Trigger config. Avoid <tab> if using https://github.com/Valloric/YouCompleteMe
-let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsExpandTrigger='<c-tab>'
 let g:UltiSnipsJumpForwardTrigger='<tab>'
 let g:UltiSnipsJumpBackwardTrigger='<c-z>'
 let g:UltiSnipsEditSplit='horizontal' " :UltiSnipsEdit split window direction.
-inoremap <silent> <tab> <C-r>=LoadUltiSnips()<cr>
-command! USE :packadd ultisnips|:UltiSnipsEdit
-" This function only runs when UltiSnips is not loaded
-function! LoadUltiSnips()
-  let l:curpos = getcurpos()
-  execute "packadd ultisnips"
-  call cursor(l:curpos[1], l:curpos[2])
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-      call feedkeys("\<tab>")
+command! USE :UltiSnipsEdit
+function! ExpandPossibleShorterSnippet()
+  if len(UltiSnips#SnippetsInCurrentScope()) == 1 "only one candidate...
+    let curr_key = keys(UltiSnips#SnippetsInCurrentScope())[0]
+    exe "normal cb".curr_key." \<esc>"
+    return 1
   endif
-  return ""
+  return 0
 endfunction
+inoremap <silent> <tab> <C-R>=(ExpandPossibleShorterSnippet() == 0? '<tab>': UltiSnips#ExpandSnippet())<CR>
 "................................ ALE Settings .................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
