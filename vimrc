@@ -195,9 +195,8 @@ tmap <c-l> <c-w>l
 nnoremap <leader>e :edit!<CR>
 " Enable folding with the spacebar
 nnoremap <leader>f zR
-" Pasting from system clipboard in command and insert mode with Ctrl-v
-" cmap <C-v> <C-r>*
-" imap <C-v> <C-r>*
+" Pasting from system clipboard in insert mode with Ctrl-v
+imap <C-v> <C-r>*
 " Paste multiple lines correctly from system clipboard in normal mode
 nnoremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
 nnoremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
@@ -446,7 +445,11 @@ function! LineTitle()
     endif
 endfunction
 function! LineT(C)
-    exe ':s@\'.a:C.'@@ge'
+    if a:C=='.'
+        exe ':s@\'.a:C.'@@ge'
+    else
+        exe ':s@'.a:C.'@@ge'
+    endif
     exe ':s@^\s*@@ge'
     exe ':s@\s\+$@@ge'
     if getline('.') !~ '\S'
@@ -459,8 +462,6 @@ function! LineT(C)
 endfunction
 "............................. Quickfix shortcuts ..............................
 nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
-" nnoremap <silent> <leader>cc :ccl<CR>
-" nnoremap <silent> <leader>co :copen<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
 "......................... Global syntax highlighting ..........................
