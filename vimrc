@@ -153,7 +153,9 @@ set shiftwidth=4                           " Indentation length
 set formatoptions-=r formatoptions-=o      " No autocontinue comment
 runtime macros/matchit.vim                 " Enables matchit plugin
 ".................................. Mappings ...................................
+nnoremap ò :
 nnoremap <space> /
+nnoremap <leader><space> ?
 " Making Y work like C or D:
 map Y y$
 " Making H work like J but putting the current line after the next one
