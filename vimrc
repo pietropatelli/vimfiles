@@ -6,7 +6,7 @@ let $VIMHOME=expand(split(&runtimepath,',')[0]) " First dir in runtime path
 set directory=$VIMHOME/tmp/.vim-swapfiles       " Directory for swap files
 set undodir=$VIMHOME/tmp/.undodir               " Persistend undo dir
 set undofile                                    " Persistend undo
-set cm=blowfish2                               " medium strong method
+set cm=blowfish2                                " medium to strong encryption
 "...................... General system-dependent options .......................
 if has('win32')                                 " WINDOWS (32 or 64 bit)
     set clipboard=unnamed                       " Always use system clipboard
@@ -337,8 +337,8 @@ if exists('g:simpleterm')
 endif
 "............................. NERDTree settings: ..............................
 " Open split and then toggle nerdtree (more precse than the other way around)
-nnoremap <silent> <leader>i :split \| :NERDTreeToggle<CR>
-nnoremap <silent> <leader>v :vsplit \| :NERDTreeToggle<CR>
+nnoremap <silent> <leader>i :new \| :NERDTreeToggle<CR>
+nnoremap <silent> <leader>v :vnew \| :NERDTreeToggle<CR>
 " Shortcuts to toggle NERDTree:
 map <silent> <F1> :call NERDTreeToggleInCurDir()<CR>
 imap <silent> <F1> <Esc>:call NERDTreeToggleInCurDir()<CR>
@@ -534,7 +534,7 @@ function! s:toggleNotes() abort
 endfunction
 "......................... Save file with Time Stamp: ..........................
 " Save file with date/time. Based on: stackoverflow.com/questions/25163347
-function! SaveWithTS(filename,timeYN) range
+function! SaveWithTS(bang,filename,timeYN) range
     let l:extension = fnamemodify( a:filename, ':e' )
     if len(l:extension)==0 && len(a:filename)==0
         let l:extension = '.md'
@@ -542,18 +542,18 @@ function! SaveWithTS(filename,timeYN) range
         let l:extension = '.'.l:extension
     endif
     if a:filename!=''
-        let l:filename = a:filename.'_'
+        let l:filename = expand('%:p:h').'/'.a:filename.'_'
     else
         let l:filename = ''
     endif
-    if a:timeYN==1
+    if a:timeYN
         let l:filename=escape(fnamemodify(l:filename,':r').
-                    \strftime("%Y-%m-%d_%H-%M").l:extension,' ')
+                    \strftime('%Y-%m-%d_%H-%M').l:extension,' ')
     else
         let l:filename=escape(fnamemodify(l:filename,':r').
-                    \strftime("%Y-%m-%d").l:extension,' ')
+                    \strftime('%Y-%m-%d').l:extension,' ')
     endif
-    execute "write " . l:filename
+    execute 'write' .a:bang.' '.l:filename
 endfunction
-command! -nargs=? SWT call SaveWithTS(expand('%:t').<q-args>,1)
-command! -nargs=? SWD call SaveWithTS(expand('%:t').<q-args>.'',0)
+command! -bang -nargs=? SWT call SaveWithTS('<bang>',expand('%:t').<q-args>,1)
+command! -bang -nargs=? SWD call SaveWithTS('<bang>',expand('%:t').<q-args>,0)
