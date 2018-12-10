@@ -532,3 +532,28 @@ function! s:toggleNotes() abort
     setl nonumber
     setl previewwindow   " hack to make nerdtree et al not split the window
 endfunction
+"......................... Save file with Time Stamp: ..........................
+" Save file with date/time. Based on: stackoverflow.com/questions/25163347
+function! SaveWithTS(filename,timeYN) range
+    let l:extension = fnamemodify( a:filename, ':e' )
+    if len(l:extension)==0 && len(a:filename)==0
+        let l:extension = '.md'
+    elseif len(l:extension)!=0
+        let l:extension = '.'.l:extension
+    endif
+    if a:filename!=''
+        let l:filename = a:filename.'_'
+    else
+        let l:filename = ''
+    endif
+    if a:timeYN==1
+        let l:filename=escape(fnamemodify(l:filename,':r').
+                    \strftime("%Y-%m-%d_%H-%M").l:extension,' ')
+    else
+        let l:filename=escape(fnamemodify(l:filename,':r').
+                    \strftime("%Y-%m-%d").l:extension,' ')
+    endif
+    execute "write " . l:filename
+endfunction
+command! -nargs=? SWT call SaveWithTS(expand('%:t').<q-args>,1)
+command! -nargs=? SWD call SaveWithTS(expand('%:t').<q-args>.'',0)
