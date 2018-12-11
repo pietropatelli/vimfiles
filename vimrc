@@ -369,6 +369,19 @@ function! NERDTreeToggleInCurDir()
     exe ":NERDTreeCWD"
   endif
 endfunction
+"........................ Copy file path to clipboard ..........................
+function! GetFilePath()
+    if &filetype=='nerdtree'
+        let n = g:NERDTreeFileNode.GetSelected()
+        if n != {}
+            call setreg('*', substitute(n.path.str(),'\\','/',"g"))
+        endif
+    else
+        call setreg('*', substitute(expand('%:p'),'\\','/',"g"))
+    endif
+    echo 'Yanked file path to clipboard'
+endfunction
+nnoremap <silent> <leader>u :call GetFilePath()<CR>
 "............................ Git gutter settings: .............................
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
