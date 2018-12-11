@@ -244,7 +244,7 @@ function! CloseLastWindow()
   endif
 endfunction
 "............................... gvim settings .................................
-if has('gui')
+if has('gui') && has('win32')
     set ghr=-100
     winpos -11 0
     if &lines < 50
