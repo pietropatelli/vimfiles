@@ -1,4 +1,3 @@
-" NOTE: the .vimrc file in the home directory simply points here.
 let mapleader = "\\"                            " Use \ as <leader>
 let maplocalleader = "\\"                       " Use \ as <localleader>
 filetype plugin on                              " Allow plugins for filetypes
@@ -50,7 +49,7 @@ call minpac#add('wellle/targets.vim')               " Working w pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
 " terminal plugins
 if v:version >=801
-    call minpac#add('gu-fan/simpleterm.vim')        " Easy interction w :term
+    call minpac#add('gu-fan/simpleterm.vim')        " Easy interaction w :term
 endif
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
 call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
@@ -381,7 +380,7 @@ function! GetFilePath()
     endif
     echo 'Yanked file path to clipboard'
 endfunction
-nnoremap <silent> <leader>u :call GetFilePath()<CR>
+nnoremap <silent> <leader>o :call GetFilePath()<CR>
 "............................ Git gutter settings: .............................
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
@@ -418,6 +417,7 @@ let g:vimtex_quickfix_mode=0
 let g:tex_fast='cmMprsSvV' " Fix colorscheme loading issue in tex files
 "............................. AsyncRun Settings ...............................
 let g:asyncrun_last=1      " Scroll only if cursor is on last line
+let g:asyncrun_exit='echo "Done"'
 nnoremap <leader>as :AsyncStop<CR>
 let $PYTHONUNBUFFERED=1    " See python realtime output
 augroup vimrc_asyncrun     " Filetype specific mappings
@@ -527,7 +527,7 @@ command! WC echom TexWordCount()
 "................................ Toggle Note ..................................
 " Toggle a markdown notes file in a fixed window on the right with F12
 " The note.md file is created in the same directory as the current file
-" Based on https://github.com/scrooloose/vimfiles
+" Based on github.com/scrooloose/vimfiles
 nnoremap <F12> :NotesToggle<cr>
 command! -nargs=0 NotesToggle call <sid>toggleNotes()
 function! s:toggleNotes() abort
