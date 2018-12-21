@@ -156,6 +156,10 @@ runtime macros/matchit.vim                 " Enables matchit plugin
 nnoremap ò :
 nnoremap <space> /
 nnoremap <leader><space> ?
+" Easier append to word
+map E ea
+" Easy make first letter uppercase
+map <leader>m bvU
 " Making Y work like C or D:
 map Y y$
 " Making H work like J but putting the current line after the next one
@@ -290,8 +294,10 @@ command! USE :UltiSnipsEdit
 function! ExpandPossibleShorterSnippet()
   if len(UltiSnips#SnippetsInCurrentScope()) == 1 "only one candidate...
     let curr_key = keys(UltiSnips#SnippetsInCurrentScope())[0]
-    exe "normal cb".curr_key." \<esc>"
-    return 1
+    if curr_key !~ ')?' "Avoid regular expression snippets
+        exe "normal cb".curr_key." \<esc>"
+    endif
+        return 1
   endif
   return 0
 endfunction
@@ -394,6 +400,8 @@ function! GitGutterRunning()
         return 'gitgutter'
     end
 endfunction
+"............................. Fugitive settings: ..............................
+set diffopt+=vertical
 ".............................. Vimtex settings: ...............................
 let g:tex_flavor='latex'
 if has('win32')

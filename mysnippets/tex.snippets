@@ -1,8 +1,6 @@
 extends general
 
 snippet "be(gin)?( (\S+))?" "begin{} / end{}" br
-
-
 \begin{${1:`!p
 snip.rv = match.group(3) if match.group(2) is not None else "something"`}}
     ${2:${VISUAL}}
@@ -15,18 +13,22 @@ snippet ite "itemize" b
 \end{itemize}
 endsnippet
 
-snippet sec
+snippet section
 \section{$1}
 $0
 endsnippet
 
-snippet sub
+snippet subsection
 \subsection{$1}
 $0
 endsnippet
 
-snippet newline
-\hfill\break $0
+snippet newline "new line" b
+\hfill\break$0
+endsnippet
+
+snippet newpage "new page" b
+\newpage$0
 endsnippet
 
 snippet graph "insert image" b
@@ -102,6 +104,15 @@ snippet setup "documentclass etc"
 \DeclareMathOperator*{\st}{ \qquad s.t. \ }
 \renewcommand{\qedsymbol}{$\blacksquare$}
 \DeclareMathOperator*{\quadd}{\qquad\qquad\quad}
+$0
+endsnippet
+
+snippet bibtex "bibtex references" b
+\newpage
+\singlespacing
+\section{References}
+\small{\bibliography{${1:biblio}}}
+\bibliographystyle{aer}
 $0
 endsnippet
 
