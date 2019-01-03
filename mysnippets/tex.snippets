@@ -34,11 +34,13 @@ endsnippet
 snippet graph "insert image" b
 \includegraphics[scale=${2:1}]{${1:path}}$0
 endsnippet
+
 snippet figure "figure" b
-\begin{figure}
+\begin{figure}[h]
    \centering
-\includegraphics[width=.7\paperwidth]{${1:path}}
+\includegraphics[width=.75\paperwidth,keepaspectratio]{${1:path}}
 \caption{$2}
+\label{fig:$3}
 \end{figure}
 $0
 endsnippet
@@ -77,6 +79,10 @@ endsnippet
 
 snippet frac "fraction"
 \frac{${1:num}}{${2:den}}$0
+endsnippet
+
+snippet sqrt "square root"
+\sqrt{${1:arg}}$0
 endsnippet
 
 ################################ setup snippets ################################
