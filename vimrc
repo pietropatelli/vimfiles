@@ -153,9 +153,15 @@ set shiftwidth=4                           " Indentation length
 set formatoptions-=r formatoptions-=o      " No autocontinue comment
 runtime macros/matchit.vim                 " Enables matchit plugin
 ".................................. Mappings ...................................
+" Easier commands
 nnoremap ò :
+inoremap ò <esc>:
+" Easier search
 nnoremap <space> /
 nnoremap <leader><space> ?
+" Easier resizing
+nnoremap <leader>- :resize -10<CR>
+nnoremap <leader>+ :resize +10<CR>
 " Easier append to word
 map E ea
 " Easy make first letter uppercase
@@ -212,8 +218,9 @@ nnoremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
 nnoremap <Leader>d "_d
 nnoremap <Leader>D "_D
 " Paste last yank in vim:
-nnoremap 0p "0p
-nnoremap 0P "0P
+nnoremap \yp "0p
+vnoremap \yp "0p
+nnoremap \yP "0P
 "............................ Better paste in WSL ..............................
 if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
@@ -295,7 +302,7 @@ function! ExpandPossibleShorterSnippet()
   if len(UltiSnips#SnippetsInCurrentScope()) == 1 "only one candidate...
     let curr_key = keys(UltiSnips#SnippetsInCurrentScope())[0]
     if curr_key !~ ')?' "Avoid regular expression snippets
-        exe "normal cb".curr_key." \<esc>"
+        exe "normal  i \<esc>".'vb"_c'.curr_key." \<esc>"
     endif
         return 1
   endif
@@ -425,7 +432,7 @@ let g:vimtex_quickfix_mode=0
 let g:tex_fast='cmMprsSvV' " Fix colorscheme loading issue in tex files
 "............................. AsyncRun Settings ...............................
 let g:asyncrun_last=1      " Scroll only if cursor is on last line
-let g:asyncrun_exit='echo "Done"'
+let g:asyncrun_exit='echo "AsyncRun Done"'
 nnoremap <leader>as :AsyncStop<CR>
 let $PYTHONUNBUFFERED=1    " See python realtime output
 augroup vimrc_asyncrun     " Filetype specific mappings
@@ -446,7 +453,7 @@ augroup vimrc_asyncrun     " Filetype specific mappings
     autocmd FileType tex      nnoremap <buffer> <leader>aa :w<CR>:VimtexCompile <CR>
 augroup END
 " Run and show output:
-map <silent> <leader>aq <leader>aa:copen<CR>
+map <silent> <leader>aq <leader>aa:copen<CR>:wincmd p<CR>
 "........................... Section line shortcuts ............................
 nnoremap <silent> <leader>tt :call LineTitle()<cr>
 function! LineTitle()
