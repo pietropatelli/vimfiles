@@ -1,0 +1,1 @@
+nnoremap <buffer> <Plug>MyAsyncRun :w<CR>:AsyncRun matlab -nodesktop -nosplash -minimize -wait -log -r "try, run('$(VIM_FILEPATH)'); while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"<CR>
