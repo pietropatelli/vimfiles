@@ -1,20 +1,22 @@
+" Create a section title line from the text currently in the line or, if called
+" from an empty line, create a separating line.
 nnoremap <Plug>SectionTitle :call <sid>LineTitle()<CR>
 function! s:LineTitle()
     if &filetype=='vim'
         exe ':s@"@@ge'
-        call <sid>LineT('.') | call feedkeys('0r"')
+        call <sid>LineC('.') | call feedkeys('0r"')
     elseif &filetype=~'pandoc' || &filetype=~'markdown'
         exe ':s@<!--@@ge' | exe ':s@-->@@ge'
-        call <sid>LineT('.') | call feedkeys("0R<!--\<esc>$hhR-->\<esc>")
+        call <sid>LineC('.') | call feedkeys("0R<!--\<esc>$hhR-->\<esc>")
     elseif &filetype=='tex' || &filetype=='matlab'
-        call <sid>LineT('%')
+        call <sid>LineC('%')
     elseif &filetype=='stata'
-        call <sid>LineT('*')
+        call <sid>LineC('*')
     else
-        call <sid>LineT('#')
+        call <sid>LineC('#')
     endif
 endfunction
-function! s:LineT(C)
+function! s:LineC(C)
     if a:C=='.'
         exe ':s@\'.a:C.'@@ge'
     else

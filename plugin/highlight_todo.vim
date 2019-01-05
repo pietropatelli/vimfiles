@@ -1,6 +1,7 @@
-augroup vimrc_syntax " Highlight Keywords uniformly
+" Ensure uniform highlighting of keywords and add commands to search them in
+" file or directory
+augroup vimrc_syntax
     autocmd!
-    " autocmd filetype matlab syn match Comment "//.*$" contains=matlabTodo,matlabTab
     au Syntax * syn match MyTodo /\v<(FIXME:|TODO:|OPTIMIZE:|FIXME|TODO|OPTIMIZE|XXX)/ containedin=.*Comment,vimCommentTitle
     au Syntax * syn match MyNote /\v<(NOTE:|NOTE |NB:|NB )/ containedin=.*Comment,vimCommentTitle
 augroup END

@@ -1,3 +1,4 @@
+" Yank the path of the current file or the file highlighted in NERDTree
 function! s:GetFilePath()
     if &filetype=='nerdtree'
         let n = g:NERDTreeFileNode.GetSelected()
