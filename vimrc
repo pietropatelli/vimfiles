@@ -13,27 +13,18 @@ if has('win32')                                 " WINDOWS (32 or 64 bit)
     set pythonthreedll=python37.dll             " Specify which python dll
     let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
     let g:tex_conceal = "adbg"
-    map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
-    map <silent> <leader>nn :w<CR>:call system ('powershell -command "COPY
-                \~/github/vim-nightsea/colors/nightsea.vim
-                \~/vimfiles/colors/nightsea_dev.vim"')<CR>
-                \:colorscheme nightsea_dev<CR>
 else                                            " UNIX OR WSL
     set clipboard=unnamedplus                   " Always use system clipboard
     if system('uname -a')=~#'Microsoft'         " WSL
         let g:tex_conceal = "adbg"
-        map <silent> <leader>ww :w<CR>:call system
-                    \('dos2unix -n $WINHOME"/vimfiles/vimrc" ~/.vim/vimrc')<CR>
-                    \:so $MYVIMRC<CR>
-        map <silent> <leader>nn :w<CR>:call system ('dos2unix -n
-                    \$WINHOME"/github/vim-nightsea/colors/nightsea.vim"
-                    \~/.vim/colors/nightsea_dev.vim')<CR>
-                    \:colorscheme nightsea_dev<CR>
     else                                        " UNIX ONLY
-        map <silent> <leader>ww :w<CR>:so $MYVIMRC<CR>
         let g:tex_conceal="abdgm"
     endif
 endif
+"................................. Easier dev - TMP ..................................
+map <silent> <leader>nn <Plug>SourceVimrc
+map <silent> <leader>nc <Plug>SourceCurrent
+map <silent> <leader>ns <Plug>SourceTheme
 "................................... minpac ....................................
 " NOTE: I have added minpac as a git submodule
 packadd minpac
@@ -120,6 +111,7 @@ set scrolloff=3                            " keep 3 lines above-below cursor
 set sidescrolloff=5                        " keep 5 columns left-right of cursor
 set splitbelow                             " default horizontal split
 set splitright                             " default vertical split
+set diffopt+=vertical                      " Fugitive open diff vertically
 set autoread                               " listen for external changes to file
 set history=500                            " store long :cmdline history
 set showcmd                                " show partial command
@@ -140,6 +132,7 @@ set expandtab                              " Use spaces instead of <Tab>
 set shiftwidth=4                           " Indentation length
 " set breakindent                            " Wrapped line continue indented
 " set formatoptions-=r formatoptions-=o      " No autocontinue comment
+" set formatoptions-=t                       " Do not automatically break lines
 ".................................. Mappings ...................................
 " Easier commands
 nnoremap ò :
@@ -220,6 +213,9 @@ map <F10> :packadd vim-HiLinkTrace<CR>:HLT<CR>
 nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
+" conceal settings
+set conceallevel=2
+let g:pandoc#syntax#conceal#use=0
 "............................ Better paste in WSL ..............................
 if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
@@ -233,9 +229,6 @@ if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     nnoremap <silent> <leader>p :r !powershell.exe -Command Get-Clipboard<CR>
     nnoremap <silent> <leader>P k:r !powershell.exe -Command Get-Clipboard<CR>
 endif
-".............................. conceal settings ...............................
-set conceallevel=2
-let g:pandoc#syntax#conceal#use=0
 "............................ vim-session settings .............................
 let g:session_menu = 0
 let g:session_autoload = 'no'
@@ -340,8 +333,6 @@ function! GitGutterRunning()
         return 'gitgutter'
     end
 endfunction
-"............................. Fugitive settings: ..............................
-set diffopt+=vertical
 ".............................. Vimtex settings: ...............................
 let g:tex_flavor='latex'
 if has('win32')
