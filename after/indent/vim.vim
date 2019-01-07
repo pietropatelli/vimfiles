@@ -1,1 +1,2 @@
-setlocal breakindent formatoptions-=r formatoptions-=o
+setlocal breakindent
+setlocal formatoptions-=r formatoptions-=o
