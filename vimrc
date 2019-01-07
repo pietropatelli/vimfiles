@@ -39,6 +39,7 @@ call minpac#add('godlygeek/tabular')                " Align text
 call minpac#add('wellle/targets.vim')               " Working w pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
 call minpac#add('SirVer/ultisnips')                 " Snippet engine
+call minpac#add('vimwiki/vimwiki')                  " Personal wiki etc
 " terminal plugins
 call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
@@ -62,7 +63,6 @@ call minpac#add('xolox/vim-misc')                   " Req by vim-session
 call minpac#add('gerw/vim-HiLinkTrace',  {'type': 'opt'}) " Shows syntax tree
 call minpac#add('airblade/vim-gitgutter',{'type': 'opt'}) " Gitdiff in sign col
 call minpac#add('w0rp/ale',              {'type': 'opt'}) " Async linting
-packloadall                                         " Load the plugins now
 " Commands for easier package management
 command! PUpdate  packadd minpac | source $MYVIMRC | call minpac#update()
 command! PClean   packadd minpac | source $MYVIMRC | call minpac#clean()
@@ -202,7 +202,8 @@ nnoremap \yp "0p
 vnoremap \yp "0p
 nnoremap \yP "0P
 " Toggle note
-nmap <silent><F12> <Plug>ToggleNote
+nnoremap <silent><F12> :ToggleNote<CR>
+nnoremap <silent>ì :ToggleNote<CR>
 " Section title
 nmap <silent><leader>tt <Plug>SectionTitle
 " Get file path
@@ -229,6 +230,12 @@ if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     nnoremap <silent> <leader>p :r !powershell.exe -Command Get-Clipboard<CR>
     nnoremap <silent> <leader>P k:r !powershell.exe -Command Get-Clipboard<CR>
 endif
+".............................. vimwiki settings ...............................
+nmap <Leader>wn <Plug>VimwikiNextLink
+let g:vimwiki_global_ext = 0
+let g:vimwiki_list = [{'path':'~/.vimwiki', 'syntax':'markdown', 'ext':'.md'}]
+nnoremap <leader>rr :VimwikiTabMakeDiaryNote<CR>
+nnoremap <silent>' :ToggleDiary<CR>
 "............................ vim-session settings .............................
 let g:session_menu = 0
 let g:session_autoload = 'no'
