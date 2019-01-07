@@ -5,7 +5,7 @@ function! s:LineTitle()
     if &filetype=='vim'
         exe ':s@"@@ge'
         call <sid>LineC('.') | call feedkeys('0r"')
-    elseif &filetype=~'pandoc' || &filetype=~'markdown'
+    elseif &filetype=~'pandoc' || &filetype=~'markdown' || &filetype=~'vimwiki'
         exe ':s@<!--@@ge' | exe ':s@-->@@ge'
         call <sid>LineC('.') | call feedkeys("0R<!--\<esc>$hhR-->\<esc>")
     elseif &filetype=='tex' || &filetype=='matlab'

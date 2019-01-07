@@ -21,7 +21,7 @@ else                                            " UNIX OR WSL
         let g:tex_conceal="abdgm"
     endif
 endif
-"................................. Easier dev - TMP ..................................
+".............................. Easier dev - TMP ...............................
 map <silent> <leader>nn <Plug>SourceVimrc
 map <silent> <leader>nc <Plug>SourceCurrent
 map <silent> <leader>ns <Plug>SourceTheme
@@ -118,7 +118,6 @@ set showcmd                                " show partial command
 set lazyredraw                             " No redraw while executing macros
 set ttyfast                                " Faster redrawing
 set noshowmatch                            " don't jump to matching parentheris
-" let loaded_matchparen = 1                " don't load marchparen
 runtime macros/matchit.vim                 " Enables matchit plugin
 " Search settings:
 set ignorecase                             " Ignore case if search is lowercase
@@ -203,7 +202,6 @@ vnoremap \yp "0p
 nnoremap \yP "0P
 " Toggle note
 nnoremap <silent><F12> :ToggleNote<CR>
-nnoremap <silent>ì :ToggleNote<CR>
 " Section title
 nmap <silent><leader>tt <Plug>SectionTitle
 " Get file path
@@ -236,6 +234,7 @@ let g:vimwiki_global_ext = 0
 let g:vimwiki_list = [{'path':'~/.vimwiki', 'syntax':'markdown', 'ext':'.md'}]
 nnoremap <leader>rr :VimwikiTabMakeDiaryNote<CR>
 nnoremap <silent>' :ToggleDiary<CR>
+nnoremap <silent>ì :ToggleWiki<CR>
 "............................ vim-session settings .............................
 let g:session_menu = 0
 let g:session_autoload = 'no'
@@ -244,7 +243,6 @@ let g:session_autosave_periodic = 0
 let g:session_verbose_messages = 0
 set sessionoptions-=help    " Don't restore help windows
 set sessionoptions-=buffers " Don't save hidden and unloaded buffers in sessions
-" Session mappings:
 noremap <F3> :OpenSession<CR>
 imap <F3> <Esc>:w<CR>:OpenSession<CR>
 noremap AA :OpenSession default<CR>
@@ -253,23 +251,12 @@ noremap SC :CloseSession!<CR>
 noremap ZZ :ccl<CR>:lcl<CR>:SaveSession<CR>:wqa<CR>
 "............................. Ultisnips settings ..............................
 let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
-" Trigger config. Avoid <tab> if using https://github.com/Valloric/YouCompleteMe
 let g:UltiSnipsExpandTrigger='<c-tab>'
 let g:UltiSnipsJumpForwardTrigger='<tab>'
 let g:UltiSnipsJumpBackwardTrigger='<c-z>'
 let g:UltiSnipsEditSplit='horizontal' " :UltiSnipsEdit split window direction.
 command! USE :UltiSnipsEdit
-function! ExpandPossibleShorterSnippet()
-  if len(UltiSnips#SnippetsInCurrentScope()) == 1 "only one candidate...
-    let curr_key = keys(UltiSnips#SnippetsInCurrentScope())[0]
-    if curr_key !~ ')?' "Avoid regular expression snippets
-        exe "normal  i \<esc>".'vb"_c'.curr_key." \<esc>"
-    endif
-        return 1
-  endif
-  return 0
-endfunction
-inoremap <silent> <tab> <C-R>=(ExpandPossibleShorterSnippet() == 0? '<tab>': UltiSnips#ExpandSnippet())<CR>
+imap <silent> <tab> <Plug>ExpandPossibleSnippetOrTab
 "................................ ALE Settings .................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
@@ -300,13 +287,12 @@ if exists('g:simpleterm')
     nmap <leader>sk :Skill<CR>
 endif
 "............................. NERDTree settings: ..............................
-" Open split and then toggle nerdtree (more precse than the other way around)
-nnoremap <silent> <leader>i :new \| :NERDTreeToggle<CR>
-nnoremap <silent> <leader>v :vnew \| :NERDTreeToggle<CR>
-" Shortcuts to toggle NERDTree:
 map <silent> <F1> :call NERDTreeToggleInCurDir()<CR>
 imap <silent> <F1> <Esc>:call NERDTreeToggleInCurDir()<CR>
 cmap <F1> <Esc><Esc>:call NERDTreeToggleInCurDir()<CR>
+" Open split and then toggle nerdtree (more precse than the other way around)
+nnoremap <silent> <leader>i :new \| :NERDTreeToggle<CR>
+nnoremap <silent> <leader>v :vnew \| :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1    " Show hidden files (eg. dotfiles)
 let NERDTreeShowBookmarks=1 " Shows bookmarks
 let NERDTreeQuitOnOpen = 1  " Closes NERDTree when opening a file
@@ -364,7 +350,6 @@ let g:asyncrun_last=1      " Scroll only if cursor is on last line
 let g:asyncrun_exit='echo "Done"'
 let $PYTHONUNBUFFERED=1    " See python realtime output
 nnoremap <leader>as :AsyncStop<CR>
-" Run
 nmap <silent> <leader>aa <Plug>MyAsyncRun:echo("Running...")<CR>
 nmap <silent> <leader>ll <Plug>MyAsyncRunBis:echo("Running...")<CR>
 nmap <silent> <leader>aq <Plug>MyAsyncRun:copen<CR>:wincmd p<CR>

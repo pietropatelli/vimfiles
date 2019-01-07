@@ -18,6 +18,8 @@ function! s:ToggleWin(check,command) abort
     setl previewwindow " define window as preview
 endfunction
 " Toggle note:
-command! ToggleNote call <sid>ToggleWin('notes.md',' e %:p:h/notes.md')
+command! ToggleNote call <sid>ToggleWin('notes.md',' e %:p:h/.notes.md')
 " Toggle journal:
 command! ToggleDiary call <sid>ToggleWin('diary/','VimwikiMakeDiaryNote')
+" Toggle wiki:
+command! ToggleWiki call <sid>ToggleWin('index.md','VimwikiIndex')
