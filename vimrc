@@ -66,10 +66,9 @@ call minpac#add('w0rp/ale',              {'type': 'opt'}) " Async linting
 " Commands for easier package management
 command! PUpdate  packadd minpac | source $MYVIMRC | call minpac#update()
 command! PClean   packadd minpac | source $MYVIMRC | call minpac#clean()
-".......................... Lightline, airline etc.  ...........................
+"............................. Lightline settings ..............................
 set laststatus=2
 set noshowmode
-" Lightline settings - Note: This must be before the colorscheme
 let g:lightline = {
       \ 'colorscheme': 'powerline',
       \ 'active': {
@@ -124,6 +123,7 @@ set ignorecase                             " Ignore case if search is lowercase
 set smartcase                              " Use case if search has uppercase
 set nohlsearch                             " Do not highlight search results
 " Indentation settings:
+set textwidth=100                          " Line length for hard wrapping
 " set foldmethod=indent                    " Code folding using indent
 set foldlevelstart=1                       " Open level x-level folds on start
 set tabstop=4                              " Tab length
@@ -212,7 +212,7 @@ map <F10> :packadd vim-HiLinkTrace<CR>:HLT<CR>
 nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
-" conceal settings
+" Conceal settings
 set conceallevel=2
 let g:pandoc#syntax#conceal#use=0
 "............................ Better paste in WSL ..............................
@@ -287,9 +287,9 @@ if exists('g:simpleterm')
     nmap <leader>sk :Skill<CR>
 endif
 "............................. NERDTree settings: ..............................
-map <silent> <F1> :call NERDTreeToggleInCurDir()<CR>
-imap <silent> <F1> <Esc>:call NERDTreeToggleInCurDir()<CR>
-cmap <F1> <Esc><Esc>:call NERDTreeToggleInCurDir()<CR>
+map <silent> <F1> <Plug>NERDTreeToggleInFileDir
+imap <silent> <F1> <Esc><Plug>NERDTreeToggleInFileDir
+cmap <F1> <Esc><Esc><Plug>NERDTreeToggleInFileDir
 " Open split and then toggle nerdtree (more precse than the other way around)
 nnoremap <silent> <leader>i :new \| :NERDTreeToggle<CR>
 nnoremap <silent> <leader>v :vnew \| :NERDTreeToggle<CR>
@@ -300,19 +300,7 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
-" Toggle NERDTree in current file directory (or /home if no file is open)
-function! NERDTreeToggleInCurDir()
-  if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
-    exe ":NERDTreeClose"
-  elseif &filetype!="help" " Try to open at current file dir, otherwise at pwd
-    exe ":silent! NERDTree %:p:h"
-      if !(exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
-        exe ":NERDTreeCWD"
-      endif
-  else
-    exe ":NERDTreeCWD"
-  endif
-endfunction
+let g:NERDTreeAutoDeleteBuffer = 1
 "............................ Git gutter settings: .............................
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
