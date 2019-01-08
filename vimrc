@@ -88,6 +88,12 @@ let g:lightline = {
 "............................ Basic configuration: .............................
 syntax on                                  " Enables syntax highlighting
 set background=dark                        " Use dark background
+if !empty($ConEmuBuild)                    " ConEmu compatibility
+    set term=pcansi
+    set ttyscroll=10
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
+endif
 set t_Co=256                               " Enables 256 color terminal
 try                                        " If missing colorscheme use default
 colorscheme nightsea
@@ -106,7 +112,7 @@ set number                                 " Adds line numbers
 set cursorline                             " Highlight cursor line
 set hidden                                 " Allows hidden edited bufferd
 set wrap                                   " wrap dynamically to window width
-set scrolloff=3                            " keep 3 lines above-below cursor
+set scrolloff=5                            " keep 3 lines above-below cursor
 set sidescrolloff=5                        " keep 5 columns left-right of cursor
 set splitbelow                             " default horizontal split
 set splitright                             " default vertical split
@@ -136,6 +142,7 @@ set shiftwidth=4                           " Indentation length
 " Easier commands
 nnoremap ò :
 inoremap ò <esc>:
+inoremap ç ò
 " Easier search
 nnoremap <space> /
 nnoremap <leader><space> ?
@@ -213,7 +220,7 @@ nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
 " Conceal settings
-set conceallevel=2
+set conceallevel=0
 let g:pandoc#syntax#conceal#use=0
 "............................ Better paste in WSL ..............................
 if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
