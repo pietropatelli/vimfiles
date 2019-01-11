@@ -1,9 +1,9 @@
 extends general
 extends tex
 
-snippet fm "fmatter"
+snippet fm "fmatter with filename as title and today's date " b
 ---
-title: ${1:Title}
+title: ${1:`!v expand('%:t:r')`}
 date: ${2:`!p import time; snip.rv=time.strftime("%d %B %Y")`}
 author: ${3:Pietro Patelli}
 keywords: $4

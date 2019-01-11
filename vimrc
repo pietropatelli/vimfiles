@@ -1,4 +1,3 @@
-set nocompatible                                " Better vim, less Vi-compatible
 let mapleader = "\\"                            " Use \ as <leader>
 let maplocalleader = "\\"                       " Use \ as <localleader>
 filetype plugin indent on                       " Filetype-specific settings etc
@@ -6,19 +5,19 @@ let $VIMHOME=expand(split(&runtimepath,',')[0]) " First dir in runtime path
 set directory=$VIMHOME/tmp/.vim-swapfiles       " Directory for swap files
 set undodir=$VIMHOME/tmp/.undodir               " Persistend undo dir
 set undofile                                    " Persistend undo
-set cm=blowfish2                                " medium to strong encryption
+set cryptmethod=blowfish2                       " medium to strong encryption
 "...................... General system-dependent options .......................
 if has('win32')                                 " WINDOWS (32 or 64 bit)
     set clipboard=unnamed                       " Always use system clipboard
     set pythonthreedll=python37.dll             " Specify which python dll
     let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
-    let g:tex_conceal = "adbg"
+    let g:tex_conceal = 'adbg'
 else                                            " UNIX OR WSL
     set clipboard=unnamedplus                   " Always use system clipboard
     if system('uname -a')=~#'Microsoft'         " WSL
-        let g:tex_conceal = "adbg"
+        let g:tex_conceal = 'adbg'
     else                                        " UNIX ONLY
-        let g:tex_conceal="abdgm"
+        let g:tex_conceal='abdgm'
     endif
 endif
 ".............................. Easier dev - TMP ...............................
@@ -40,6 +39,8 @@ call minpac#add('wellle/targets.vim')               " Working w pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
 call minpac#add('SirVer/ultisnips')                 " Snippet engine
 call minpac#add('vimwiki/vimwiki')                  " Personal wiki etc
+call minpac#add('airblade/vim-gitgutter')           " Gitdiff in sign col
+call minpac#add('w0rp/ale')                         " Async linting
 " terminal plugins
 call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
@@ -48,6 +49,7 @@ call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 call minpac#add('PietroPate/vim-nightsea')          " My colorscheme
 call minpac#add('flazz/vim-colorschemes')           " Colorscheme collection
 call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
+call minpac#add('gerw/vim-HiLinkTrace')             " Shows syntax tree
 " language-specific plugins:
 call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
@@ -59,10 +61,6 @@ call minpac#add('vim-pandoc/vim-pandoc-syntax')     " Pandoc Markdown
 " session management
 call minpac#add('xolox/vim-session')                " Session management
 call minpac#add('xolox/vim-misc')                   " Req by vim-session
-" plugins loaded later:
-call minpac#add('gerw/vim-HiLinkTrace',  {'type': 'opt'}) " Shows syntax tree
-call minpac#add('airblade/vim-gitgutter',{'type': 'opt'}) " Gitdiff in sign col
-call minpac#add('w0rp/ale',              {'type': 'opt'}) " Async linting
 " Commands for easier package management
 command! PUpdate  packadd minpac | source $MYVIMRC | call minpac#update()
 command! PClean   packadd minpac | source $MYVIMRC | call minpac#clean()
@@ -128,6 +126,9 @@ runtime macros/matchit.vim                 " Enables matchit plugin
 set ignorecase                             " Ignore case if search is lowercase
 set smartcase                              " Use case if search has uppercase
 set nohlsearch                             " Do not highlight search results
+" Conceal settings:
+set conceallevel=0
+let g:pandoc#syntax#conceal#use=0
 " Indentation settings:
 set textwidth=100                          " Line length for hard wrapping
 " set foldmethod=indent                    " Code folding using indent
@@ -207,21 +208,16 @@ nnoremap <Leader>D "_D
 nnoremap \yp "0p
 vnoremap \yp "0p
 nnoremap \yP "0P
-" Toggle note
-nnoremap <silent><F12> :ToggleNote<CR>
-" Section title
-nmap <silent><leader>tt <Plug>SectionTitle
-" Get file path
-nmap <silent> <leader>o <Plug>GetFilePath
 " Check sintax highlighting group under cursor using HiLinkTrace
-map <F10> :packadd vim-HiLinkTrace<CR>:HLT<CR>
+map <F10> :HLT<CR>
 " Quickfix shortcuts
 nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
-" Conceal settings
-set conceallevel=0
-let g:pandoc#syntax#conceal#use=0
+" Mappings to my plugins
+nnoremap <silent><F12> :ToggleNote<CR>
+nmap <silent><leader>tt <Plug>SectionTitle
+nmap <silent> <leader>o <Plug>GetFilePath
 "............................ Better paste in WSL ..............................
 if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
@@ -267,26 +263,9 @@ imap <silent> <tab> <Plug>ExpandPossibleSnippetOrTab
 "................................ ALE Settings .................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
-nmap <silent> <leader>g :packadd ale<CR>:packadd vim-gitgutter<CR>
-            \:GitGutterDisable<CR>:ALEToggle<CR>
+nmap <silent> <leader>g :GitGutterDisable<CR>:ALEToggle<CR>
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'python': ['autopep8'],
-\   'matlab': ['mlint'],
-\   'vim': ['vint'],
-\   'r': ['lintr'],
-\   'tex': ['chktex'],
-\   'julia': ['languageserver'],
-\}
-function! ALErunning()
-    if g:ale_enabled==0
-        return ''
-    else
-        return 'linting'
-    end
-endfunction
 "............................ simpleterm settings ..............................
 if exists('g:simpleterm')
     let g:simpleterm.row=8
@@ -312,15 +291,7 @@ let g:NERDTreeAutoDeleteBuffer = 1
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
-nmap <silent> <leader>hh :packadd ale<CR>:packadd vim-gitgutter<CR>
-            \:ALEDisable<CR>:GitGutterToggle<CR>
-function! GitGutterRunning()
-    if g:gitgutter_enabled==0
-        return ''
-    else
-        return 'gitgutter'
-    end
-endfunction
+nmap <silent> <leader>hh :ALEDisable<CR>:GitGutterToggle<CR>
 ".............................. Vimtex settings: ...............................
 let g:tex_flavor='latex'
 if has('win32')

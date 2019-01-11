@@ -6,7 +6,7 @@ function! s:SaveWithTS(bang,filename,timeYN) range
     elseif len(l:extension)!=0
         let l:extension = '.'.l:extension
     endif
-    if a:filename!=''
+    if a:filename!=#''
         let l:filename = expand('%:p:h').'/'.a:filename.'_'
     else
         let l:filename = ''
