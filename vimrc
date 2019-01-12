@@ -172,15 +172,6 @@ nnoremap <silent> <leader>noh :set hlsearch!<CR>
 noremap <F2> :ls<CR>:b
 imap <F2> <Esc>:ls<CR>:b
 cmap <F2> <Esc><CR>
-" Habit breaking:
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-imap <Up> <NOP>
-imap <Down> <NOP>
-imap <Left> <NOP>
-imap <Right> <NOP>
 " Make 81st column stand out
 nnoremap <silent> <leader>8 :call matchadd('ColorColumn', '\%81v', 100)<CR>
 "Easier quoting/unquoting:

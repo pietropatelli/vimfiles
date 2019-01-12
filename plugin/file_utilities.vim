@@ -13,3 +13,5 @@ endfunction
 nnoremap <Plug>GetFilePath :call <sid>GetFilePath()<CR>
 command! GFP :call <sid>GetFilePath()
 
+" Command to delete current file
+command! -bang Remove :call delete(expand('%')) | :let &modified=1
