@@ -212,6 +212,9 @@ set switchbuf+=usetab,newtab
 nnoremap <silent><F12> :ToggleNote<CR>
 nmap <silent><leader>tt <Plug>SectionTitle
 nmap <silent> <leader>o <Plug>GetFilePath
+" FZF mapping:
+nnoremap <silent><F4> :FZF<CR>
+let g:fzf_layout = { 'down': '~30%' }
 "............................ Better paste in WSL ..............................
 if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
