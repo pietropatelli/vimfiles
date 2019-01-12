@@ -39,7 +39,6 @@ call minpac#add('wellle/targets.vim')               " Working w pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
 call minpac#add('SirVer/ultisnips')                 " Snippet engine
 call minpac#add('vimwiki/vimwiki')                  " Personal wiki etc
-call minpac#add('airblade/vim-gitgutter')           " Gitdiff in sign col
 call minpac#add('w0rp/ale')                         " Async linting
 " terminal plugins
 call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
@@ -61,6 +60,9 @@ call minpac#add('vim-pandoc/vim-pandoc-syntax')     " Pandoc Markdown
 " session management
 call minpac#add('xolox/vim-session')                " Session management
 call minpac#add('xolox/vim-misc')                   " Req by vim-session
+" packages loaded later:
+call minpac#add('airblade/vim-gitgutter',{'type':'opt'})   " Gitdiff in sign col
+call minpac#add('mhinz/vim-grepper',{'type':'opt'})        " grep asyncronously
 " Commands for easier package management
 command! PUpdate  packadd minpac | source $MYVIMRC | call minpac#update()
 command! PClean   packadd minpac | source $MYVIMRC | call minpac#clean()
@@ -214,6 +216,7 @@ map <F10> :HLT<CR>
 nmap <script> <silent> <leader>cc :call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>cn :cn<CR>
 nnoremap <silent> <leader>cp :cp<CR>
+set switchbuf+=usetab,newtab
 " Mappings to my plugins
 nnoremap <silent><F12> :ToggleNote<CR>
 nmap <silent><leader>tt <Plug>SectionTitle
@@ -263,7 +266,8 @@ imap <silent> <tab> <Plug>ExpandPossibleSnippetOrTab
 "................................ ALE Settings .................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
-nmap <silent> <leader>g :GitGutterDisable<CR>:ALEToggle<CR>
+nmap <silent> <leader>g :packadd vim-gitgutter<CR>:GitGutterDisable<CR>
+            \:ALEToggle<CR>
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
 "............................ simpleterm settings ..............................
@@ -291,7 +295,8 @@ let g:NERDTreeAutoDeleteBuffer = 1
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
-nmap <silent> <leader>hh :ALEDisable<CR>:GitGutterToggle<CR>
+nmap <silent> <leader>hh :packadd vim-gitgutter<CR>:ALEDisable<CR>
+            \:GitGutterToggle<CR>
 ".............................. Vimtex settings: ...............................
 let g:tex_flavor='latex'
 if has('win32')
