@@ -29,4 +29,3 @@ function! s:WordCount()
     end
 endfunction
 command! WC echom <sid>WordCount()
-

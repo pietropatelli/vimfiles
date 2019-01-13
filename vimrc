@@ -138,9 +138,6 @@ set foldlevelstart=1                       " Open level x-level folds on start
 set tabstop=4                              " Tab length
 set expandtab                              " Use spaces instead of <Tab>
 set shiftwidth=4                           " Indentation length
-" set breakindent                            " Wrapped line continue indented
-" set formatoptions-=r formatoptions-=o      " No autocontinue comment
-" set formatoptions-=t                       " Do not automatically break lines
 ".................................. Mappings ...................................
 " Easier commands
 nnoremap ò :
@@ -285,6 +282,7 @@ let NERDTreeDirArrows = 1
 let NERDTreeIgnore=['\c^ntuser\..*']
 let g:NERDTreeUpdateOnWrite=1
 let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeStatusline='NERDTree'
 "............................ Git gutter settings: .............................
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>GitGutterNextHunk
