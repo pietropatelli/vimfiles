@@ -17,8 +17,16 @@ snippet section
 \section{$1}
 $0
 endsnippet
+snippet \section
+\section{$1}
+$0
+endsnippet
 
 snippet subsection
+\subsection{$1}
+$0
+endsnippet
+snippet \subsection
 \subsection{$1}
 $0
 endsnippet
@@ -28,6 +36,9 @@ snippet newline "new line" b
 endsnippet
 
 snippet newpage "new page" b
+\newpage$0
+endsnippet
+snippet \newpage "new page" b
 \newpage$0
 endsnippet
 
@@ -80,17 +91,114 @@ endsnippet
 snippet frac "fraction"
 \frac{${1:num}}{${2:den}}$0
 endsnippet
+snippet \frac "\fraction"
+\frac{${1:num}}{${2:den}}$0
+endsnippet
 
 snippet sqrt "square root"
 \sqrt{${1:arg}}$0
 endsnippet
+snippet \sqrt "square root"
+\sqrt{${1:arg}}$0
+endsnippet
+
+snippet partial "partial"
+partial
+endsnippet
+snippet \partial "\partial"
+\partial
+endsnippet
+
+snippet sum "summation"
+\sum_{${1:from}}^{${2:to}}$0
+endsnippet
+snippet \sum "summation"
+\sum_{${1:from}}^{${2:to}}$0
+endsnippet
+
+snippet int "integral"
+\int_{${1:from}}^{${2:to}}$0
+endsnippet
+snippet \int "integral"
+\int_{${1:from}}^{${2:to}}$0
+endsnippet
+
+snippet prod "product"
+\prod_{${1:from}}^{${2:to}}$0
+endsnippet
+snippet \prod "product"
+\prod_{${1:from}}^{${2:to}}$0
+endsnippet
 
 snippet quadd "space"
 \quad\quad$0
-endsnippet 
-################################ setup snippets ################################
+endsnippet
+snippet \quadd "space"
+\quad\quad$0
+endsnippet
+################################ Greek Letters #################################
 
-snippet setup "documentclass etc"
+snippet \lambda "lambda"
+\lambda$0
+endsnippet
+snippet lambda "lambda"
+\lambda$0
+endsnippet
+
+snippet alpha "alpha"
+alpha
+endsnippet
+snippet \alpha "\alpha"
+\alpha
+endsnippet
+
+snippet beta "beta"
+beta
+endsnippet
+snippet \beta "\beta"
+\beta
+endsnippet
+
+snippet gamma "gamma"
+gamma
+endsnippet
+snippet \gamma "\gamma"
+\gamma
+endsnippet
+
+snippet delta "delta"
+delta
+endsnippet
+snippet \delta "\delta"
+\delta
+endsnippet
+
+snippet Delta "Delta"
+Delta
+endsnippet
+snippet \Delta "\Delta"
+\Delta
+endsnippet
+
+snippet theta "theta"
+theta
+endsnippet
+snippet \theta "\theta"
+\theta
+endsnippet
+
+snippet epsilon "epsilon"
+epsilon
+endsnippet
+snippet \epsilon "\epsilon"
+\epsilon
+endsnippet
+
+################################################################################
+################################ setup snippets ################################
+################################################################################
+
+snippet setup "documentclass etc" b
 \documentclass[a4paper, 11pt]{article}
 %\documentclass{beamer}
 %\setbeamertemplate{caption}[numbered]
@@ -125,14 +233,13 @@ snippet bibtex "bibtex references" b
 $0
 endsnippet
 
-snippet presentation "presentation setup"
+snippet presentation "presentation setup" b
 \mode<presentation>{\usetheme{Madrid}}
 \title${2:[short]}{${1:long}}
 \author${4:[short]}{${3:long}}
 \date{${5:\today}}
 \institute${6:[short]}{${5:long}}
 %\titlegraphic{\includegraphics[scale=.2]{...}}
-
 \begin{document}
 \begin{frame}
 \titlepage % TITLE SLIDE
@@ -143,7 +250,6 @@ snippet presentation "presentation setup"
 \end{frame}
 $0
 
-
 \begin{frame}[allowframebreaks]
 \frametitle{References}
 \footnotesize{\begin{thebibliography}{99} % REFERENCES (Beamer doesn't support BibTeX)
@@ -153,20 +259,24 @@ $0
 \end{document}
 endsnippet
 
-snippet title
-\title{$1}\author{${2:PP}}\date{${3:\today}}\maketitle
-$0
+snippet title "title" b
+\title{$1}\author{${2:PP}}\date{${3:\today}}\maketitle $0
+endsnippet
+snippet \title "title" b
+\title{$1}\author{${2:PP}}\date{${3:\today}}\maketitle $0
 endsnippet
 
-snippet usepackage
+snippet usepackage "usepackage" b
 \usepackage$2{$1} $0
 endsnippet
-
-snippet \use "usepackage" bA
+snippet \usepackage "usepackage" b
 \usepackage$2{$1} $0
 endsnippet
 
 snippet bibitem "bibitem" b
+\bibitem[${2:Citation}]{${3:ref}}${1:Text}$0
+endsnippet
+snippet \bibitem "\bibitem" b
 \bibitem[${2:Citation}]{${3:ref}}${1:Text}$0
 endsnippet
 
@@ -184,6 +294,4 @@ snippet frame "Frame for beamer doc" b
 \frametitle{${1:Title}}
 $0
 \end{frame}
-
 endsnippet
-

@@ -11,3 +11,13 @@ endsnippet
 snippet vis "${VISUAL}" i
 \$\{VISUAL${1:${2:default}${3:/transform/}}\}
 endsnippet
+
+snippet sg "greek letter TMP"
+`!p snip.rv = "snippet"` ${1:greek} "$1"
+$1
+`!p snip.rv = "endsnippet"`
+`!p snip.rv = "snippet"` \\$1 "\\$1"
+\\$1
+`!p snip.rv = "endsnippet"`
+$0
+endsnippet
