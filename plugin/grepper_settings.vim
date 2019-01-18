@@ -5,5 +5,5 @@ function! Grepper_setup() abort
         exe "let g:grepper.findstr.grepprg = 'findstr -rspinc:$* *'"
     endif
 endfunction
-command! -nargs=? GG call Grepper_setup() | GrepperGit <q-args>
-command! Grepper call Grepper_setup() | Grepper
+command! -nargs=? GrepG call Grepper_setup() | GrepperGit <q-args>
+command! Grep call Grepper_setup() | Grepper
