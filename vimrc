@@ -189,8 +189,8 @@ nnoremap <leader>f zR
 " Pasting from system clipboard in insert mode with Ctrl-v
 imap <C-v> <C-r>*
 " Paste multiple lines correctly from system clipboard in normal mode
-nnoremap <Leader>p :set paste <CR>o<esc>"*p :set nopaste<CR>
-nnoremap <Leader>P :set paste <CR>O<esc>"*p :set nopaste<CR>
+nnoremap <Leader>p :set paste <CR>o<esc>"*p <esc>:set nopaste<CR>
+nnoremap <Leader>P :set paste <CR>O<esc>"*p <esc>:set nopaste<CR>
 " Delete to the 'black hole' register
 nnoremap <Leader>d "_d
 nnoremap <Leader>D "_D
@@ -242,6 +242,7 @@ set sessionoptions-=help    " Don't restore help windows
 set sessionoptions-=buffers " Don't save hidden and unloaded buffers in sessions
 noremap <F3> :OpenSession<CR>
 imap <F3> <Esc>:w<CR>:OpenSession<CR>
+cmap <F3> <Esc><CR>:OpenSession<CR>
 noremap AA :OpenSession default<CR>
 noremap SS :ccl<CR>:lcl<CR>:wa<CR>:SaveSession<CR>
 noremap SC :CloseSession!<CR>
@@ -314,5 +315,4 @@ let g:asyncrun_exit='echo "Done"'
 let $PYTHONUNBUFFERED=1    " See python realtime output
 nnoremap <leader>as :AsyncStop<CR>
 nmap <silent> <leader>aa <Plug>MyAsyncRun:echo("Running...")<CR>
-nmap <silent> <leader>ll <Plug>MyAsyncRunBis:echo("Running...")<CR>
 nmap <silent> <leader>aq <Plug>MyAsyncRun:copen<CR>:wincmd p<CR>
