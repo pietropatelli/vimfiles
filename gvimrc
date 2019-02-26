@@ -1,6 +1,5 @@
 set guifont=consolas:h9
 set ghr=-100
-winpos -11 0
 if &lines < 50
     set lines=60 columns=100
 endif

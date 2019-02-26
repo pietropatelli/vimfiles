@@ -139,6 +139,8 @@ set tabstop=4                              " Tab length
 set expandtab                              " Use spaces instead of <Tab>
 set shiftwidth=4                           " Indentation length
 ".................................. Mappings ...................................
+nnoremap <c-s> :w<CR>
+inoremap <c-s> <esc>:w<CR>a
 " Easier commands
 nnoremap ò :
 inoremap ò <esc>:
