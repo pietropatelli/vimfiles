@@ -40,6 +40,8 @@ call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
 call minpac#add('SirVer/ultisnips')                 " Snippet engine
 call minpac#add('vimwiki/vimwiki')                  " Personal wiki etc
 call minpac#add('w0rp/ale')                         " Async linting
+call minpac#add('prabirshrestha/async.vim')         " Normalize async jobs
+call minpac#add('prabirshrestha/vim-lsp')           " language server protocol
 " terminal plugins
 call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
@@ -74,7 +76,7 @@ let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified'],
-      \             [ 'linting', 'gitgutter' ] ],
+      \             [ 'vimlsprunning','linting', 'gitgutter' ] ],
       \ 'right': [ [ 'lineinfo' ],
       \            [ 'percent' ],
       \            [ 'fileformat', 'fileencoding', 'filetype'] ]
@@ -83,6 +85,7 @@ let g:lightline = {
       \   'gitbranch': 'fugitive#head',
       \   'linting': 'ALErunning',
       \   'gitgutter': 'GitGutterRunning',
+      \   'vimlsprunning': 'VimLspRunning',
       \ },
       \ }
 "............................ Basic configuration: .............................
@@ -214,6 +217,19 @@ nmap <silent> <leader>o <Plug>GetFilePath
 " FZF mapping:
 nnoremap <silent><F4> :FZF<CR>
 let g:fzf_layout = { 'down': '~30%' }
+"............................... LSP for Julia .................................
+let g:lsp_auto_enable = 0
+let g:lsp_diagnostics_echo_cursor = 1
+if executable('julia')
+    augroup VIM_LSP
+    autocmd!
+    autocmd User lsp_setup call lsp#register_server({
+    \ 'name': 'julia',
+    \ 'cmd': {server_info->['julia', '--startup-file=no', '--history-file=no', '-e', 'using LanguageServer; server = LanguageServer.LanguageServerInstance(stdin, stdout, false); server.runlinter = true; run(server);']},
+    \ 'whitelist': ['julia'],
+    \ })
+    augroup END
+endif
 "............................ Better paste in WSL ..............................
 if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
@@ -260,7 +276,7 @@ imap <silent> <tab> <Plug>ExpandPossibleSnippetOrTab
 "................................ ALE Settings .................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
-nmap <silent> <leader>g :packadd vim-gitgutter<CR>:GitGutterDisable<CR>
+nmap <silent> <leader>gg :packadd vim-gitgutter<CR>:GitGutterDisable<CR>
             \:ALEToggle<CR>
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)

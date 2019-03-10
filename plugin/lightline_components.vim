@@ -4,7 +4,7 @@ function! ALErunning()
     if g:ale_enabled==0
         return ''
     else
-        return 'linting'
+        return 'ALE'
     end
 endfunction
 " Gitgutter:
@@ -13,5 +13,14 @@ function! GitGutterRunning()
         return ''
     else
         return 'gitgutter'
+    end
+endfunction
+" Vim_LSP:
+let g:vimlsp_enabled=0
+function! VimLspRunning()
+    if g:vimlsp_enabled==0
+        return ''
+    else
+        return 'vim-lsp'
     end
 endfunction
