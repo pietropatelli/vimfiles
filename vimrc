@@ -76,17 +76,27 @@ let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified'],
-      \             [ 'vimlsprunning','linting', 'gitgutter' ] ],
+      \             [ 'runningplugins' ] ],
       \ 'right': [ [ 'lineinfo' ],
       \            [ 'percent' ],
       \            [ 'fileformat', 'fileencoding', 'filetype'] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
-      \   'linting': 'ALErunning',
-      \   'gitgutter': 'GitGutterRunning',
-      \   'vimlsprunning': 'VimLspRunning',
+      \   'mode':           'LightlineMode',
+      \   'paste':          'LightlinePaste',
+      \   'gitbranch':      'LightlineGitbranch',
+      \   'readonly':       'LightlineReadonly',
+      \   'filename':       'LightlineFilename',
+      \   'modified':       'LightlineModified',
+      \   'runningplugins': 'LightlineRunningplugins',
+      \   'lineinfo':       'LightlineLineinfo',
+      \   'percent':        'LightlinePercent',
+      \   'fileformat':     'LightlineFileformat',
+      \   'fileencoding':   'LightlineFileencoding',
+      \   'filetype':       'LightlineFiletype',
       \ },
+	  \ 'separator': { 'left': '', 'right': '' },
+	  \ 'subseparator': { 'left': '', 'right': '' },
       \ }
 "............................ Basic configuration: .............................
 syntax on                                  " Enables syntax highlighting
@@ -154,8 +164,6 @@ nnoremap <leader><space> ?
 " Easier resizing
 nnoremap <leader>- :resize -10<CR>
 nnoremap <leader>+ :resize +10<CR>
-" Easier append to word
-map E ea
 " Easy make first letter uppercase
 map <leader>m bvU
 " Making Y work like C or D:
@@ -225,7 +233,9 @@ if executable('julia')
     autocmd!
     autocmd User lsp_setup call lsp#register_server({
     \ 'name': 'julia',
-    \ 'cmd': {server_info->['julia', '--startup-file=no', '--history-file=no', '-e', 'using LanguageServer; server = LanguageServer.LanguageServerInstance(stdin, stdout, false); server.runlinter = true; run(server);']},
+    \ 'cmd': {server_info->['julia','--startup-file=no','--history-file=no','-e',
+    \ 'using LanguageServer; server = LanguageServer.LanguageServerInstance(stdin,
+    \ stdout, false); server.runlinter = true; run(server);']},
     \ 'whitelist': ['julia'],
     \ })
     augroup END

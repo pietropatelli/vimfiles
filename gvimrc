@@ -1,4 +1,5 @@
-set guifont=consolas:h9
+set guifont=DejaVu_Sans_Mono_for_Powerline:h8,consolas:h9
+
 set ghr=-100
 if &lines < 50
     set lines=60 columns=100
