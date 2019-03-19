@@ -233,15 +233,15 @@ if executable('julia')
     autocmd!
     autocmd User lsp_setup call lsp#register_server({
     \ 'name': 'julia',
-    \ 'cmd': {server_info->['julia','--startup-file=no','--history-file=no','-e',
-    \ 'using LanguageServer; server = LanguageServer.LanguageServerInstance(stdin,
-    \ stdout, false); server.runlinter = true; run(server);']},
+    \ 'cmd': {server_info->['julia','--startup-file=no --history-file=no','-e',
+    \ 'using LanguageServer; server = LanguageServer.LanguageServerInstance(
+    \ stdin, stdout, false); server.runlinter = true; run(server);']},
     \ 'whitelist': ['julia'],
     \ })
     augroup END
 endif
 "............................ Better paste in WSL ..............................
-if has('unix') && system('uname -a')=~#'Microsoft' "This checks if we are in WSL
+if has('unix') && system('uname -a')=~#'Microsoft' " Checks if we are in WSL
     let s:clip = '/mnt/c/Windows/System32/clip.exe'
     if executable(s:clip)
         augroup WSLYank
