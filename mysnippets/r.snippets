@@ -12,4 +12,6 @@ snippet require "load and install if not present"
 if(!require($1)){chooseCRANmirror(graphics=F,ind=35);install.packages("$1"); library($1)} $0
 endsnippet
 
-
+snippet subdir "create subdirectory" 
+if (!file.exists("${1:Subdir}")){dir.create("$1")}
+endsnippet 
