@@ -151,6 +151,7 @@ set foldlevelstart=1                       " Open level x-level folds on start
 set tabstop=4                              " Tab length
 set expandtab                              " Use spaces instead of <Tab>
 set shiftwidth=4                           " Indentation length
+set backspace=indent,eol,start             " Backspace over everything in insert
 ".................................. Mappings ...................................
 nnoremap <c-s> :w<CR>
 inoremap <c-s> <esc>:w<CR>a
