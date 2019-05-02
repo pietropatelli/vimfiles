@@ -1,8 +1,6 @@
 *.swp
 *.swo
-pack/minpac/start
-pack/minpac/opt
-!pack/minpac/opt/minpac
+pack/minpac/
 tmp/*
 !tmp/.vim-swapfiles/
 tmp/.vim-swapfiles/*

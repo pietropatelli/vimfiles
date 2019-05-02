@@ -27,7 +27,13 @@ map <silent> <leader>ns <Plug>SourceTheme
 "................................... minpac ....................................
 " NOTE: I have added minpac as a git submodule
 packadd minpac
+if !exists('*minpac#init')
+call system('git clone "https://github.com/k-takata/minpac/" '.
+            \$VIMHOME.'/pack/minpac/opt/minpac')
+packadd minpac
+endif
 call minpac#init()
+call minpac#add('k-takata/minpac', {'type': 'opt'})
 " Essential plugins:
 call minpac#add('scrooloose/nerdtree')              " File tree browser
 call minpac#add('tomtom/tcomment_vim')              " Toggle comments
