@@ -25,7 +25,6 @@ map <silent> <leader>nn <Plug>SourceVimrc
 map <silent> <leader>nc <Plug>SourceCurrent
 map <silent> <leader>ns <Plug>SourceTheme
 "................................... minpac ....................................
-" NOTE: I have added minpac as a git submodule
 packadd minpac
 if !exists('*minpac#init')
 call system('git clone "https://github.com/k-takata/minpac/" '.
@@ -188,6 +187,7 @@ nnoremap <silent> <leader>noh :set hlsearch!<CR>
 " Easier switching buffers
 noremap <F2> :ls<CR>:b
 imap <F2> <Esc>:ls<CR>:b
+vmap <F2> <Esc>:ls<CR>:b
 cmap <F2> <Esc><CR>
 " Make 81st column stand out
 nnoremap <silent> <leader>8 :call matchadd('ColorColumn', '\%81v', 100)<CR>
@@ -277,6 +277,7 @@ set sessionoptions-=help    " Don't restore help windows
 set sessionoptions-=buffers " Don't save hidden and unloaded buffers in sessions
 noremap <F3> :OpenSession<CR>
 imap <F3> <Esc>:w<CR>:OpenSession<CR>
+vmap <F3> <Esc>:w<CR>:OpenSession<CR>
 cmap <F3> <Esc><CR>:OpenSession<CR>
 noremap AA :OpenSession default<CR>
 noremap SS :ccl<CR>:lcl<CR>:wa<CR>:SaveSession<CR>
@@ -306,6 +307,7 @@ endif
 "............................. NERDTree settings: ..............................
 map <silent> <F1> <Plug>NERDTreeToggleInFileDir
 imap <silent> <F1> <Esc><Plug>NERDTreeToggleInFileDir
+vmap <silent> <F1> <Esc><Plug>NERDTreeToggleInFileDir
 cmap <F1> <Esc><Esc><Plug>NERDTreeToggleInFileDir
 " Open split and then toggle nerdtree (more precse than the other way around)
 nnoremap <silent> <leader>i :new \| :NERDTreeToggle<CR>
