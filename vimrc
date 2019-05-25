@@ -111,6 +111,11 @@ if !empty($ConEmuBuild)                    " ConEmu compatibility
     set ttyscroll=10
     let &t_AB="\e[48;5;%dm"
     let &t_AF="\e[38;5;%dm"
+    let &t_kb="\xcex"
+    let &t_ku="\xceH"
+    let &t_kd="\xceP"
+    let &t_kl="\xceK"
+    let &t_kr="\xceM"
 endif
 set t_Co=256                               " Enables 256 color terminal
 try                                        " If missing colorscheme use default
