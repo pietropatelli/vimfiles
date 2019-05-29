@@ -234,6 +234,8 @@ set switchbuf+=usetab,newtab
 nnoremap <silent><F12> :ToggleNote<CR>
 nmap <silent><leader>tt <Plug>SectionTitle
 nmap <silent> <leader>o <Plug>GetFilePath
+" Command to record values:
+command! RecVal :call RecVal(glob(g:vimwiki_list[0].path."/diary/my_data.csv"))
 " FZF mapping:
 nnoremap <silent><F4> :FZF<CR>
 let g:fzf_layout = { 'down': '~30%' }
