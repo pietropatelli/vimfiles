@@ -5,7 +5,9 @@ rm(list=setdiff(ls(), c($1))) $0
 endsnippet
 
 snippet opa "save original plot parameters"
-opa <- par(no.readonly = TRUE) $0
+opa <- par(no.readonly = TRUE)
+$0
+par(opa)
 endsnippet
 
 snippet require "load and install if not present"

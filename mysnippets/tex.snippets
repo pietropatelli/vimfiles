@@ -32,7 +32,7 @@ $0
 endsnippet
 
 snippet newline "new line" b
-\hfill\break$0
+\bigskip\bigskip$0
 endsnippet
 
 snippet newpage "new page" b
@@ -42,21 +42,26 @@ snippet \newpage "new page" b
 \newpage$0
 endsnippet
 
-snippet graph "insert image" b
-\includegraphics[scale=${2:1}]{${1:path}}$0
-endsnippet
-
 snippet figure "figure" b
 \begin{figure}[h]
    \centering
 \includegraphics[width=.75\paperwidth,keepaspectratio]{${1:path}}
 \caption{$2}
-\label{fig:$3}
+%\label{fig:}
 \end{figure}
 $0
 endsnippet
-
+############################## Notes and comments ##############################
+snippet xxx "to be expanded" b
+\textcolor{gray}{[to be expanded]} % XXX $0
+endsnippet
 ################################ Math snippets #################################
+
+snippet aln
+\begin{align}
+$0
+\end{align}
+endsnippet
 
 snippet ali
 \begin{align*}
@@ -202,12 +207,12 @@ snippet setup "documentclass etc" b
 \documentclass[a4paper, 11pt]{article}
 %\documentclass{beamer}
 %\setbeamertemplate{caption}[numbered]
-%\usepackage[margin=.8in]{geometry}
+%\usepackage[margin=3cm]{geometry}
+%\usepackage{graphicx}\graphicspath{{./figures/}}
+%\usepackage{pdfpages}
+%\usepackage{natbib}
 \usepackage[utf8]{inputenc}
 \usepackage{csquotes, multicol, setspace, mathtools, amssymb, amsthm, stmaryrd, booktabs}
-%\usepackage{graphicx}\graphicspath{{./subfolderhere/}}
-%\usepackage{pdfpages}
-\usepackage{natbib}
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{2pt plus 4pt}
 \DeclareMathOperator*{\plim}{plim}
@@ -222,13 +227,19 @@ snippet setup "documentclass etc" b
 \DeclareMathOperator*{\st}{ \qquad s.t. \ }
 \renewcommand{\qedsymbol}{$\blacksquare$}
 \DeclareMathOperator*{\quadd}{\qquad\qquad\quad}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\newcommand\E{\mathbb{E}}
+\newcommand\V{\mathbb{V}}
+\newcommand\R{\mathbb{R}}
+\newcommand\N{\mathbb{N}}
+\newcommand\Z{\mathbb{Z}}
 $0
 endsnippet
 
 snippet bibtex "bibtex references" b
 \newpage
 \singlespacing
-\section{References}
 \small{\bibliography{${1:biblio}}}
 \bibliographystyle{aer}
 $0
