@@ -47,6 +47,7 @@ call minpac#add('vimwiki/vimwiki')                  " Personal wiki etc
 call minpac#add('w0rp/ale')                         " Async linting
 call minpac#add('prabirshrestha/async.vim')         " Normalize async jobs
 call minpac#add('prabirshrestha/vim-lsp')           " language server protocol
+call minpac#add('freitass/todo.txt-vim')            " todo.txt integration
 " terminal plugins
 call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
@@ -232,6 +233,7 @@ nnoremap <silent> <leader>cp :cp<CR>
 set switchbuf+=usetab,newtab
 " Mappings to my plugins
 nnoremap <silent><F12> :ToggleNote<CR>
+nnoremap <silent>' :ToggleTodo<CR>
 nmap <silent><leader>tt <Plug>SectionTitle
 nmap <silent> <leader>o <Plug>GetFilePath
 " Command to record values:
@@ -272,7 +274,7 @@ nmap <Leader>wn <Plug>VimwikiNextLink
 let g:vimwiki_global_ext = 0
 let g:vimwiki_list = [{'path':'~/.vimwiki', 'syntax':'markdown', 'ext':'.md'}]
 nnoremap <leader>rr :VimwikiTabMakeDiaryNote<CR>
-nnoremap <silent>' :ToggleDiary<CR>
+nnoremap <silent>^ :ToggleDiary<CR>
 nnoremap <silent>ì :ToggleWiki<CR>
 "............................ vim-session settings .............................
 let g:session_menu = 0

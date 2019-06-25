@@ -19,6 +19,8 @@ function! s:ToggleWin(check,command) abort
 endfunction
 " Toggle note:
 command! ToggleNote call <sid>ToggleWin('notes.md',' e %:p:h/.notes.md')
+" Toggle todo:
+command! ToggleTodo call <sid>ToggleWin('todo.txt',' e ~/Dropbox/todo/todo.txt')
 " Toggle journal:
 command! ToggleDiary call <sid>ToggleWin('diary/','VimwikiMakeDiaryNote')
 " Toggle wiki:
