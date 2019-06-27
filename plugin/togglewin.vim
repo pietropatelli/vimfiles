@@ -13,6 +13,7 @@ function! s:ToggleWin(check,command) abort
         botright vsplit
     endif
     exec a:command
+    setl noswapfile
     setl winfixwidth
     setl nonumber
     setl previewwindow " define window as preview
