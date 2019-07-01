@@ -272,7 +272,7 @@ endif
 ".............................. vimwiki settings ...............................
 nmap <Leader>wn <Plug>VimwikiNextLink
 let g:vimwiki_global_ext = 0
-let g:vimwiki_list = [{'path':'~/.vimwiki', 'syntax':'markdown', 'ext':'.md'}]
+let g:vimwiki_list = [{'path':'~/Dropbox/.vimwiki', 'syntax':'markdown', 'ext':'.md'}]
 nnoremap <leader>rr :VimwikiTabMakeDiaryNote<CR>
 nnoremap <silent>^ :ToggleDiary<CR>
 nnoremap <silent>ì :ToggleWiki<CR>
