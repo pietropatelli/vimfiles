@@ -47,7 +47,8 @@ call minpac#add('vimwiki/vimwiki')                  " Personal wiki etc
 call minpac#add('w0rp/ale')                         " Async linting
 call minpac#add('prabirshrestha/async.vim')         " Normalize async jobs
 call minpac#add('prabirshrestha/vim-lsp')           " language server protocol
-call minpac#add('freitass/todo.txt-vim')            " todo.txt integration
+call minpac#add('tomtom/ttodo_vim')                 " todo.txt integration
+call minpac#add('tomtom/tlib_vim')                  " dependency for ttodo_vim
 " terminal plugins
 call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
@@ -269,6 +270,13 @@ if has('unix') && system('uname -a')=~#'Microsoft' " Checks if we are in WSL
     nnoremap <silent> <leader>p :r !powershell.exe -Command Get-Clipboard<CR>
     nnoremap <silent> <leader>P k:r !powershell.exe -Command Get-Clipboard<CR>
 endif
+"............................. ttodo_vim settings ..............................
+let g:ttodo#dirs=[$HOME.'/Dropbox/.todo']
+let g:ttodo#mapleader="<LocalLeader>"
+let g:ttodo#sort='done,-next,-overdue,pri,due,lists,tags,idx'
+let g:ttodo#new_task={'pri': 'C'}
+let g:ttodo_nmap='<Leader>1'
+let g:ttodo_localmap='<Leader>2'
 ".............................. vimwiki settings ...............................
 nmap <Leader>wn <Plug>VimwikiNextLink
 let g:vimwiki_global_ext = 0
