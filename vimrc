@@ -157,7 +157,6 @@ set nohlsearch                             " Do not highlight search results
 set conceallevel=0
 let g:pandoc#syntax#conceal#use=0
 " Indentation settings:
-set textwidth=100                          " Line length for hard wrapping
 " set foldmethod=indent                    " Code folding using indent
 set foldlevelstart=1                       " Open level x-level folds on start
 set tabstop=4                              " Tab length
