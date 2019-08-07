@@ -54,7 +54,7 @@ call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
 call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 " colorscheme plugins:
-call minpac#add('PietroPate/vim-nightsea')          " My colorscheme
+call minpac#add('PietroPate/vim-nightsea',{'branch':'dev'})
 call minpac#add('flazz/vim-colorschemes')           " Colorscheme collection
 call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
 call minpac#add('gerw/vim-HiLinkTrace')             " Shows syntax tree
@@ -79,7 +79,7 @@ command! PClean   packadd minpac | source $MYVIMRC | call minpac#clean()
 set laststatus=2
 set noshowmode
 let g:lightline = {
-      \ 'colorscheme': 'powerline',
+      \ 'colorscheme': 'nightsea',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified'],
@@ -137,7 +137,7 @@ set number                                 " Adds line numbers
 set cursorline                             " Highlight cursor line
 set hidden                                 " Allows hidden edited bufferd
 set wrap                                   " wrap dynamically to window width
-set scrolloff=5                            " keep 3 lines above-below cursor
+set scrolloff=5                            " keep 5 lines above-below cursor
 set sidescrolloff=5                        " keep 5 columns left-right of cursor
 set splitbelow                             " default horizontal split
 set splitright                             " default vertical split

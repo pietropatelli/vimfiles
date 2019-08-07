@@ -1,4 +1,4 @@
-setlocal nonumber textwidth=100
+setlocal nonumber
 setlocal concealcursor=nc
 setlocal noexpandtab
 setlocal breakindent
