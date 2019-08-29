@@ -17,3 +17,7 @@ endsnippet
 snippet subdir "create subdirectory" 
 if (!file.exists("${1:Subdir}")){dir.create("$1")}
 endsnippet 
+
+snippet stringsAsFactors "set global option for stringsAsFactors" 
+options(stringsAsFactors = FALSE)
+endsnippet 
