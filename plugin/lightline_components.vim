@@ -9,16 +9,6 @@ function! LightlineRunningplugins()
 endfunction
 
 "..................... Functions for collapsible elements ......................
-function! AvailableSpace(...)
-    let s:name = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-    let s:filetype = &filetype !=# '' ? &filetype : 'no ft'
-    if a:0 != 1
-        return winwidth(0) - len(LightlineRunningplugins()) - len(s:name) -len(fugitive#head()) - len(s:filetype)
-    else
-        return winwidth(0) - len(LightlineRunningplugins()) - len(s:name) -len(fugitive#head())
-    endif
-endfunction
-
 function! s:AvailableSpace(...)
     let s:name = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
     let s:filetype = &filetype !=# '' ? &filetype : 'no ft'
