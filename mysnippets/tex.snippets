@@ -32,7 +32,7 @@ $0
 endsnippet
 
 snippet newline "new line" b
-\bigskip\bigskip$0
+\mynewline$0
 endsnippet
 
 snippet newpage "new page" b
@@ -229,6 +229,7 @@ snippet setup "documentclass etc" b
 \DeclareMathOperator*{\quadd}{\qquad\qquad\quad}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\newcommand\mynewline{\bigskip\medskip}
 \newcommand\E{\mathbb{E}}
 \newcommand\V{\mathbb{V}}
 \newcommand\R{\mathbb{R}}
