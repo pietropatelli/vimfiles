@@ -358,6 +358,7 @@ let g:vimtex_view_general_options
     \ . ':execute ''drop '' . fnameescape(''\%f'')^<CR^>'
     \ . ':\%l^<CR^>:normal\! zzzv^<CR^>'
     \ . ':call remote_foreground('''.v:servername.''')^<CR^>^<CR^>\""'
+let g:vimtex_compiler_latexmk = {'continuous' : 0}
 let g:vimtex_view_general_options_latexmk='-reuse-instance'
 let g:vimtex_latexmk_background=1
 let g:vimtex_quickfix_mode=0
