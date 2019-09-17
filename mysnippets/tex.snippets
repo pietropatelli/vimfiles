@@ -14,25 +14,25 @@ snippet ite "itemize" b
 endsnippet
 
 snippet section
-\section{$1}
-$0
+\section{$1} $0
 endsnippet
 snippet \section
-\section{$1}
-$0
+\section{$1} $0
 endsnippet
 
 snippet subsection
-\subsection{$1}
-$0
+\subsection{$1} $0
 endsnippet
 snippet \subsection
-\subsection{$1}
-$0
+\subsection{$1} $0
 endsnippet
 
 snippet newline "new line" b
 \mynewline$0
+endsnippet
+
+snippet medskip "med skip" b
+\medskip$0
 endsnippet
 
 snippet newpage "new page" b
@@ -298,12 +298,12 @@ endsnippet
 snippet contents "table of contents beamer" b
 \begin{frame}
 \tableofcontents${1:[currentsection]}
-\end{frame}
-$0
+\end{frame} $0
 endsnippet
 
 snippet frame "Frame for beamer doc" b
-\begin{frame}%[allowframebreaks]
+$2\section{$1}
+\begin{frame}${2:%}[allowframebreaks]
 \frametitle{${1:Title}}
 $0
 \end{frame}
