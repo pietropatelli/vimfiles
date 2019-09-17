@@ -1,7 +1,7 @@
 " Create a section title line from the text currently in the line or, if called
 " from an empty line, create a separating line.
-nnoremap <Plug>SectionTitle :call <sid>LineTitle()<CR>
-function! s:LineTitle()
+nnoremap <Plug>SectionTitle :call LineTitle()<CR>
+function! LineTitle()
     if &filetype==#'vim'
         exe ':s@"@@ge'
         call <sid>LineC('.') | call feedkeys('0r"')
