@@ -27,9 +27,10 @@ function! s:LineC(C)
     if getline('.') !~? '\S'
         call feedkeys('80i'.a:C."\<esc>")
     else
-        let s:L = float2nr(floor((81 - col('$'))/2))
+        let s:L = float2nr(floor((80 - col('$'))/2))
         call feedkeys('0'.s:L.'i'.a:C."\<esc>r A \<esc>".s:L.'a'.a:C."\<esc>")
-        call feedkeys('$"_d80|')
+        call feedkeys('$"_d79|')
+        call feedkeys('A'.a:C."\<esc>")
     endif
 endfunction
 
