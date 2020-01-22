@@ -44,6 +44,7 @@ call minpac#add('wellle/targets.vim')               " Working w pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
 call minpac#add('SirVer/ultisnips')                 " Snippet engine
 call minpac#add('vimwiki/vimwiki')                  " Personal wiki etc
+call minpac#add('mattn/calendar-vim')               " Calendar
 call minpac#add('w0rp/ale')                         " Async linting
 call minpac#add('prabirshrestha/async.vim')         " Normalize async jobs
 call minpac#add('prabirshrestha/vim-lsp')           " language server protocol
@@ -168,8 +169,6 @@ nnoremap <c-s> :w<CR>
 inoremap <c-s> <esc>:w<CR>a
 " Easier commands
 nnoremap ò :
-inoremap ò <esc>:
-inoremap ç ò
 " Easier search
 nnoremap <space> /
 nnoremap <leader><space> ?
@@ -339,8 +338,8 @@ let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeStatusline='NERDTree'
 "............................ Git gutter settings: .............................
 let g:gitgutter_enabled = 0
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
 nmap <silent> <leader>hh :packadd vim-gitgutter<CR>:ALEDisable<CR>
             \:GitGutterToggle<CR>
 ".............................. Vimtex settings: ...............................
