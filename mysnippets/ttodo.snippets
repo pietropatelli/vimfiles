@@ -3,3 +3,8 @@ extends general
 snippet tt "threshold tomorrow"
 `!p import datetime; out = datetime.date.today() + datetime.timedelta(days=1); snip.rv=out.strftime("t:%Y-%m-%d")`
 endsnippet
+
+snippet dt "due tomorrow"
+`!p import datetime; out = datetime.date.today() + datetime.timedelta(days=1); snip.rv=out.strftime("due:%Y-%m-%d")`
+endsnippet
+
