@@ -7,5 +7,6 @@ augroup filetypedetect
     autocmd BufNewFile,BufFilePre,BufRead *.mod	  setfiletype matlab "dynare
     autocmd BufNewFile,BufFilePre,BufRead *.md    setfiletype markdown.pandoc
     autocmd BufNewFile,BufFilePre,BufRead *.csv   setfiletype csv
+    autocmd BufNewFile,BufFilePre,BufRead *.xtx   setfiletype tex
 augroup END
 
