@@ -5,6 +5,8 @@ let $VIMHOME=expand(split(&runtimepath,',')[0]) " First dir in runtime path
 set directory=$VIMHOME/tmp/.vim-swapfiles       " Directory for swap files
 set undodir=$VIMHOME/tmp/.undodir               " Persistend undo dir
 set undofile                                    " Persistend undo
+let skip_defaults_vim=1                         " Do not load defaults
+set viminfo=""                                  " Do not create viminfo
 set cryptmethod=blowfish2                       " medium to strong encryption
 "...................... General system-dependent options .......................
 if has('win32')                                 " WINDOWS (32 or 64 bit)
