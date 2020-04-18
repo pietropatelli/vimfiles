@@ -57,7 +57,7 @@ call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
 call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 " colorscheme plugins:
-call minpac#add('PietroPate/vim-nightsea',{'branch':'dev'})
+call minpac#add('PietroPate/vim-nightsea')      
 call minpac#add('flazz/vim-colorschemes')           " Colorscheme collection
 call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
 call minpac#add('gerw/vim-HiLinkTrace')             " Shows syntax tree
@@ -301,13 +301,15 @@ noremap SS :ccl<CR>:lcl<CR>:wa<CR>:SaveSession<CR>
 noremap SC :CloseSession!<CR>
 noremap ZZ :ccl<CR>:lcl<CR>:SaveSession<CR>:wqa<CR>
 "............................. Ultisnips settings ..............................
-let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
-let g:UltiSnipsExpandTrigger='<c-tab>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<c-z>'
-let g:UltiSnipsEditSplit='horizontal' " :UltiSnipsEdit split window direction.
-command! USE :UltiSnipsEdit
-imap <silent> <tab> <Plug>ExpandPossibleSnippetOrTab
+if exists('did_plugin_ultisnips')
+    let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
+    let g:UltiSnipsExpandTrigger='<c-tab>'
+    let g:UltiSnipsJumpForwardTrigger='<tab>'
+    let g:UltiSnipsJumpBackwardTrigger='<c-z>'
+    let g:UltiSnipsEditSplit='horizontal' " :UltiSnipsEdit split window direction.
+    command! USE :UltiSnipsEdit
+    imap <silent> <tab> <Plug>ExpandPossibleSnippetOrTab
+endif
 "................................ ALE Settings .................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
@@ -342,6 +344,8 @@ let g:NERDTreeStatusline='NERDTree'
 let g:gitgutter_enabled = 0
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
+nmap <leader>hs <Plug>(GitGutterStageHunk)
+nmap <leader>hu <Plug>(GitGutterUndoHunk)
 nmap <silent> <leader>hh :packadd vim-gitgutter<CR>:ALEDisable<CR>
             \:GitGutterToggle<CR>
 ".............................. Vimtex settings: ...............................
