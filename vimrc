@@ -44,7 +44,7 @@ call minpac#add('tpope/vim-fugitive')               " Git integration
 call minpac#add('godlygeek/tabular')                " Align text
 call minpac#add('wellle/targets.vim')               " Working w pairs of ([{,'
 call minpac#add('milkypostman/vim-togglelist')      " Toggle quickfix
-call minpac#add('SirVer/ultisnips')                 " Snippet engine
+" call minpac#add('SirVer/ultisnips')                 " Snippet engine
 call minpac#add('vimwiki/vimwiki')                  " Personal wiki etc
 call minpac#add('mattn/calendar-vim')               " Calendar
 call minpac#add('w0rp/ale')                         " Async linting
