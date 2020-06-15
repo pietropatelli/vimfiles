@@ -6,6 +6,8 @@ function! CloseLastWindow()
           quit
       elseif &buftype==?'terminal'
           quit!
+      elseif &buftype==?'nofile'
+          quit
       elseif exists('b:NERDTree') && b:NERDTree.isTabTree()
           quit
       endif
