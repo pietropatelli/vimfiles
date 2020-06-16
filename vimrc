@@ -53,7 +53,7 @@ call minpac#add('prabirshrestha/vim-lsp')           " language server protocol
 call minpac#add('tomtom/ttodo_vim')                 " todo.txt integration
 call minpac#add('tomtom/tlib_vim')                  " dependency for ttodo_vim
 " terminal plugins
-call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
+" call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
 call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 " colorscheme plugins:
