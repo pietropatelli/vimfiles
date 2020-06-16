@@ -125,9 +125,9 @@ endif
 set t_Co=256                               " Enables 256 color terminal
 try                                        " If missing colorscheme use default
 colorscheme nightsea
-" GOOD ONES: meta5, iceberg, cobalt2, gruvbox, minimalist, badwolf, zenburn,
+" GOOD ONES: meta5, iceberg, greenvision , minimalist, badwolf, zenburn, lucius
 " apprentice, hemisu, vividchalk, distinguished, calmar256-dark, dracula, void,
-" lucius, greenvision
+hi Normal guibg=NONE ctermbg=NONE         
 catch
 endtry
 set swapfile                               " use swapfiles
