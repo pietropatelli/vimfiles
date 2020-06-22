@@ -61,6 +61,7 @@ call minpac#add('PietroPate/vim-nightsea')
 call minpac#add('flazz/vim-colorschemes')           " Colorscheme collection
 call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
 call minpac#add('gerw/vim-HiLinkTrace')             " Shows syntax tree
+call minpac#add('dylanaraps/wal.vim')               " Colorscheme to use with pywal
 " language-specific plugins:
 call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
