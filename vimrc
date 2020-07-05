@@ -272,7 +272,7 @@ if has('unix') && system('uname -a')=~#'Microsoft' " Checks if we are in WSL
     nnoremap <silent> <leader>P k:r !powershell.exe -Command Get-Clipboard<CR>
 endif
 "............................. ttodo_vim settings ..............................
-let g:ttodo#dirs=[$HOME.'/Dropbox/.todo']
+let g:ttodo#dirs=[$HOME.'/.todo']
 let g:ttodo#mapleader="<LocalLeader>"
 let g:ttodo#sort='done,-next,-overdue,pri,due,lists,tags,idx'
 let g:ttodo#new_task={'pri': 'C'}
@@ -281,7 +281,7 @@ let g:ttodo_localmap='<Leader>2'
 ".............................. vimwiki settings ...............................
 nmap <Leader>wn <Plug>VimwikiNextLink
 let g:vimwiki_global_ext = 0
-let g:vimwiki_list = [{'path':'~/Dropbox/.vimwiki', 'syntax':'markdown', 'ext':'.md'}]
+let g:vimwiki_list = [{'path':'~/.vimwiki', 'syntax':'markdown', 'ext':'.md'}]
 nnoremap <leader>rr :VimwikiTabMakeDiaryNote<CR>
 nnoremap <silent>^ :ToggleDiary<CR>
 nnoremap <silent>ì :ToggleWiki<CR>
