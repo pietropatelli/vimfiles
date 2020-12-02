@@ -61,7 +61,7 @@ call minpac#add('PietroPate/vim-nightsea')
 call minpac#add('flazz/vim-colorschemes')           " Colorscheme collection
 call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
 call minpac#add('gerw/vim-HiLinkTrace')             " Shows syntax tree
-call minpac#add('dylanaraps/wal.vim')               " Colorscheme to use with pywal
+call minpac#add('deviantfero/wpgtk.vim')               " Colorscheme to use with pywal
 " language-specific plugins:
 call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
@@ -171,8 +171,8 @@ inoremap <c-s> <esc>:w<CR>a
 " Easier commands
 nnoremap ò :
 " Easier search
-nnoremap <space> /
-nnoremap <leader><space> ?
+" nnoremap <space> /
+" nnoremap <leader><space> ?
 " Easier resizing
 nnoremap <leader>- :resize -10<CR>
 nnoremap <leader>+ :resize +10<CR>
@@ -212,8 +212,8 @@ tmap <c-l> <c-w>l
 nnoremap <leader>e :edit!<CR>
 " Shortcut for folding
 nnoremap <leader>f zR
-" Pasting from system clipboard in insert mode with Ctrl-v
-imap <C-v> <C-r>*
+" Pasting from system clipboard in insert mode with Ctrl-v XXX
+" imap <C-v> <C-r>*
 " Paste multiple lines correctly from system clipboard in normal mode
 nnoremap <Leader>p :set paste <CR>o<esc>"*p <esc>:set nopaste<CR>
 nnoremap <Leader>P :set paste <CR>O<esc>"*p <esc>:set nopaste<CR>

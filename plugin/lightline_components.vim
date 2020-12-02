@@ -1,4 +1,10 @@
 scriptencoding utf-8
+"....................... Function to reload lightline ..........................
+function! LightlineReload()
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
+endfunction
 "................... Indicator for specific plugins running ....................
 function! LightlineRunningplugins()
     let s:running = ''
