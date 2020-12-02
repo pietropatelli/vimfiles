@@ -12,6 +12,7 @@ tmp/.undodir/*
 _viminfo
 colors/nightsea.vim
 colors/nightsea_dev.vim
+colors/wpg-nightsea.vim
 plugged/
 sessions/
 notes.md
