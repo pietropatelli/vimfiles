@@ -205,6 +205,7 @@ nnoremap <Leader>Q" ciW""<Esc>P
 nnoremap <Leader>Q' ciW''<Esc>P
 nnoremap <Leader>Q` ciW``<Esc>P
 " Easy switching between splits (NOTE: in windows <c-h> affects backspace)
+tmap <c-h> <c-w>j
 tmap <c-j> <c-w>j
 tmap <c-k> <c-w>k
 tmap <c-l> <c-w>l
