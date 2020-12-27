@@ -242,6 +242,9 @@ command! RecVal :call RecVal(glob(g:vimwiki_list[0].path."/diary/my_data.csv"))
 " FZF mapping:
 nnoremap <silent><F4> :FZF<CR>
 let g:fzf_layout = { 'down': '~30%' }
+" Folding and unfolding with space:
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
 "............................... LSP for Julia .................................
 let g:lsp_auto_enable = 0
 let g:lsp_diagnostics_echo_cursor = 1
