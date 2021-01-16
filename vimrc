@@ -12,7 +12,7 @@ set cryptmethod=blowfish2                       " medium to strong encryption
 if has('win32')                                 " WINDOWS (32 or 64 bit)
     set clipboard=unnamed                       " Always use system clipboard
     set pythonthreedll=python37.dll             " Specify which python dll
-    let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
+    " let g:UltiSnipsUsePythonVersion = 3         " Tell ultisnips to use py3
     let g:tex_conceal = 'adbg'
 else                                            " UNIX OR WSL
     set clipboard=unnamedplus                   " Always use system clipboard
@@ -125,7 +125,7 @@ if !empty($ConEmuBuild)                    " ConEmu compatibility
 endif
 set t_Co=256                               " Enables 256 color terminal
 try                                        " If missing colorscheme use default
-colorscheme nightsea
+colorscheme wpg-nightsea
 hi Normal guibg=NONE ctermbg=NONE         
 catch
 endtry
@@ -303,16 +303,16 @@ noremap AA :OpenSession default<CR>
 noremap SS :ccl<CR>:lcl<CR>:wa<CR>:SaveSession<CR>
 noremap SC :CloseSession!<CR>
 noremap ZZ :ccl<CR>:lcl<CR>:SaveSession<CR>:wqa<CR>
-"............................. Ultisnips settings ..............................
-if exists('did_plugin_ultisnips')
-    let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
-    let g:UltiSnipsExpandTrigger='<c-tab>'
-    let g:UltiSnipsJumpForwardTrigger='<tab>'
-    let g:UltiSnipsJumpBackwardTrigger='<c-z>'
-    let g:UltiSnipsEditSplit='horizontal' " :UltiSnipsEdit split window direction.
-    command! USE :UltiSnipsEdit
-    imap <silent> <tab> <Plug>ExpandPossibleSnippetOrTab
-endif
+" "............................. Ultisnips settings ..............................
+" if exists('did_plugin_ultisnips')
+"     let g:UltiSnipsSnippetDirectories=[expand($VIMHOME.'/mysnippets')] "Snippets dir
+"     let g:UltiSnipsExpandTrigger='<c-tab>'
+"     let g:UltiSnipsJumpForwardTrigger='<tab>'
+"     let g:UltiSnipsJumpBackwardTrigger='<c-z>'
+"     let g:UltiSnipsEditSplit='horizontal' " :UltiSnipsEdit split window direction.
+"     command! USE :UltiSnipsEdit
+"     imap <silent> <tab> <Plug>ExpandPossibleSnippetOrTab
+" endif
 "................................ ALE Settings .................................
 let g:ale_enabled=0        " Disabled at startup
 let g:ale_set_highlights=0 " Do not highlight problems in text
