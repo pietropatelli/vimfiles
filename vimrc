@@ -130,7 +130,6 @@ try                                        " If missing colorscheme use default
     catch
         colorscheme nightsea
     endtry
-    hi Normal guibg=NONE ctermbg=NONE         
 catch
 endtry
 set swapfile                               " use swapfiles
