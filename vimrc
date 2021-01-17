@@ -125,8 +125,12 @@ if !empty($ConEmuBuild)                    " ConEmu compatibility
 endif
 set t_Co=256                               " Enables 256 color terminal
 try                                        " If missing colorscheme use default
-colorscheme wpg-nightsea
-hi Normal guibg=NONE ctermbg=NONE         
+    try                                    " If missing wpg-nightsea use nightsea
+        colorscheme wpg-nightsea
+    catch
+        colorscheme nightsea
+    endtry
+    hi Normal guibg=NONE ctermbg=NONE         
 catch
 endtry
 set swapfile                               " use swapfiles
