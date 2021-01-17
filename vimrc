@@ -129,6 +129,7 @@ try                                        " If missing colorscheme use default
         colorscheme wpg-nightsea
     catch
         colorscheme nightsea
+        hi Normal guibg=NONE ctermbg=NONE         
     endtry
 catch
 endtry
