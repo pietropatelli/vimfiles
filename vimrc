@@ -52,12 +52,13 @@ call minpac#add('prabirshrestha/async.vim')         " Normalize async jobs
 call minpac#add('prabirshrestha/vim-lsp')           " language server protocol
 call minpac#add('tomtom/ttodo_vim')                 " todo.txt integration
 call minpac#add('tomtom/tlib_vim')                  " dependency for ttodo_vim
+call minpac#add('aperezdc/vim-template')                  " templates
 " terminal plugins
 " call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
 call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 " colorscheme plugins:
-call minpac#add('PietroPate/vim-nightsea')      
+call minpac#add('PietroPate/vim-nightsea')
 call minpac#add('flazz/vim-colorschemes')           " Colorscheme collection
 call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
 call minpac#add('gerw/vim-HiLinkTrace')             " Shows syntax tree
@@ -129,7 +130,7 @@ try                                        " If missing colorscheme use default
         colorscheme wpg-nightsea
     catch
         colorscheme nightsea
-        hi Normal guibg=NONE ctermbg=NONE         
+        hi Normal guibg=NONE ctermbg=NONE
     endtry
 catch
 endtry
@@ -370,10 +371,10 @@ let g:vimtex_view_general_options
     \ . ':execute ''drop '' . fnameescape(''\%f'')^<CR^>'
     \ . ':\%l^<CR^>:normal\! zzzv^<CR^>'
     \ . ':call remote_foreground('''.v:servername.''')^<CR^>^<CR^>\""'
-let g:vimtex_compiler_latexmk = { 
+let g:vimtex_compiler_latexmk = {
         \ 'continuous' : 0,
         \ 'executable' : 'latexmk',
-        \ 'options' : [ 
+        \ 'options' : [
         \   '-xelatex',
         \   '-file-line-error',
         \   '-synctex=1',
@@ -392,3 +393,8 @@ let $PYTHONUNBUFFERED=1    " See python realtime output
 nnoremap <leader>as :AsyncStop<CR>
 nmap <silent> <leader>aa <Plug>MyAsyncRun:echo("Running...")<CR>
 nmap <silent> <leader>aq <Plug>MyAsyncRun:copen<CR>:wincmd p<CR>
+"............................ Templates Settings ...............................
+" Use environmental vars for user and email
+let g:user=$USER_FULL_NAME
+let g:email=$USER_EMAIL
+let g:templates_directory=['$VIMHOME/templates']
