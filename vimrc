@@ -382,7 +382,6 @@ let g:vimtex_compiler_latexmk = {
         \ ],
         \}
 let g:vimtex_view_general_options_latexmk='-reuse-instance'
-let g:vimtex_latexmk_background=1
 let g:vimtex_quickfix_mode=0
 let g:tex_fast='cmMprsSvV' " Fix colorscheme loading issue in tex files
 let g:vimtex_include_search_enabled=0 " Disable tag indexing for performance

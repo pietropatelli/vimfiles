@@ -1,1 +1,1 @@
-imap <buffer><silent> <tab> <Plug>ExpandPossibleSnippetOrTab
+" imap <buffer><silent> <tab> <Plug>ExpandPossibleSnippetOrTab
