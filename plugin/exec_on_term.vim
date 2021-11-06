@@ -29,5 +29,5 @@ nnoremap <leader>ex :ExecOnTerm<cr>
 vnoremap <leader>ex :ExecOnTerm<cr>
 
 command! -range ExecTrimToTerm call s:exec_to_term(<line1>, <line2>, 1, 1)
-nnoremap <leader>et :TrimOnTerm<cr>
-vnoremap <leader>et :TrimOnTerm<cr>
+nnoremap <leader>et :ExecTrimOnTerm<cr>
+vnoremap <leader>et :ExecTrimOnTerm<cr>
