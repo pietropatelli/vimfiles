@@ -58,7 +58,7 @@ call minpac#add('aperezdc/vim-template')                  " templates
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
 call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 " colorscheme plugins:
-call minpac#add('PietroPate/vim-nightsea')
+call minpac#add('https://gitlab.com/PietroPatelli/vim-nightsea')
 call minpac#add('flazz/vim-colorschemes')           " Colorscheme collection
 call minpac#add('rafi/awesome-vim-colorschemes')    " Colorscheme collection
 call minpac#add('gerw/vim-HiLinkTrace')             " Shows syntax tree
@@ -67,7 +67,7 @@ call minpac#add('deviantfero/wpgtk.vim')               " Colorscheme to use with
 call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
 call minpac#add('lervag/vimtex')                    " Simple latex integration
-call minpac#add('PietroPate/vim-tex-conceal')       " Improved conceal for tex
+call minpac#add('KeitaNakamura/vim-tex-conceal')    " Conceal for tex
 call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
 call minpac#add('PProvost/vim-ps1')                 " Powershell
 call minpac#add('vim-pandoc/vim-pandoc-syntax')     " Pandoc Markdown
