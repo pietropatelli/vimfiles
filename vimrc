@@ -66,8 +66,8 @@ call minpac#add('deviantfero/wpgtk.vim')               " Colorscheme to use with
 " language-specific plugins:
 call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
-call minpac#add('lervag/vimtex')                    " Simple latex integration
-call minpac#add('KeitaNakamura/vim-tex-conceal')    " Conceal for tex
+" call minpac#add('lervag/vimtex')                    " Simple latex integration
+call minpac#add('KeitaNakamura/vim-tex-conceal')    " conceal for tex
 call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
 call minpac#add('PProvost/vim-ps1')                 " Powershell
 call minpac#add('vim-pandoc/vim-pandoc-syntax')     " Pandoc Markdown
@@ -357,34 +357,34 @@ nmap <leader>hu <Plug>(GitGutterUndoHunk)
 nmap <silent> <leader>hh :packadd vim-gitgutter<CR>:ALEDisable<CR>
             \:GitGutterToggle<CR>
 ".............................. Vimtex settings: ...............................
-let g:tex_flavor='latex'
-if has('win32')
-    let g:vimtex_view_general_viewer = 'sumatrapdf'
-else
-    let g:vimtex_view_general_viewer = 'zathura'
-endif
-let g:vimtex_view_general_options
-    \ = ' -reuse-instance -forward-search @tex @line @pdf'
-    \ . ' -inverse-search "gvim --servername ' . v:servername
-    \ . ' --remote-send \"^<C-\^>^<C-n^>'
-    \ . ':drop \%f^<CR^>:\%l^<CR^>:normal\! zzzv^<CR^>'
-    \ . ':execute ''drop '' . fnameescape(''\%f'')^<CR^>'
-    \ . ':\%l^<CR^>:normal\! zzzv^<CR^>'
-    \ . ':call remote_foreground('''.v:servername.''')^<CR^>^<CR^>\""'
-let g:vimtex_compiler_latexmk = {
-        \ 'continuous' : 0,
-        \ 'executable' : 'latexmk',
-        \ 'options' : [
-        \   '-xelatex',
-        \   '-file-line-error',
-        \   '-synctex=1',
-        \   '-interaction=nonstopmode',
-        \ ],
-        \}
-let g:vimtex_view_general_options_latexmk='-reuse-instance'
-let g:vimtex_quickfix_mode=0
-let g:tex_fast='cmMprsSvV' " Fix colorscheme loading issue in tex files
-let g:vimtex_include_search_enabled=0 " Disable tag indexing for performance
+" let g:tex_flavor='latex'
+" if has('win32')
+"     let g:vimtex_view_general_viewer = 'sumatrapdf'
+" else
+"     let g:vimtex_view_general_viewer = 'zathura'
+" endif
+" let g:vimtex_view_general_options
+"     \ = ' -reuse-instance -forward-search @tex @line @pdf'
+"     \ . ' -inverse-search "gvim --servername ' . v:servername
+"     \ . ' --remote-send \"^<C-\^>^<C-n^>'
+"     \ . ':drop \%f^<CR^>:\%l^<CR^>:normal\! zzzv^<CR^>'
+"     \ . ':execute ''drop '' . fnameescape(''\%f'')^<CR^>'
+"     \ . ':\%l^<CR^>:normal\! zzzv^<CR^>'
+"     \ . ':call remote_foreground('''.v:servername.''')^<CR^>^<CR^>\""'
+" let g:vimtex_compiler_latexmk = {
+"         \ 'continuous' : 0,
+"         \ 'executable' : 'latexmk',
+"         \ 'options' : [
+"         \   '-xelatex',
+"         \   '-file-line-error',
+"         \   '-synctex=1',
+"         \   '-interaction=nonstopmode',
+"         \ ],
+"         \}
+" let g:vimtex_view_general_options_latexmk='-reuse-instance'
+" let g:vimtex_quickfix_mode=0
+" let g:tex_fast='cmMprsSvV' " Fix colorscheme loading issue in tex files
+" let g:vimtex_include_search_enabled=0 " Disable tag indexing for performance
 "............................. AsyncRun Settings ...............................
 let g:asyncrun_last=1      " Scroll only if cursor is on last line
 let g:asyncrun_exit='echo "Done"'
