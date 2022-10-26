@@ -8,6 +8,9 @@ function! LineTitle()
     elseif &filetype=~#'pandoc' || &filetype=~#'markdown' || &filetype=~#'vimwiki'
         exe ':s@<!--@@ge' | exe ':s@-->@@ge'
         call <sid>LineC('.') | call feedkeys("0R<!--\<esc>$hhR-->\<esc>")
+    elseif &filetype==#'python'
+        exe ':s@#%% @@ge'
+        call <sid>LineC('#') | call feedkeys("0R#%% \<esc>")
     elseif &filetype==#'tex' || &filetype==#'matlab'
         call <sid>LineC('%')
     elseif &filetype==#'stata'
