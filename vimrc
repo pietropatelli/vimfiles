@@ -66,16 +66,17 @@ call minpac#add('deviantfero/wpgtk.vim')               " Colorscheme to use with
 " language-specific plugins:
 call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
+call minpac#add('psf/black')     " Black for python
 " call minpac#add('lervag/vimtex')                    " Simple latex integration
 call minpac#add('KeitaNakamura/vim-tex-conceal')    " conceal for tex
-call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
+" call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
 call minpac#add('PProvost/vim-ps1')                 " Powershell
 call minpac#add('vim-pandoc/vim-pandoc-syntax')     " Pandoc Markdown
 " session management
 call minpac#add('xolox/vim-session')                " Session management
 call minpac#add('xolox/vim-misc')                   " Req by vim-session
 " packages loaded later:
-call minpac#add('airblade/vim-gitgutter',{'type':'opt'})   " Gitdiff in sign col
+call minpac#add('airblade/vim-gitgutter',{'type':'opt', 'branch':'main'})   " Gitdiff in sign col
 call minpac#add('mhinz/vim-grepper',{'type':'opt'})        " grep asyncronously
 " Commands for easier package management
 command! PUpdate  packadd minpac | source $MYVIMRC | call minpac#update()
@@ -250,6 +251,12 @@ let g:fzf_layout = { 'down': '~30%' }
 " Folding and unfolding with space:
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
+".................................. Python .....................................
+let g:black_use_virtualenv = 0
+" augroup black_on_save
+"   autocmd!
+"   autocmd BufWritePre *.py Black
+" augroup end
 "............................... LSP for Julia .................................
 let g:lsp_auto_enable = 0
 let g:lsp_diagnostics_echo_cursor = 1
@@ -325,6 +332,8 @@ nmap <silent> <leader>gg :packadd vim-gitgutter<CR>:GitGutterDisable<CR>
             \:ALEToggle<CR>
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
+let g:ale_fixers = {}
+let g:ale_fixers.python = ['black']
 "............................ simpleterm settings ..............................
 if exists('g:simpleterm')
     let g:simpleterm.row=8

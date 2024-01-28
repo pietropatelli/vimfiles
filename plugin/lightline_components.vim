@@ -19,9 +19,9 @@ function! s:AvailableSpace(...)
     let s:name = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
     let s:filetype = &filetype !=# '' ? &filetype : 'no ft'
     if a:0 != 1
-        return winwidth(0) - len(LightlineRunningplugins()) - len(s:name) -len(fugitive#head()) - len(s:filetype)
+        return winwidth(0) - len(LightlineRunningplugins()) - len(s:name) -len(FugitiveHead()) - len(s:filetype)
     else
-        return winwidth(0) - len(LightlineRunningplugins()) - len(s:name) -len(fugitive#head())
+        return winwidth(0) - len(LightlineRunningplugins()) - len(s:name) -len(FugitiveHead())
     endif
 endfunction
 
@@ -39,7 +39,7 @@ endfunction
 
 function! LightlineGitbranch()
     if s:AvailableSpace(1) > 38
-        return (exists('b:NERDTree')&& b:NERDTree.isTabTree())?'': fugitive#head()
+        return (exists('b:NERDTree')&& b:NERDTree.isTabTree())?'': FugitiveHead()
     else
         return ''
     endif
