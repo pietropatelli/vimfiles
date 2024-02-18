@@ -6,12 +6,10 @@ if &lines < 50
     set lines=60 columns=100
 endif
 if has('win64')
-    map <F11> <Esc>:call libcallnr($VIMHOME.
-                \"/otherstuff/gvimfullscreen_win32/gvimfullscreen_64.dll",
+    map <F11> <Esc>:call libcallnr("gvimfullscreen_64.dll",
                 \"ToggleFullScreen", 0)<CR><esc>
 elseif has('win32')
-    map <F11> <Esc>:call libcallnr($VIMHOME.
-                \"/otherstuff/gvimfullscreen_win32/gvimfullscreen.dll",
+    map <F11> <Esc>:call libcallnr("gvimfullscreen.dll",
                 \"ToggleFullScreen", 0)<CR><esc>
 endif
 set guioptions -=m " Menu
