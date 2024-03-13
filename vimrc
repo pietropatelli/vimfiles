@@ -55,6 +55,7 @@ call minpac#add('tomtom/tlib_vim')                  " dependency for ttodo_vim
 call minpac#add('aperezdc/vim-template')                  " templates
 " terminal plugins
 " call minpac#add('gu-fan/simpleterm.vim')            " Easy interaction w :term
+call minpac#add('sillybun/vim-repl')                " REPL
 call minpac#add('skywind3000/asyncrun.vim')         " Run cmds asynchronously
 call minpac#add('christoomey/vim-tmux-navigator')   " Navigate vim and tmux
 " colorscheme plugins:
@@ -66,7 +67,7 @@ call minpac#add('deviantfero/wpgtk.vim')               " Colorscheme to use with
 " language-specific plugins:
 call minpac#add('tmhedberg/SimpylFold')             " Smart python code folding
 call minpac#add('JuliaEditorSupport/julia-vim')     " Julia support
-call minpac#add('psf/black')     " Black for python
+call minpac#add('psf/black')                        " Black for python
 " call minpac#add('lervag/vimtex')                    " Simple latex integration
 call minpac#add('KeitaNakamura/vim-tex-conceal')    " conceal for tex
 " call minpac#add('zizhongyan/stata-vim-syntax')      " Stata grammar
