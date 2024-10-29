@@ -1,4 +1,4 @@
-set guifont=Source\ Code\ Pro\ 9,DejaVu_Sans_Mono_for_Powerline:h8,consolas:h9
+set guifont=Source\ Code\ Pro\ for\ Powerline:h11,DejaVu_Sans_Mono_for_Powerline:h8,consolas:h9
 set background=dark
 
 set ghr=-100
